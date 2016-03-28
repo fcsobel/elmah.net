@@ -1,0 +1,93 @@
+﻿<div>
+
+	<div>
+		<div class="form-group">
+			<select name="span" id="span" autocomplete="" class="form-control"
+					ng-model="query.span"
+					ng-change="Search()"
+					ng-options="item.name as item.name for item in model.spans"></select>			
+		</div>
+	</div>
+
+	<div>
+		<div class="form-group" ng-show="query.span=='All'">
+			<input id="demo" type="text" name="daterange" class="form-control" placeholder="Date Range" ng-model="query.dateRange">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Limit" ng-model="query.limit">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="button" ng-click="Search()">Go!</button>
+			</span>
+		</div><!-- /input-group -->
+	</div><!-- /input-group -->
+
+
+	<div class="panel panel-default">
+		<div class="panel-heading">Logs</div>
+		<div class="list-group">
+			<a ng-repeat="item in model.logs" href="" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected">
+				{{item.name}} <span class="badge">{{item.messages.length}}</span>
+			</a>
+		</div>
+	</div>
+
+
+	<div class="panel panel-default">
+		<div class="panel-heading">Applications</div>
+		<div class="list-group">
+			<a ng-repeat="item in model.applications" href="" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected;Filter()">
+				{{item.name}}
+				<span class="badge">{{item.messages.length}}</span>
+			</a>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">Severity</div>
+		<div class="list-group">
+			<a ng-repeat="item in model.severities" href="" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected;Filter()">
+				{{item.name}}
+				<span class="badge">{{item.messages.length}}</span>
+			</a>
+		</div>
+	</div>
+
+	<div class="panel panel-default" style="overflow:hidden;">
+		<div class="panel-heading">Exceptions</div>
+		<div class="list-group">
+
+			<a ng-repeat="item in model.types" href="" title="{{item.name}}" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected;Filter()">
+				<span style="float:right; top:10px; right: 16px; position:absolute;  z-index:10;" class="badge">{{item.messages.length}}</span>
+				<div style="width:500px; overflow:hidden; float:left;">
+					<i class="fa fa-fw fa-lg fa-{{item.icon}}" style="color:{{item.color}}"></i>
+					<spam>{{item.name}}</spam>
+				</div>
+				<div style="clear:both;"></div>
+			</a>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">Source</div>
+		<div class="list-group">
+			<a ng-repeat="item in model.sources" href="" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected;Filter()">
+				{{item.name}}
+				<span class="badge">{{item.messages.length}}</span>
+			</a>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">Users</div>
+		<div class="list-group">
+			<a ng-repeat="item in model.users" href="" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected;Filter()">
+				{{item.name}}
+				<span class="badge">{{item.messages.length}}</span>
+			</a>
+		</div>
+	</div>
+
+</div>
