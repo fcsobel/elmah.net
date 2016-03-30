@@ -50,17 +50,12 @@ namespace c3o.Logger.Data
 	{
 		public long Id { get; set; }
 		public string ElmahId { get; set; }
-		//public string Application { get; set; }
 		public DateTime DateTime { get; set; }
-		//public string Detail { get; set; }		
-		public string Hostname { get; set; }		
+        public string Hostname { get; set; }		
 		public Severity Severity { get; set; }
-		//public string Source { get; set; }
-		public int? StatusCode { get; set; }
+        public int? StatusCode { get; set; }
 		public string Title { get; set; }
-		//public string Type { get; set; }
 		public string Url { get; set; }
-		//public string User { get; set; }
 		public string Blob { get; set; }
 
 		public long? IpAddressId { get; set; }		
@@ -107,14 +102,11 @@ namespace c3o.Logger.Data
 			this.ElmahId = obj.Id;
 			if (string.IsNullOrWhiteSpace(this.ElmahId)) { this.ElmahId = obj.Data.GetValue("ElmahId"); }
 			
-			//this.Detail = obj.Detail;			
 			//this.DateTime = obj.DateTime;
 			this.DateTime = DateTime.UtcNow; // Use UTC server dt
-			//this.Detail = obj.Detail;
 			this.Hostname = obj.Hostname;
 			this.Severity = obj.Severity ?? Elmah.Io.Client.Severity.Error;
 			this.StatusCode = obj.StatusCode;
-			//this.Source = obj.Source;
 			this.Title = obj.Title;
 			
 			this.Url = obj.Url;
