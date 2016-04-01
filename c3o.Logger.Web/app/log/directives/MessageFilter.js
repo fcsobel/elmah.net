@@ -71,13 +71,8 @@
 					.then(function (response) { // sucess
 						scope.model = response.model;
 
-						console.log(response.model);
-						console.log(response.model.messages.length);
-
 						if (response.model.messages.length > 0) {
 						    var message = response.model.messages[0];
-
-						    console.log(message);
 
 							// auto select 1st one
 							logService.detail(message.id).then(function (response) {

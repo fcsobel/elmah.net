@@ -47,15 +47,11 @@
 
 				if (scope.log) {
 					logService.search(scope.log, scope.severity, scope.limit, scope.span).then(function (response) { // sucess
-						//console.log('response', response);
-						//scope.model = response.model;
-						//scope.model = response;
 						scope.model.model = response.model;
 					});
 				}
 				else {
 					scope.model = logService.model();
-					//console.log('mo', scope.model);
 				}
 			}
 

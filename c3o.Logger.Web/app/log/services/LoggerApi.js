@@ -16,8 +16,6 @@
 					// /api.logger/search/{log}
 					var data = { params: { severity: severity, limit: limit, span: span, types: types, sources: sources, users : users, start: start, end: end } }; //span: 10000
 
-					console.log(data);
-
 					var promise = $http.get(url +  'search/' + log, data)
 						.then(
 							function (response) {

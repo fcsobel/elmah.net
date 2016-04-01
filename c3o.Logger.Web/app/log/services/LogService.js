@@ -26,7 +26,6 @@
 				var severities = _.filter(container.model.severities, { 'selected': true });
 				severities = _.map(severities, 'name');
 
-				//console.log('users', users);
 				//var sources = _.filter(container.model.sources, { 'selected': true }).map('id');
 
 				return (types.length <= 0 || _.includes(types, value.messageTypeId))
