@@ -84,11 +84,11 @@ namespace c3o.Logger.Data
 		public long? DetailId { get; set; }
 		public LogMessageDetail Detail { get; set; }		
 
-		public List<Item> Form { get; set; }
-		public List<Item> QueryString { get; set; }
-		public List<Item> ServerVariables { get; set; }
-		public List<Item> Cookies { get; set; }
-		public List<Item> Data { get; set; }
+		//public List<Item> Form { get; set; }
+		//public List<Item> QueryString { get; set; }
+		//public List<Item> ServerVariables { get; set; }
+		//public List<Item> Cookies { get; set; }
+		//public List<Item> Data { get; set; }
 
 		[NotMapped]
 		public string HowLongAgo { get { return this.DateTime.GetDelta(); } }

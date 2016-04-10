@@ -24,11 +24,11 @@ namespace c3o.Logger.Data
 			this.Property(t => t.Id).HasColumnName("Id");            
 			this.Property(t => t.ElmahId).HasColumnName("ElmahId");
 
-			this.Ignore(x => x.ServerVariables);
-			this.Ignore(x => x.Form);
-			this.Ignore(x => x.Cookies);
-			this.Ignore(x => x.Data);
-			this.Ignore(x => x.QueryString);
+			//this.Ignore(x => x.ServerVariables);
+			//this.Ignore(x => x.Form);
+			//this.Ignore(x => x.Cookies);
+			//this.Ignore(x => x.Data);
+			//this.Ignore(x => x.QueryString);
 
 			// link to log
 			this.HasRequired(t => t.Log).WithMany(x=>x.Messages).HasForeignKey(x => x.LogId);
