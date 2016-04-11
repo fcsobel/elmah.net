@@ -1,5 +1,4 @@
-﻿
-/****** Object:  Table [dbo].[LogApplications]    Script Date: 3/27/2016 7:59:23 PM ******/
+﻿/****** Object:  Table [dbo].[LogApplications]    Script Date: 3/27/2016 7:59:23 PM ******/
 CREATE TABLE [dbo].[LogApplications](
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](100) NULL,
