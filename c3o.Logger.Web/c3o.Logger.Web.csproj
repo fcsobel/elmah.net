@@ -144,6 +144,7 @@
     <Content Include="scripts\spin.min.js" />
     <Content Include="Web.config" />
     <Content Include="_deploy\sql\001-create.sql" />
+    <Content Include="_deploy\sql\002-load.sql" />
     <Content Include="_deploy\sql\001-load.sql" />
   </ItemGroup>
   <ItemGroup>
