@@ -28,12 +28,20 @@ namespace c3o.Logger.Web
                     // configure 
                     var upgrader = DeployChanges.To
                             .SqlDatabase(connection.ConnectionString)
-                            .WithScriptsFromFileSystem(Server.MapPath("~/_deploy/sql"))
+                            .WithScriptsFromFileSystem(Server.MapPath("~/_deploy/sql/0.00.002"))
                             //.WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
-                            .LogToConsole()
+                            //.LogToConsole()
                             .Build();
-                    // setup db
-                    upgrader.PerformUpgrade();
+
+                    var response = upgrader.PerformUpgrade();
+                    if (response.Successful)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
                 }
             }
 

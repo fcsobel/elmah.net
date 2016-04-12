@@ -142,10 +142,18 @@
     <Content Include="index.html" />
     <Content Include="scripts\spin.js" />
     <Content Include="scripts\spin.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="_deploy\sql\0.00.001\001-create.sql" />
+    <Content Include="_deploy\sql\0.00.001\001-load.sql" />
+    <Content Include="_deploy\sql\0.00.001\002-load.sql" />
+    <Content Include="_deploy\sql\0.00.002\003-tags.sql" />
+    <Content Include="_deploy\sql\0.00.003\0.00.003-001-people.sql" />
     <Content Include="_deploy\sql\001-create.sql" />
     <Content Include="_deploy\sql\002-load.sql" />
     <Content Include="_deploy\sql\001-load.sql" />
+    <Content Include="_deploy\sql\003-tags.sql" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FormatterConfig.cs" />
