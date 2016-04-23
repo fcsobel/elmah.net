@@ -18,8 +18,26 @@ namespace c3o.Logger.Web
 		[Route("")]
 		public IHttpActionResult Post(Message message, string logId)
 		{
-			// save message		
-			using (LoggerContext db = new LoggerContext())
+            // Fix Application
+            if (string.IsNullOrWhiteSpace(message.Application)) message.Application = message.ServerVariables.GetValue("HTTP_HOST");
+            if (string.IsNullOrWhiteSpace(message.Application)) message.Application = message.Hostname;
+
+            // Fix Url
+            if (string.IsNullOrWhiteSpace(message.Url)) { message.Url = message.Data.GetValue("Url"); }
+            if (string.IsNullOrWhiteSpace(message.Url))
+            {
+                if (message.ServerVariables.GetValue("HTTPS") == "off")
+                {
+                    message.Url = string.Format("http://{0}{1}", message.ServerVariables.GetValue("HTTP_HOST"), message.ServerVariables.GetValue("URL"));
+                }
+                else
+                {
+                    message.Url = string.Format("https://{0}{1}", message.ServerVariables.GetValue("HTTP_HOST"), message.ServerVariables.GetValue("URL"));
+                }
+            }
+
+            // save message		
+            using (LoggerContext db = new LoggerContext())
 			{
 				if (!string.IsNullOrWhiteSpace(logId))
 				{

@@ -4,28 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.ComponentModel;
+using c3o.Core;
 
 namespace c3o.Logger.Web
 {
 	public enum HydrationLevel { Basic, Detailed }
 
-	public enum SearchSpan
-	{
-		FiveMinutes = 5,
-		FifteenMinutes = 15,
-		OneHour = 60,
-		TwoHours = 120,
-		ThreeHours = 180,
-		FourHours = 240,
-		SixHours = 360,
-		TwelveHours = 1260,
-		TwentyFourHours = 1440,
-		ThreeDays = 4320,
-		OneWeek = 10080,
-		All = 0
-	}
+    public enum SearchSpan
+    {
+        [Description("Five Minutes")]
+        FiveMinutes = 5,
+        [Description("Fifteen Minutes")]
+        FifteenMinutes = 15,
+        [Description("One Hour")]
+        OneHour = 60,
+        [Description("Two Hours")]
+        TwoHours = 120,
+        [Description("Three Hours")]
+        ThreeHours = 180,
+        [Description("Four Hours")]
+        FourHours = 240,
+        [Description("Six Hours")]
+        SixHours = 360,
+        [Description("Twelve Hours")]
+        TwelveHours = 1260,
+        [Description("Twenty Four Hours")]
+        TwentyFourHours = 1440,
+        [Description("Three Days")]
+        ThreeDays = 4320,
+        [Description("One Week")]
+        OneWeek = 10080,
+        [Description("All")]
+        All = 0
+    }
 
-	public class Item
+    public class Item
 	{
 		public string Key { get; set; }
 		public string Value { get; set; }
@@ -39,8 +53,10 @@ namespace c3o.Logger.Web
 		public string Icon { get; set; }
 		[JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
 		public string Color { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Description { get; set; }
 
-		public LogObject() { }
+        public LogObject() { }
 		public LogObject(Data.INameId obj) : this() 
 		{ 
 			this.Id = obj.Id;
@@ -55,7 +71,13 @@ namespace c3o.Logger.Web
 			this.Color = obj.Color;		
 		}
 
-	}
+        public LogObject(SearchSpan span)
+        {
+            this.Id = (long)span;
+            this.Name = span.ToString();
+            this.Description = EnumHelper.GetEnumDescription(span);
+        }
+    }
 
 	public class LogMessage
 	{

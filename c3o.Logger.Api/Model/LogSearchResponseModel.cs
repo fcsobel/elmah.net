@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using c3o.Core;
 
-
 namespace c3o.Logger.Web
 {
-
     public class LogSearchResponseModel
 	{
 		public string Log { get; set; }
@@ -45,12 +43,12 @@ namespace c3o.Logger.Web
 			this.Types =			list.Where(x=>x.MessageType != null).Select(x => x.MessageType).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Sources =			list.Where(x=>x.Source != null).Select(x => x.Source).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Severities =		list.Select(x=>x.Severity).Distinct().Select(y => new LogObject { Id = 0, Name = y.ToString() }).ToList();
-			this.Spans =			EnumHelper.GetValues<SearchSpan>().Select(y => new LogObject { Id = (long)y, Name = y.ToString() }).ToList();
-			foreach (var item in list)
+			//this.Spans =			EnumHelper.GetValues<SearchSpan>().Select(y => new LogObject { Id = (long)y, Name = y.ToString() }).ToList();
+            this.Spans = EnumHelper.GetValues<SearchSpan>().Select(y => new LogObject(y)).ToList();
+            foreach (var item in list)
 			{
 				this.Messages.Add(new LogMessage(item));
 			}
 		}
 	}
-
 }

@@ -98,7 +98,7 @@ namespace c3o.Logger.Web
                 {
                     theLog = logs.FirstOrDefault(x => x.Name == log);
                 }
-                if (theLog == null) { theLog = logs.FirstOrDefault(); }
+                //if (theLog == null) { theLog = logs.FirstOrDefault(); }
                 if (theLog != null)
                 {
                     messages = messages.Where(x => x.LogId == theLog.Id);
@@ -175,10 +175,7 @@ namespace c3o.Logger.Web
 
                 // Setup model
                 var model = new LogSearchResponseModel(messages.ToList(), level);
-                if (theLog != null)
-                {
-                    model.Log = theLog.Name;
-                }
+                if (theLog != null) { model.Log = theLog.Name; }
 				model.Application = application;
 				model.Severity = severity;
 				model.Source = source;

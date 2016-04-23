@@ -110,8 +110,8 @@ namespace c3o.Logger.Data
 			this.Title = obj.Title;
 			
 			this.Url = obj.Url;
-			if (string.IsNullOrWhiteSpace(this.Url)) { this.Url = obj.Data.GetValue("Url"); }
-			if (string.IsNullOrWhiteSpace(this.Url)) { this.Url = obj.ServerVariables.GetValue("Url"); }
+		    //if (string.IsNullOrWhiteSpace(this.Url)) { this.Url = obj.Data.GetValue("Url"); }
+			//if (string.IsNullOrWhiteSpace(this.Url)) { this.Url = obj.ServerVariables.GetValue("Url"); }
 			
 			var ip = obj.ServerVariables.GetValue("REMOTE_ADDR");
 			if (!string.IsNullOrWhiteSpace(ip))
