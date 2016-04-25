@@ -8,7 +8,6 @@ CREATE TABLE [dbo].[Site](
 (
 	[SiteId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY];
-
 GO
 
 
@@ -34,7 +33,7 @@ CREATE TABLE [dbo].[Session](
 ALTER TABLE [dbo].[Session] ADD  CONSTRAINT [DF_Session_Key]  DEFAULT (newid()) FOR [Key];
 ALTER TABLE [dbo].[Session] ADD  CONSTRAINT [DF_Session_Start]  DEFAULT (getdate()) FOR [Start];
 ALTER TABLE [dbo].[Session] ADD  CONSTRAINT [DF_Session_End]  DEFAULT (getdate()) FOR [End];
-ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Subdomains] FOREIGN KEY([SiteId]) REFERENCES [dbo].[Site] ([SiteId]);
+ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Site] FOREIGN KEY([SiteId]) REFERENCES [dbo].[Site] ([SiteId]);
 ALTER TABLE [dbo].[Session]  WITH CHECK ADD  CONSTRAINT [FK_Session_Users] FOREIGN KEY([UserId]) REFERENCES [dbo].[Person] ([PersonId]);
 
 
@@ -60,20 +59,19 @@ ALTER TABLE [dbo].[UserAccess]  WITH CHECK ADD  CONSTRAINT [FK_User_Access_User]
 
 
 
-CREATE TABLE [dbo].[NetworkIpAddress](
-	[IpAddressId] [bigint] NOT NULL,
-	[IpAddress] [varchar](15) NOT NULL,
-	[CountryCode] [char](2) NULL,
-	[RegionCode] [char](10) NULL,
-	[City] [varchar](50) NULL,
-	[PostalCode] [varchar](50) NULL,
-	[Latitude] [decimal](7, 5) NOT NULL,
-	[Longitude] [decimal](8, 5) NOT NULL,
-	[FraudCount] [int] NOT NULL,
- CONSTRAINT [PK_NetworkIpAddress] PRIMARY KEY CLUSTERED 
-(
-	[IpAddressId] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY];
+--CREATE TABLE [dbo].[NetworkIpAddress](
+--	[IpAddressId] [bigint] NOT NULL,
+--	[IpAddress] [varchar](15) NOT NULL,
+--	[CountryCode] [char](2) NULL,
+--	[RegionCode] [char](10) NULL,
+--	[City] [varchar](50) NULL,
+--	[PostalCode] [varchar](50) NULL,
+--	[Latitude] [decimal](7, 5) NOT NULL,
+--	[Longitude] [decimal](8, 5) NOT NULL,
+--	[FraudCount] [int] NOT NULL,
+-- CONSTRAINT [PK_NetworkIpAddress] PRIMARY KEY CLUSTERED 
+--(	[IpAddressId] ASC)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY];
 	
-ALTER TABLE [dbo].[NetworkIpAddress] ADD  CONSTRAINT [DF_NetworkIpAddress_Latitude]  DEFAULT ((0)) FOR [Latitude];
-ALTER TABLE [dbo].[NetworkIpAddress] ADD  CONSTRAINT [DF_NetworkIpAddress_Longitude]  DEFAULT ((0)) FOR [Longitude];
-ALTER TABLE [dbo].[NetworkIpAddress] ADD  CONSTRAINT [DF_NetworkIpAddress_FraudCount]  DEFAULT ((0)) FOR [FraudCount];
+--ALTER TABLE [dbo].[NetworkIpAddress] ADD  CONSTRAINT [DF_NetworkIpAddress_Latitude]  DEFAULT ((0)) FOR [Latitude];
+--ALTER TABLE [dbo].[NetworkIpAddress] ADD  CONSTRAINT [DF_NetworkIpAddress_Longitude]  DEFAULT ((0)) FOR [Longitude];
+--ALTER TABLE [dbo].[NetworkIpAddress] ADD  CONSTRAINT [DF_NetworkIpAddress_FraudCount]  DEFAULT ((0)) FOR [FraudCount];

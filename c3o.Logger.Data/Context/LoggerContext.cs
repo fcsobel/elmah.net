@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,13 +10,32 @@ namespace c3o.Logger.Data
 {
 	public partial class LoggerContext : DbContext
 	{
+        //<add name="LoggerContext" connectionString="data source=.; Integrated Security=SSPI; initial catalog=c3o_Logger" providerName="System.Data.SqlClient" />
+        private static string ConnectionString()
+        {
+            // allow dynamic connection
+            var connection = System.Configuration.ConfigurationManager.ConnectionStrings["LoggerContext"].ConnectionString;
+            connection = string.Format(connection, "acme");
+
+            //SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
+            //sqlBuilder.DataSource = ".";
+            //sqlBuilder.InitialCatalog = "c3o_Logger";
+            //sqlBuilder.PersistSecurityInfo = true;
+            //sqlBuilder.IntegratedSecurity = true;            
+            //sqlBuilder.MultipleActiveResultSets = true;
+            //return sqlBuilder.ToString();
+
+            return connection;
+        }
+
 		static LoggerContext()
 		{
 			Database.SetInitializer<LoggerContext>(null);
 		}
 
-		public LoggerContext()	: base("Name=LoggerContext")
-		{
+		//public LoggerContext()	: base("Name=LoggerContext")
+        public LoggerContext() : base(ConnectionString())
+        {
 			//Database.SetInitializer<c3o_loggerContext>(new CreateDatabaseIfNotExists<c3o_loggerContext>());
 			//Database.SetInitializer<c3o_loggerContext>(new DropCreateDatabaseIfModelChanges<c3o_loggerContext>());
 			//Database.SetInitializer<c3o_loggerContext>(new DBInitializer());
