@@ -33,8 +33,8 @@ namespace c3o.Logger.Web
 		}
 
 		[HttpGet]
-		[Route("messages/search/{log}")]
-		public LogSearchResponseModel Search(string log, string application = null, string type = null, string source = null, Elmah.Io.Client.Severity? severity = null,
+		[Route("messages/search/{log:alpha?}")]
+		public LogSearchResponseModel Search(string log=null, string application = null, string type = null, string source = null, Elmah.Io.Client.Severity? severity = null,
 			string user = null, SearchSpan span = SearchSpan.All, HydrationLevel level = HydrationLevel.Basic, int limit = 10
 			,List<long> types = null
 			,List<long> sources = null
@@ -175,13 +175,13 @@ namespace c3o.Logger.Web
 
                 // Setup model
                 var model = new LogSearchResponseModel(messages.ToList(), level);
-                if (theLog != null) { model.Log = theLog.Name; }
-				model.Application = application;
-				model.Severity = severity;
-				model.Source = source;
-				model.Span = span;
-				model.Type = type;
-				model.User = user;
+    //            if (theLog != null) { model.Log = theLog.Name; }
+				//model.Application = application;
+				//model.Severity = severity;
+				//model.Source = source;
+				//model.Span = span;
+				//model.Type = type;
+				//model.User = user;
 				return model;
 			}
 		}

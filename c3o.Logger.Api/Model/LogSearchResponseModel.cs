@@ -7,13 +7,13 @@ namespace c3o.Logger.Web
 {
     public class LogSearchResponseModel
 	{
-		public string Log { get; set; }
-		public string Application { get; set; }
-		public string Type { get; set; }
-		public string Source { get; set; }
-		public Elmah.Io.Client.Severity? Severity { get; set; }
-		public string User { get; set; }
-		public SearchSpan Span { get; set; }
+		//public string Log { get; set; }
+		//public string Application { get; set; }
+		//public string Type { get; set; }
+		//public string Source { get; set; }
+		//public Elmah.Io.Client.Severity? Severity { get; set; }
+		//public string User { get; set; }
+		//public SearchSpan Span { get; set; }
 
 		//public List<string> Severities { get; set; }
 		public List<LogMessage> Messages { get; set; }
