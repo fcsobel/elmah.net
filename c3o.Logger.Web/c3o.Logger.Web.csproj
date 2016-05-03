@@ -151,6 +151,8 @@
     <Content Include="_deploy\sql\0.00.002\003-tags.sql" />
     <Content Include="_deploy\sql\0.00.003\0.00.003-001-people.sql" />
     <Content Include="_deploy\sql\0.00.003\0.00.003-002-session.sql" />
+    <Content Include="_deploy\sql\create\002-grant.sql" />
+    <Content Include="_deploy\sql\create\001-create.sql" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FormatterConfig.cs" />

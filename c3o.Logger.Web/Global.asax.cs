@@ -21,14 +21,18 @@ namespace c3o.Logger.Web
 
             if (connection != null)
             {
-                var path = Server.MapPath("~/_deploy/sql");
+                // connection string 
+                string connectionString = string.Format(connection.ConnectionString, "acme");
+
+                // path to scripts
+                var path = Server.MapPath("~/_deploy/sql/0.00.001");
 
                 if (Directory.Exists(path))
                 {
                     // configure 
                     var upgrader = DeployChanges.To
-                            .SqlDatabase(connection.ConnectionString)
-                            .WithScriptsFromFileSystem(Server.MapPath("~/_deploy/sql/0.00.003"))
+                            .SqlDatabase(connectionString)
+                            .WithScriptsFromFileSystem(path)
                             //.WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
                             //.LogToConsole()
                             .Build();

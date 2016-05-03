@@ -34,19 +34,24 @@ namespace c3o.Logger.Web
 
 		[HttpGet]
 		[Route("messages/search/{log:alpha?}")]
-		public LogSearchResponseModel Search(string log=null, string application = null, string type = null, string source = null, Elmah.Io.Client.Severity? severity = null,
-			string user = null, SearchSpan span = SearchSpan.All, HydrationLevel level = HydrationLevel.Basic, int limit = 10
-			,List<long> types = null
+		public LogSearchResponseModel Search(string log=null, string application = null
+            , Elmah.Io.Client.Severity? severity = null
+            //, string type = null
+            //, string source = null
+            //,string user = null
+            , List<long> logs = null
+            , List<long> applications = null
+            , List<long> types = null
 			,List<long> sources = null
 			,List<long> users = null
 			,DateTime? start = null
-			,DateTime? end = null)
-		{
+			,DateTime? end = null
+            , SearchSpan span = SearchSpan.All
+            , int limit = 10
+            , HydrationLevel level = HydrationLevel.Basic)
+        { 
             using (LoggerContext db = new LoggerContext())
             {
-                //var start = DateTime.Now.Date;
-                var logs = (IQueryable<c3o.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
-
                 // convert to utc
                 if (start.HasValue) start.Value.ToUniversalTime();
                 if (end.HasValue) end.Value.ToUniversalTime();
@@ -93,19 +98,25 @@ namespace c3o.Logger.Web
                             .OrderByDescending(x => x.DateTime);
                 }
 
-                Log theLog = null;
+                //Log theLog = null;
                 if (!string.IsNullOrWhiteSpace(log))
                 {
-                    theLog = logs.FirstOrDefault(x => x.Name == log);
+                    //var start = DateTime.Now.Date;
+                    var allLogs = (IQueryable<c3o.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
+                    var theLog = allLogs.FirstOrDefault(x => x.Name == log);
+                    if (theLog != null)
+                    {
+                        messages = messages.Where(x => x.LogId == theLog.Id);
+                    }
                 }
-                //if (theLog == null) { theLog = logs.FirstOrDefault(); }
-                if (theLog != null)
+
+                if (logs != null && logs.Any())
                 {
-                    messages = messages.Where(x => x.LogId == theLog.Id);
+                    messages = messages.Where(x => logs.Any(y => y == x.LogId));
                 }
 
 
-                // applications
+                // application
                 if (!string.IsNullOrWhiteSpace(application))
                 {
                     var obj = db.LogApplications.FirstOrDefault(x => x.Name == application);
@@ -116,15 +127,22 @@ namespace c3o.Logger.Web
                     }
                 }
 
-                // types
-                if (!string.IsNullOrWhiteSpace(type))
+                // applications
+                if (applications != null && applications.Any())
                 {
-                    var obj = db.MessageTypes.FirstOrDefault(x => x.Name == type);
-                    if (obj != null)
-                    {
-                        messages = messages.Where(x => x.MessageTypeId == obj.Id);
-                    }
+                    //var list = types.Select(x => x.Id);
+                    messages = messages.Where(x => applications.Any(y => y == x.ApplicationId));
                 }
+
+                //// types
+                //if (!string.IsNullOrWhiteSpace(type))
+                //{
+                //    var obj = db.MessageTypes.FirstOrDefault(x => x.Name == type);
+                //    if (obj != null)
+                //    {
+                //        messages = messages.Where(x => x.MessageTypeId == obj.Id);
+                //    }
+                //}
 
                 if (types != null && types.Any())
                 {
@@ -144,26 +162,26 @@ namespace c3o.Logger.Web
                     messages = messages.Where(x => users.Any(y => y == x.UserId));
                 }
 
-                // sources
-                if (!string.IsNullOrWhiteSpace(source))
-                {
-                    var obj = db.MessageSources.FirstOrDefault(x => x.Name == source);
-                    if (obj != null)
-                    {
-                        messages = messages.Where(x => x.SourceId == obj.Id);
-                    }
-                }
+                //// sources
+                //if (!string.IsNullOrWhiteSpace(source))
+                //{
+                //    var obj = db.MessageSources.FirstOrDefault(x => x.Name == source);
+                //    if (obj != null)
+                //    {
+                //        messages = messages.Where(x => x.SourceId == obj.Id);
+                //    }
+                //}
 
 
-                // users
-                if (!string.IsNullOrWhiteSpace(user))
-                {
-                    var obj = db.Users.FirstOrDefault(x => x.Name == user);
-                    if (obj != null)
-                    {
-                        messages = messages.Where(x => x.UserId == obj.Id);
-                    }
-                }
+                //// users
+                //if (!string.IsNullOrWhiteSpace(user))
+                //{
+                //    var obj = db.Users.FirstOrDefault(x => x.Name == user);
+                //    if (obj != null)
+                //    {
+                //        messages = messages.Where(x => x.UserId == obj.Id);
+                //    }
+                //}
 
                 // severity
                 if (severity.HasValue) { messages = messages.Where(x => x.Severity == severity); }
