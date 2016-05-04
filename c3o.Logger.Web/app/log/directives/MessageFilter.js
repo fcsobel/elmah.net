@@ -29,7 +29,7 @@
 		// Link Function
 		function link(scope, el, attrs) {
 
-		    scope.model = { types: [], sources: [], users: [], logs: [], applications: [] };
+		    scope.model = { types: [], sources: [], users: [], logs: [], applications: [], severities: [] };
 
 			// setup query
 			scope.query = {
@@ -56,12 +56,14 @@
 				var users = _.filter(scope.model.users, { 'selected': true });
 				var logs = _.filter(scope.model.logs, { 'selected': true });
 				var applications = _.filter(scope.model.applications, { 'selected': true });
+				var severities = _.filter(scope.model.severities, { 'selected': true });
 
 				types = _.map(types, 'id');
 				sources = _.map(sources, 'id');
 				users = _.map(users, 'id');
 				logs = _.map(logs, 'id');
 				applications = _.map(applications, 'id');
+				severities = _.map(severities, 'name');
 				//sources = _.map(sources, 'id');
 
 				var start = null;
@@ -71,7 +73,7 @@
 					if (scope.query.end) { end = scope.query.end.toDate(); }
 				}
 
-				logService.search(scope.query.log, scope.query.severity, scope.query.limit, scope.query.span, logs, applications, types, sources, users, start, end)
+				logService.search(scope.query.log, scope.query.limit, scope.query.span, logs, applications, severities, types, sources, users, start, end)
 					.then(function (response) { // sucess
 						scope.model = response.model;
 

@@ -13,7 +13,29 @@ namespace c3o.Logger.Web
 	[RoutePrefix("api.logger")]
 	public class LoggerController : ApiController
 	{
-		[HttpGet]
+        //[HttpPost]
+        //[Route("messages")]
+        //public LogMessage Update(LogMessage message)
+        //{
+        //	using (LoggerContext db = new LoggerContext())
+        //	{
+        //		HydrationLevel level = HydrationLevel.Detailed;
+
+        //		var obj = db.LogMessages.Where(x => x.Id == message.Id)
+        //				.Include(x => x.Log)
+        //				.Include(x => x.User)
+        //				.Include(x => x.Source)
+        //				.Include(x => x.MessageType)
+        //				.Include(x => x.Application)
+        //				.Include(x => x.RexData)
+        //				.Include(x => x.Detail)
+        //				.FirstOrDefault();
+
+        //		return new LogMessage(obj, level);
+        //	}			
+        //}
+
+        [HttpGet]
 		[Route("messages/{id}")]
 		public LogMessage Detail(long id, HydrationLevel level = HydrationLevel.Detailed)
 		{
@@ -32,15 +54,33 @@ namespace c3o.Logger.Web
 			}			
 		}
 
-		[HttpGet]
+        //[HttpPost]
+        //[Route("messages/filter/{id:alpha?}")]
+        //public LogSearchResponseModel Filter(string id = null
+        //	, SearchSpan span = SearchSpan.All
+        //	, int limit = 10
+        //	, List<long> types = null
+        //	, List<long> sources = null
+        //	, List<long> users = null
+        //	, DateTime? start = null
+        //	, DateTime? end = null)
+        //{
+        //	// create filter
+
+        //	return null;
+        //}
+
+
+        [HttpGet]
 		[Route("messages/search/{log:alpha?}")]
 		public LogSearchResponseModel Search(string log=null, string application = null
-            , Elmah.Io.Client.Severity? severity = null
+            //, Elmah.Io.Client.Severity? severity = null
             //, string type = null
             //, string source = null
             //,string user = null
             , List<long> logs = null
             , List<long> applications = null
+            , List<Elmah.Io.Client.Severity> severities = null
             , List<long> types = null
 			,List<long> sources = null
 			,List<long> users = null
@@ -102,8 +142,8 @@ namespace c3o.Logger.Web
                 if (!string.IsNullOrWhiteSpace(log))
                 {
                     //var start = DateTime.Now.Date;
-                    var allLogs = (IQueryable<c3o.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
-                    var theLog = allLogs.FirstOrDefault(x => x.Name == log);
+                    //var allLogs = (IQueryable<c3o.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
+                    var theLog = db.Logs.FirstOrDefault(x => x.Name == log);
                     if (theLog != null)
                     {
                         messages = messages.Where(x => x.LogId == theLog.Id);
@@ -114,7 +154,6 @@ namespace c3o.Logger.Web
                 {
                     messages = messages.Where(x => logs.Any(y => y == x.LogId));
                 }
-
 
                 // application
                 if (!string.IsNullOrWhiteSpace(application))
@@ -183,8 +222,15 @@ namespace c3o.Logger.Web
                 //    }
                 //}
 
+                // severities
+                if (severities != null && severities.Any())
+                {
+                    //var list = users.Select(x => x.Id);
+                    messages = messages.Where(x => severities.Any(y => y == x.Severity));
+                }
+
                 // severity
-                if (severity.HasValue) { messages = messages.Where(x => x.Severity == severity); }
+                //if (severity.HasValue) { messages = messages.Where(x => x.Severity == severity); }
 
                 if (limit > 0)
                 {

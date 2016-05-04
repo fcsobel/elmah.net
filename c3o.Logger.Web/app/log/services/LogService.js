@@ -11,6 +11,9 @@
 
 			filter = function (value, index, array) {
 
+			    var logs = _.filter(container.model.logs, { 'selected': true });
+			    logs = _.map(logs, 'id');
+
 				var applications = _.filter(container.model.applications, { 'selected': true });
 				applications = _.map(applications, 'id');
 
@@ -26,19 +29,21 @@
 				var severities = _.filter(container.model.severities, { 'selected': true });
 				severities = _.map(severities, 'name');
 
+			    //console.log('users', users);
 				//var sources = _.filter(container.model.sources, { 'selected': true }).map('id');
 
 				return (types.length <= 0 || _.includes(types, value.messageTypeId))
 					&& (sources.length <= 0 || _.includes(sources, value.sourceId))
 					&& (applications.length <= 0 || _.includes(applications, value.applicationId))
+                    && (logs.length <= 0 || _.includes(logs, value.logId))
 					&& (severities.length <= 0 || _.includes(severities, value.severity))
 					&& (users.length <= 0 || _.includes(users, value.userId));
 
 			};
 
 			// Search Loge Messages
-			search = function (log, severity, limit, span, logs, applications, types, sources, users, start, end) {
-			    var promise = loggerApi.search(log, severity, limit, span, logs, applications, types, sources, users, start, end)
+			search = function (log, limit, span, logs, applications, severities, types, sources, users, start, end) {
+			    var promise = loggerApi.search(log, limit, span, logs, applications, severities, types, sources, users, start, end)
 					.then(function (response) { // handle response
 						// convert message list - Transform json data to objects
 						response.messages = $.map(response.messages, function (item, i) {
@@ -66,6 +71,7 @@
 				var promise = loggerApi.detail(id)
 					// Handle message Response
 					.then(function (response) {
+
 						// convert response message to message object
 					    var message = new c3o.Core.Data.LogMessage(response, container.model);
 

@@ -11,7 +11,10 @@ namespace c3o.Logger.Test.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            throw new DivideByZeroException("boo");
+            throw new Exception("test2");
             throw new Exception("test1");
+
 
             return View();
         }

@@ -10,11 +10,11 @@
 
 				
 				// Get List of Editors
-			    search: function (log, severity, limit, span, logs, applications, types, sources, users, start, end) {
+			    search: function (log, limit, span, logs, applications, severities, types, sources, users, start, end) {
 
 					// /api.logger/search/Production
 					// /api.logger/search/{log}
-			        var data = { params: { severity: severity, limit: limit, span: span, logs: logs, applications: applications, types: types, sources: sources, users: users, start: start, end: end } }; //span: 10000
+			        var data = { params: { limit: limit, span: span, logs: logs, applications: applications, severities: severities, types: types, sources: sources, users: users, start: start, end: end } }; //span: 10000
 
 					var promise = $http.get(url +  'search/' + log, data)
 						.then(
@@ -22,6 +22,13 @@
 
 								// get list 
 							    var model = response.data;
+
+
+
+
+
+
+
 
 								return model;
 							})
