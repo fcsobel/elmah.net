@@ -89,7 +89,7 @@ namespace c3o.Logger.Web
             , SearchSpan span = SearchSpan.All
             , int limit = 10
             , HydrationLevel level = HydrationLevel.Basic)
-        { 
+        {
             using (LoggerContext db = new LoggerContext())
             {
                 // convert to utc

@@ -7,48 +7,22 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Web.Http;
-using DbUp;
 using System.IO;
+using c3o.Logger.Data;
 
 namespace c3o.Logger.Web
 {
     public class Global : HttpApplication
     {
+
+        void Application_Beginrequest(object sender, EventArgs e)
+        {
+            //var site = SiteContext.Current.Site;
+        }
+
+
         void Application_Start(object sender, EventArgs e)
         {
-            // Init Database
-            var connection = System.Configuration.ConfigurationManager.ConnectionStrings["LoggerContext"];
-
-            if (connection != null)
-            {
-                // connection string 
-                string connectionString = string.Format(connection.ConnectionString, "acme");
-
-                // path to scripts
-                var path = Server.MapPath("~/_deploy/sql/0.00.001");
-
-                if (Directory.Exists(path))
-                {
-                    // configure 
-                    var upgrader = DeployChanges.To
-                            .SqlDatabase(connectionString)
-                            .WithScriptsFromFileSystem(path)
-                            //.WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
-                            //.LogToConsole()
-                            .Build();
-
-                    var response = upgrader.PerformUpgrade();
-                    if (response.Successful)
-                    {
-
-                    }
-                    else
-                    {
-
-                    }
-                }
-            }
-
             // Code that runs on application startup
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

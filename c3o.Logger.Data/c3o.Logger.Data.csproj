@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DbUp, Version=3.3.4.0, Culture=neutral, PublicKeyToken=4b419c53bdfd4cbf, processorArchitecture=MSIL">
+      <HintPath>..\packages\dbup.3.3.4\lib\net35\DbUp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Elmah.Io.Client, Version=2.0.26.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\elmah.io.client.2.0.26\lib\net40\Elmah.Io.Client.dll</HintPath>
       <Private>True</Private>
@@ -52,6 +56,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,6 +67,7 @@
     <Compile Include="Context\ElamhIoHelper.cs" />
     <Compile Include="Context\ElmahIoSettings.cs" />
     <Compile Include="Context\LoggerContext.cs" />
+    <Compile Include="Context\SiteContext.cs" />
     <Compile Include="Mapping\LogApplicationMap.cs" />
     <Compile Include="Mapping\LogMap.cs" />
     <Compile Include="Mapping\LogMessageDetailMap.cs" />

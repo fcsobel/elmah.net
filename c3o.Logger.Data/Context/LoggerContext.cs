@@ -13,19 +13,27 @@ namespace c3o.Logger.Data
         //<add name="LoggerContext" connectionString="data source=.; Integrated Security=SSPI; initial catalog=c3o_Logger" providerName="System.Data.SqlClient" />
         private static string ConnectionString()
         {
-            // allow dynamic connection
-            var connection = System.Configuration.ConfigurationManager.ConnectionStrings["LoggerContext"].ConnectionString;
-            connection = string.Format(connection, "acme");
+            var site = SiteContext.Current.Site;
 
-            //SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
-            //sqlBuilder.DataSource = ".";
-            //sqlBuilder.InitialCatalog = "c3o_Logger";
-            //sqlBuilder.PersistSecurityInfo = true;
-            //sqlBuilder.IntegratedSecurity = true;            
-            //sqlBuilder.MultipleActiveResultSets = true;
-            //return sqlBuilder.ToString();
+            if (site != null)
+            {
+                return site.ConnectionString;                    
+            }
 
-            return connection;
+            return null;
+            //// allow dynamic connection
+            //var connection = System.Configuration.ConfigurationManager.ConnectionStrings["LoggerContext"].ConnectionString;
+            //connection = string.Format(connection, "acme");
+
+            ////SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
+            ////sqlBuilder.DataSource = ".";
+            ////sqlBuilder.InitialCatalog = "c3o_Logger";
+            ////sqlBuilder.PersistSecurityInfo = true;
+            ////sqlBuilder.IntegratedSecurity = true;            
+            ////sqlBuilder.MultipleActiveResultSets = true;
+            ////return sqlBuilder.ToString();
+
+            //return connection;
         }
 
 		static LoggerContext()
