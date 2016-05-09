@@ -67,7 +67,9 @@
     <Compile Include="Context\ElamhIoHelper.cs" />
     <Compile Include="Context\ElmahIoSettings.cs" />
     <Compile Include="Context\LoggerContext.cs" />
+    <Compile Include="Context\SiteInstance.cs" />
     <Compile Include="Context\SiteContext.cs" />
+    <Compile Include="Context\SiteRecord.cs" />
     <Compile Include="Mapping\LogApplicationMap.cs" />
     <Compile Include="Mapping\LogMap.cs" />
     <Compile Include="Mapping\LogMessageDetailMap.cs" />

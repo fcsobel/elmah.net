@@ -13,6 +13,15 @@ namespace c3o.Logger.Web
 	[RoutePrefix("api.logger")]
 	public class LoggerController : ApiController
 	{
+        protected SiteInstance Site { get; set; }
+        protected LoggerContext db { get; set; }
+
+        public LoggerController(SiteInstance site, LoggerContext loggerContext)
+        {
+            this.Site = site;
+            this.db = loggerContext;
+        }
+        
         //[HttpPost]
         //[Route("messages")]
         //public LogMessage Update(LogMessage message)
@@ -39,8 +48,8 @@ namespace c3o.Logger.Web
 		[Route("messages/{id}")]
 		public LogMessage Detail(long id, HydrationLevel level = HydrationLevel.Detailed)
 		{
-			using (LoggerContext db = new LoggerContext())
-			{
+			//using (LoggerContext db = new LoggerContext())
+			//{
 				var message = db.LogMessages.Where(x => x.Id == id)
 						.Include(x => x.Log)
 						.Include(x => x.User)
@@ -51,7 +60,7 @@ namespace c3o.Logger.Web
 						.FirstOrDefault();
 
 				return new LogMessage(message, level);
-			}			
+			//}			
 		}
 
         //[HttpPost]
@@ -90,8 +99,16 @@ namespace c3o.Logger.Web
             , int limit = 10
             , HydrationLevel level = HydrationLevel.Basic)
         {
-            using (LoggerContext db = new LoggerContext())
-            {
+            //using (LoggerContext db = new LoggerContext())
+            //{
+                //if (this.Site.Sites.Any())
+                //{
+                //    foreach (var site in this.Site.Sites)
+                //    {
+                //        var test = site;
+                //    }
+                //}
+
                 // convert to utc
                 if (start.HasValue) start.Value.ToUniversalTime();
                 if (end.HasValue) end.Value.ToUniversalTime();
@@ -248,6 +265,6 @@ namespace c3o.Logger.Web
 				//model.User = user;
 				return model;
 			}
-		}
+		//}
 	}
 }

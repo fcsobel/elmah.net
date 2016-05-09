@@ -14,6 +14,13 @@ namespace c3o.Logger.Web
 	[RoutePrefix("api/v2/messages")]
 	public class MessagesController : ApiController
 	{
+        protected LoggerContext db { get; set; }
+
+        public MessagesController(LoggerContext loggerContext) : base()
+        {
+            this.db = loggerContext;                    
+        }
+
 		[HttpPost]
 		[Route("")]
 		public IHttpActionResult Post(Message message, string logId)
@@ -37,7 +44,7 @@ namespace c3o.Logger.Web
             }
 
             // save message		
-            using (LoggerContext db = new LoggerContext())
+           // using (LoggerContext db = new LoggerContext())
 			{
 				if (!string.IsNullOrWhiteSpace(logId))
 				{
@@ -101,8 +108,8 @@ namespace c3o.Logger.Web
 		public LogMessage Get(string logId, string id)
 		{
 			// get message
-			using (LoggerContext db = new LoggerContext())
-			{
+			//using (LoggerContext db = new LoggerContext())
+			//{
 				if (!string.IsNullOrWhiteSpace(logId))
 				{
 					// find log
@@ -126,7 +133,7 @@ namespace c3o.Logger.Web
 						}
 					}
 				}
-			}
+			//}
 
 			return null;			
 		}

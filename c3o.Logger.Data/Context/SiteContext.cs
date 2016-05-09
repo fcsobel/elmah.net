@@ -9,71 +9,47 @@ using System.Web;
 
 namespace c3o.Logger.Data
 {
-    public class SiteRecord
-    {
-        public string Subdomain { get; set; }
-        public string Database { get; set; }
-        public string ConnectionString { get; set; }
-
-        public SiteRecord(string subdomain, string database)
-        {
-            this.Subdomain = subdomain;
-            this.Database = database;
-
-            // Init Database
-            var connection = System.Configuration.ConfigurationManager.ConnectionStrings["LoggerContext"];
-
-            // connection string 
-            if (connection != null)
-            {
-                this.ConnectionString = string.Format(connection.ConnectionString, this.Database);
-            }
-        }        
-    }
-
     public class SiteContext
     {
-        public SiteRecord Site { get; set; }
+        private SiteInstance SiteInstance { get; set; }
 
-        public List<SiteRecord> Sites = new List<SiteRecord>()
-        {
-            new SiteRecord("www", "www"),
-            new SiteRecord("acme", "acme"),
-        };
+        public SiteRecord Site { get; set; }
 
         /// <summary>
         /// Init Site
         /// </summary>
-        public SiteContext()
+        public SiteContext(SiteInstance site)
         {
+            this.SiteInstance = site;
+            
             // calculate site bases on subdomain
             var name = this.SiteName;
             if (!string.IsNullOrWhiteSpace(name))
             {
-                this.Site = this.Sites.First(x => x.Subdomain == name);
+                this.Site = this.SiteInstance.Sites.First(x => x.Subdomain == name);
             }
             if (this.Site == null)
             {
-                this.Site = Sites.First();
+                this.Site = this.SiteInstance.Sites.First();
             }
         }
 
-        /// <summary>
-        /// Getter
-        /// </summary>
-        public static SiteContext Current
-        {
-            get
-            {
-                SiteContext context = (SiteContext)HttpContext.Current.Items["SiteContext"];
-                if (context == null)
-                {
-                    context = new SiteContext();
-                    HttpContext.Current.Items["SiteContext"] = context;
-                }
-                return context;
-            }
-        }
+        ///// <summary>
+        ///// Getter
+        ///// </summary>
+        //public static SiteContext Current
+        //{
+        //    get
+        //    {
+        //        SiteContext context = (SiteContext)HttpContext.Current.Items["SiteContext"];
+        //        if (context == null)
+        //        {
+        //            context = new SiteContext();
+        //            HttpContext.Current.Items["SiteContext"] = context;
+        //        }
+        //        return context;
+        //    }
+        //}
    
 
         protected string SiteName
@@ -82,7 +58,7 @@ namespace c3o.Logger.Data
             {
                 var context = HttpContext.Current;
 
-                if (context != null && context.Request != null)
+                if (context != null && context.CurrentHandler != null && context.Request != null)
                 {
                     var host = context.Request.Url.Host;
                     
@@ -91,7 +67,6 @@ namespace c3o.Logger.Data
                         return host.Remove(host.Length - ".elmah.net".Length, ".elmah.net".Length);
                     }
                 }             
-
                 // default to acme   
                 return "acme";
             }
