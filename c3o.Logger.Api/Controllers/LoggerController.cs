@@ -21,27 +21,23 @@ namespace c3o.Logger.Web
             this.Site = site;
             this.db = loggerContext;
         }
-        
+
         //[HttpPost]
         //[Route("messages")]
         //public LogMessage Update(LogMessage message)
         //{
-        //	using (LoggerContext db = new LoggerContext())
-        //	{
-        //		HydrationLevel level = HydrationLevel.Detailed;
+        //    HydrationLevel level = HydrationLevel.Detailed;
 
-        //		var obj = db.LogMessages.Where(x => x.Id == message.Id)
-        //				.Include(x => x.Log)
-        //				.Include(x => x.User)
-        //				.Include(x => x.Source)
-        //				.Include(x => x.MessageType)
-        //				.Include(x => x.Application)
-        //				.Include(x => x.RexData)
-        //				.Include(x => x.Detail)
-        //				.FirstOrDefault();
+        //    var obj = db.LogMessages.Where(x => x.Id == message.Id)
+        //            .Include(x => x.Log)
+        //            .Include(x => x.User)
+        //            .Include(x => x.Source)
+        //            .Include(x => x.MessageType)
+        //            .Include(x => x.Application)
+        //            .Include(x => x.Detail)
+        //            .FirstOrDefault();
 
-        //		return new LogMessage(obj, level);
-        //	}			
+        //    return new LogMessage(obj, level);
         //}
 
         [HttpGet]
@@ -63,21 +59,50 @@ namespace c3o.Logger.Web
 			//}			
 		}
 
-        //[HttpPost]
-        //[Route("messages/filter/{id:alpha?}")]
-        //public LogSearchResponseModel Filter(string id = null
-        //	, SearchSpan span = SearchSpan.All
-        //	, int limit = 10
-        //	, List<long> types = null
-        //	, List<long> sources = null
-        //	, List<long> users = null
-        //	, DateTime? start = null
-        //	, DateTime? end = null)
-        //{
-        //	// create filter
+        [HttpPost]
+        [Route("messages/filter/{id:alpha?}")]
+        public LogSearchResponseModel Filter(string id = null
+            , List<long> types = null
+            , List<long> sources = null
+            , List<long> users = null
+            , DateTime? start = null
+            , DateTime? end = null
+            , SearchSpan span = SearchSpan.All
+            , int limit = 10)
+        {
+            var filter = db.Filters.Where(x => x.Name == id)
+                .Include(x=>x.FilterSources)
+                .Include(x => x.FilterTypes)
+                .FirstOrDefault();
 
-        //	return null;
-        //}
+            if (filter == null)
+            {
+                filter = new Filter() { Name = id };
+                db.Filters.Add(filter);
+                db.SaveChanges();
+            }
+            else
+            {
+                filter.FilterTypes.Clear();
+                filter.FilterSources.Clear();
+            }
+
+            foreach (var key in types)
+            {
+                var item = db.MessageTypes.Find(key);
+                if (item != null) { filter.FilterTypes.Add(item); }
+            }
+
+            foreach (var key in sources)
+            {
+                var item = db.MessageSources.Find(key);
+                if (item != null) { filter.FilterSources.Add(item); }
+            }
+
+            db.SaveChanges();
+
+            return null;
+        }
 
 
         [HttpGet]
@@ -101,13 +126,18 @@ namespace c3o.Logger.Web
         {
             //using (LoggerContext db = new LoggerContext())
             //{
-                //if (this.Site.Sites.Any())
-                //{
-                //    foreach (var site in this.Site.Sites)
-                //    {
-                //        var test = site;
-                //    }
-                //}
+            //if (this.Site.Sites.Any())
+            //{
+            //    foreach (var site in this.Site.Sites)
+            //    {
+            //        var test = site;
+            //    }
+            //}
+
+            //if (types.Any() && sources.Any())
+            //{
+            //    this.Filter("Test", types, sources);
+            //}
 
                 // convert to utc
                 if (start.HasValue) start.Value.ToUniversalTime();

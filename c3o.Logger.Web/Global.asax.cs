@@ -24,8 +24,6 @@ namespace c3o.Logger.Web
 
         void Application_Beginrequest(object sender, EventArgs e)
         {
-
-
             //Container cont = (Container) GlobalConfiguration.Configuration.DependencyResolver;
 
             //using (cont.BeginExecutionContextScope())
@@ -72,7 +70,6 @@ namespace c3o.Logger.Web
             container.Register<SiteContext>(Lifestyle.Scoped);
             container.Register<LoggerContext>(Lifestyle.Scoped);
             
-
             //container.Register<SiteInstance>(Lifestyle.Singleton);
 
             //WEB API
@@ -104,8 +101,6 @@ namespace c3o.Logger.Web
 
             // Add formatters (CamelCasePropertyNamesContractResolver..etc)
             FormatterConfig.RegisterFormatters(GlobalConfiguration.Configuration.Formatters);
-
-
         }
     }
 }

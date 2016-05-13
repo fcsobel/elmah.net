@@ -58,15 +58,21 @@ namespace c3o.Logger.Data
             {
                 var context = HttpContext.Current;
 
-                if (context != null && context.CurrentHandler != null && context.Request != null)
-                {
-                    var host = context.Request.Url.Host;
-                    
-                    if (host.EndsWith(".elmah.net"))
+                try {
+                    if (context != null && context.Request != null)
                     {
-                        return host.Remove(host.Length - ".elmah.net".Length, ".elmah.net".Length);
+                        var host = context.Request.Url.Host;
+
+                        if (host.EndsWith(".elmah.net"))
+                        {
+                            return host.Remove(host.Length - ".elmah.net".Length, ".elmah.net".Length);
+                        }
                     }
-                }             
+                }
+                catch
+                {
+
+                }        
                 // default to acme   
                 return "acme";
             }

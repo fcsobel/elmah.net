@@ -59,8 +59,9 @@ namespace c3o.Logger.Data
 		public DbSet<LogMessageType> MessageTypes { get; set; }
 		public DbSet<LogMessage> LogMessages { get; set; }
 		public DbSet<LogMessageDetail> MessageDetails { get; set; }
-				
-		protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        public DbSet<Filter> Filters { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			modelBuilder.Configurations.Add(new LogMap());
 			modelBuilder.Configurations.Add(new LogApplicationMap());			
@@ -69,7 +70,8 @@ namespace c3o.Logger.Data
 			modelBuilder.Configurations.Add(new LogMessageTypeMap());
 			modelBuilder.Configurations.Add(new LogMessageSourceMap());
 			modelBuilder.Configurations.Add(new LogMessageDetailMap());
-		}
+            modelBuilder.Configurations.Add(new FilterMap());
+        }
 	}
 
 	//public class DBInitializer : CreateDatabaseIfNotExists<c3o_loggerContext>
