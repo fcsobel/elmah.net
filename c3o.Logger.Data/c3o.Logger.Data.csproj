@@ -71,6 +71,7 @@
     <Compile Include="Context\SiteContext.cs" />
     <Compile Include="Context\SiteRecord.cs" />
     <Compile Include="Mapping\LogApplicationMap.cs" />
+    <Compile Include="Mapping\FilterMap.cs" />
     <Compile Include="Mapping\LogMap.cs" />
     <Compile Include="Mapping\LogMessageDetailMap.cs" />
     <Compile Include="Mapping\LogMessageMap.cs" />
