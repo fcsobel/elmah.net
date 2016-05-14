@@ -11,33 +11,33 @@ namespace c3o.Logger.Web
 {
 	public enum HydrationLevel { Basic, Detailed }
 
-    public enum SearchSpan
-    {
-        [Description("Five Minutes")]
-        FiveMinutes = 5,
-        [Description("Fifteen Minutes")]
-        FifteenMinutes = 15,
-        [Description("One Hour")]
-        OneHour = 60,
-        [Description("Two Hours")]
-        TwoHours = 120,
-        [Description("Three Hours")]
-        ThreeHours = 180,
-        [Description("Four Hours")]
-        FourHours = 240,
-        [Description("Six Hours")]
-        SixHours = 360,
-        [Description("Twelve Hours")]
-        TwelveHours = 1260,
-        [Description("Twenty Four Hours")]
-        TwentyFourHours = 1440,
-        [Description("Three Days")]
-        ThreeDays = 4320,
-        [Description("One Week")]
-        OneWeek = 10080,
-        [Description("All")]
-        All = 0
-    }
+    //public enum SearchSpan
+    //{
+    //    [Description("Five Minutes")]
+    //    FiveMinutes = 5,
+    //    [Description("Fifteen Minutes")]
+    //    FifteenMinutes = 15,
+    //    [Description("One Hour")]
+    //    OneHour = 60,
+    //    [Description("Two Hours")]
+    //    TwoHours = 120,
+    //    [Description("Three Hours")]
+    //    ThreeHours = 180,
+    //    [Description("Four Hours")]
+    //    FourHours = 240,
+    //    [Description("Six Hours")]
+    //    SixHours = 360,
+    //    [Description("Twelve Hours")]
+    //    TwelveHours = 1260,
+    //    [Description("Twenty Four Hours")]
+    //    TwentyFourHours = 1440,
+    //    [Description("Three Days")]
+    //    ThreeDays = 4320,
+    //    [Description("One Week")]
+    //    OneWeek = 10080,
+    //    [Description("All")]
+    //    All = 0
+    //}
 
     public class Item
 	{
@@ -71,7 +71,7 @@ namespace c3o.Logger.Web
 			this.Color = obj.Color;		
 		}
 
-        public LogObject(SearchSpan span)
+        public LogObject(c3o.Logger.Data.SearchSpan span)
         {
             this.Id = (long)span;
             this.Name = span.ToString();

@@ -43,6 +43,13 @@
 				end : moment().endOf('day'), //utc()
 			};
 
+			scope.SetFilter = function (item)
+			{
+			    scope.query = item;
+			    //scope.query.limit = 123;
+			    //scope.query.span = 'All';
+			}
+
 			// Search
 			scope.Search = function () {
 

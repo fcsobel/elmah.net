@@ -77,7 +77,7 @@ namespace c3o.Logger.Web
 
             if (filter == null)
             {
-                filter = new Filter() { Name = id };
+                filter = new c3o.Logger.Data.Filter() { Name = id };
                 db.Filters.Add(filter);
                 db.SaveChanges();
             }
@@ -87,6 +87,11 @@ namespace c3o.Logger.Web
                 filter.FilterSources.Clear();
             }
 
+            filter.Limit = limit;
+            filter.Span = span;
+            filter.Start = start;
+            filter.End = end;
+            
             foreach (var key in types)
             {
                 var item = db.MessageTypes.Find(key);
@@ -122,7 +127,8 @@ namespace c3o.Logger.Web
 			,DateTime? end = null
             , SearchSpan span = SearchSpan.All
             , int limit = 10
-            , HydrationLevel level = HydrationLevel.Basic)
+            , HydrationLevel level = HydrationLevel.Basic,
+            string name = null)
         {
             //using (LoggerContext db = new LoggerContext())
             //{
@@ -134,13 +140,12 @@ namespace c3o.Logger.Web
             //    }
             //}
 
-            //if (types.Any() && sources.Any())
-            //{
-            //    this.Filter("Test", types, sources);
-            //}
-
-                // convert to utc
-                if (start.HasValue) start.Value.ToUniversalTime();
+            // save filter
+            if (string.IsNullOrWhiteSpace(name)) { name = "Default"; }
+            this.Filter(name, types, sources, users, start, end, span, limit);
+            
+            // convert to utc
+            if (start.HasValue) start.Value.ToUniversalTime();
                 if (end.HasValue) end.Value.ToUniversalTime();
 
                 // convert to span
@@ -284,8 +289,10 @@ namespace c3o.Logger.Web
                     messages = messages.Take(limit);
                 }
 
+                var filters = db.Filters.Include(x => x.FilterSources).Include(x => x.FilterTypes).ToList();
+
                 // Setup model
-                var model = new LogSearchResponseModel(messages.ToList(), level);
+                var model = new LogSearchResponseModel(messages.ToList(), filters, level);
     //            if (theLog != null) { model.Log = theLog.Name; }
 				//model.Application = application;
 				//model.Severity = severity;
