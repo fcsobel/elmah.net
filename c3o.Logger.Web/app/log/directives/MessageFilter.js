@@ -46,8 +46,26 @@
 			scope.SetFilter = function (item)
 			{
 			    scope.query = item;
+			    scope.query.start = moment(item.start);
+			    scope.query.end = moment(item.end);
+
+			    var drp = $('#demo').data('daterangepicker');
+			    drp.setStartDate(scope.query.start.format('MM/DD/YYYY'));
+			    drp.setEndDate(scope.query.end.format('MM/DD/YYYY'));
+
 			    //scope.query.limit = 123;
 			    //scope.query.span = 'All';
+			}
+
+			scope.SearchAndSave = function ()
+			{
+			    scope.Search();
+			}
+
+			scope.SearchOnly = function ()
+			{
+			    scope.query.name = "Default";
+			    scope.Search();
 			}
 
 			// Search
@@ -80,7 +98,7 @@
 					if (scope.query.end) { end = scope.query.end.toDate(); }
 				}
 
-				logService.search(scope.query.log, scope.query.limit, scope.query.span, logs, applications, severities, types, sources, users, start, end)
+				logService.search(scope.query.log, scope.query.limit, scope.query.span, logs, applications, severities, types, sources, users, start, end, scope.query.name)
 					.then(function (response) { // sucess
 						scope.model = response.model;
 

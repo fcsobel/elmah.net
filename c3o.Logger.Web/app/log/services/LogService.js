@@ -42,8 +42,8 @@
 			};
 
 			// Search Loge Messages
-			search = function (log, limit, span, logs, applications, severities, types, sources, users, start, end) {
-			    var promise = loggerApi.search(log, limit, span, logs, applications, severities, types, sources, users, start, end)
+			search = function (log, limit, span, logs, applications, severities, types, sources, users, start, end, name) {
+			    var promise = loggerApi.search(log, limit, span, logs, applications, severities, types, sources, users, start, end, name)
 					.then(function (response) { // handle response
 						// convert message list - Transform json data to objects
 						response.messages = $.map(response.messages, function (item, i) {

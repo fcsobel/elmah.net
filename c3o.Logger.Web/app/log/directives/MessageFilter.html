@@ -4,7 +4,7 @@
         <div class="form-group">
             <select name="span" id="span" autocomplete="" class="form-control"
                     ng-model="query.span"
-                    ng-change="Search()"
+                    ng-change="SearchOnly()"
                     ng-options="item.name as item.description for item in model.spans"></select>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Limit" ng-model="query.limit">
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button" ng-click="Search()">Search</button>
+                <button class="btn btn-default" type="button" ng-click="SearchOnly()">Search</button>
             </span>
         </div><!-- /input-group -->
     </div><!-- /input-group -->
@@ -35,9 +35,9 @@
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li ng-repeat="item in model.filters"><a ng-click="SetFilter(item);" href="#">{{item.name}}</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">Update {{query.name}}</a></li>
-                    <li><a href="#">Delete {{query.name}}</a></li>
-                    <li><a href="#">Save As {{query.name}}</a></li>
+                    <li><a href="#" ng-click="SearchAndSave()">Update {{query.name}}</a></li>
+                    <li><a href="#" ng-click="Delete()">Delete {{query.name}}</a></li>
+                    <li><a href="#" ng-click="SearchAndSave()">Save As {{query.name}}</a></li>
                     <li><a href="#" ng-click="SetFilter();">Clear</a></li>
                 </ul>
                 <!--<button type="button" class="btn btn-default">Search</button>-->
