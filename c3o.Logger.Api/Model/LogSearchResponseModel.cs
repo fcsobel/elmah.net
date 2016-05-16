@@ -10,18 +10,19 @@ namespace c3o.Logger.Web
         public long Id { get; set; }
         public string Name { get; set; }
         public string Distribution { get; set; }
-
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
         public string Span { get; set; }
-        public int Limit { get; set; }
+        public int Limit { get; set; }        
+        public List<LogObject> Types { get; set; }
+        public List<LogObject> Sources { get; set; }
+        public List<LogObject> Users { get; set; }
         
-        public List<LogObject> FilterTypes { get; set; }
-        public List<LogObject> FilterSources { get; set; }
         public Filter()
         {
-            this.FilterTypes = new List<LogObject>();
-            this.FilterSources = new List<LogObject>();
+            this.Types = new List<LogObject>();
+            this.Sources = new List<LogObject>();
+            this.Users = new List<LogObject>();
         }
         public Filter(c3o.Logger.Data.Filter obj): this()
         {
@@ -32,8 +33,8 @@ namespace c3o.Logger.Web
             this.End = obj.End;
             this.Span = obj.Span.ToString();
             this.Limit = obj.Limit;
-            this.FilterTypes = obj.FilterTypes.Select(y => new LogObject(y)).ToList();
-            this.FilterSources = obj.FilterSources.Select(y => new LogObject(y)).ToList();
+            this.Types = obj.FilterTypes.Select(y => new LogObject(y)).ToList();
+            this.Sources = obj.FilterSources.Select(y => new LogObject(y)).ToList();
         }
     }
     
@@ -46,18 +47,15 @@ namespace c3o.Logger.Web
 		//public Elmah.Io.Client.Severity? Severity { get; set; }
 		//public string User { get; set; }
 		//public SearchSpan Span { get; set; }
-
 		//public List<string> Severities { get; set; }
 		public List<LogMessage> Messages { get; set; }
-
-		public List<LogObject> Severities { get; set; }
 		public List<LogObject> Logs { get; set; }
 		public List<LogObject> Applications { get; set; }
-		public List<LogObject> Users { get; set; }
 		public List<LogObject> Types { get; set; }
 		public List<LogObject> Sources { get; set; }
-		public List<LogObject> Spans { get; set; }
-
+        public List<LogObject> Severities { get; set; }
+        public List<LogObject> Users { get; set; }
+        public List<LogObject> Spans { get; set; }
         public List<Filter> Filters { get; set; }
 
         public LogSearchResponseModel() {
@@ -78,8 +76,7 @@ namespace c3o.Logger.Web
 			this.Types =			list.Where(x=>x.MessageType != null).Select(x => x.MessageType).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Sources =			list.Where(x=>x.Source != null).Select(x => x.Source).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Severities =		list.Select(x=>x.Severity).Distinct().Select(y => new LogObject { Id = 0, Name = y.ToString() }).ToList();
-			//this.Spans =			EnumHelper.GetValues<SearchSpan>().Select(y => new LogObject { Id = (long)y, Name = y.ToString() }).ToList();
-            this.Spans = EnumHelper.GetValues<c3o.Logger.Data.SearchSpan>().Select(y => new LogObject(y)).ToList();
+            this.Spans =            EnumHelper.GetValues<c3o.Logger.Data.SearchSpan>().Select(y => new LogObject(y)).ToList();
 
             foreach (var item in list)
 			{

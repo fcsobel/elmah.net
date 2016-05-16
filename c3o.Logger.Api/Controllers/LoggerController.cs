@@ -68,7 +68,8 @@ namespace c3o.Logger.Web
             , DateTime? start = null
             , DateTime? end = null
             , SearchSpan span = SearchSpan.All
-            , int limit = 10)
+            , int limit = 10
+            ,Filter request = null)
         {
             var filter = db.Filters.Where(x => x.Name == id)
                 .Include(x=>x.FilterSources)
@@ -127,8 +128,9 @@ namespace c3o.Logger.Web
 			,DateTime? end = null
             , SearchSpan span = SearchSpan.All
             , int limit = 10
-            , HydrationLevel level = HydrationLevel.Basic,
-            string name = null)
+            , HydrationLevel level = HydrationLevel.Basic
+            , string name = null
+            , Filter request = null)
         {
             //using (LoggerContext db = new LoggerContext())
             //{
