@@ -10,6 +10,8 @@ namespace c3o.Logger.Web
         public long Id { get; set; }
         public string Name { get; set; }
         public string Distribution { get; set; }
+        //public Data.Query Query { get; set; }
+
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
         public string Span { get; set; }
@@ -29,12 +31,15 @@ namespace c3o.Logger.Web
             this.Id = obj.Id;
             this.Name = obj.Name;
             this.Distribution = obj.Distribution;
-            this.Start = obj.Start;
-            this.End = obj.End;
-            this.Span = obj.Span.ToString();
-            this.Limit = obj.Limit;
-            this.Types = obj.FilterTypes.Select(y => new LogObject(y)).ToList();
-            this.Sources = obj.FilterSources.Select(y => new LogObject(y)).ToList();
+            //this.Query = obj.Query;
+
+
+            this.Start = obj.Query.Start;
+            this.End = obj.Query.End;
+            this.Span = obj.Query.Span.ToString();
+            this.Limit = obj.Query.Limit;
+            this.Types = obj.Query.FilterTypes.Select(y => new LogObject(y)).ToList();
+            this.Sources = obj.Query.FilterSources.Select(y => new LogObject(y)).ToList();
         }
     }
     

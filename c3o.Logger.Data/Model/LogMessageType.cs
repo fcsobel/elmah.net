@@ -12,12 +12,12 @@ namespace c3o.Logger.Data
 		public string Icon { get; set; }
 		public string Color { get; set; }
 
-        public List<Filter> Filters { get; set; }
+        //public List<Filter> Filters { get; set; }
 
         public LogMessageType()
 		{
 			this.Icon = "cloud";
-            this.Filters = new List<Filter>();
+            //this.Filters = new List<Filter>();
 		}
 	}
 }

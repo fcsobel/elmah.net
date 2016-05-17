@@ -22,26 +22,27 @@ namespace c3o.Logger.Data
             this.ToTable("Filters");
             this.Property(t => t.Id).HasColumnName("Id");
             this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.QueryData).HasColumnName("Query");
 
-            // link to log
-            this.HasMany(c => c.FilterTypes)
-                .WithMany(x => x.Filters)
-                .Map(m =>
-                {
-                    m.MapLeftKey("FilterId");
-                    m.MapRightKey("TypeId");
-                    m.ToTable("FilterTypes");
-                });
+            //// link to log
+            //this.HasMany(c => c.FilterTypes)
+            //    .WithMany(x => x.Filters)
+            //    .Map(m =>
+            //    {
+            //        m.MapLeftKey("FilterId");
+            //        m.MapRightKey("TypeId");
+            //        m.ToTable("FilterTypes");
+            //    });
 
-            // link to log
-            this.HasMany(c => c.FilterSources)
-                .WithMany(x => x.Filters)
-                .Map(m =>
-                {
-                    m.MapLeftKey("FilterId");
-                    m.MapRightKey("SourceId");
-                    m.ToTable("FilterSources");
-                });
+            //// link to log
+            //this.HasMany(c => c.FilterSources)
+            //    .WithMany(x => x.Filters)
+            //    .Map(m =>
+            //    {
+            //        m.MapLeftKey("FilterId");
+            //        m.MapRightKey("SourceId");
+            //        m.ToTable("FilterSources");
+            //    });
         }
     }
 }

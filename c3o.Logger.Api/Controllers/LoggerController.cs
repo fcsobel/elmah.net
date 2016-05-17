@@ -72,37 +72,38 @@ namespace c3o.Logger.Web
             ,Filter request = null)
         {
             var filter = db.Filters.Where(x => x.Name == id)
-                .Include(x=>x.FilterSources)
-                .Include(x => x.FilterTypes)
+                //.Include(x=>x.FilterSources)
+                //.Include(x => x.FilterTypes)
                 .FirstOrDefault();
 
             if (filter == null)
             {
                 filter = new c3o.Logger.Data.Filter() { Name = id };
+                filter.Query = new Query();
                 db.Filters.Add(filter);
                 db.SaveChanges();
             }
             else
             {
-                filter.FilterTypes.Clear();
-                filter.FilterSources.Clear();
+                filter.Query.FilterTypes.Clear();
+                filter.Query.FilterSources.Clear();
             }
 
-            filter.Limit = limit;
-            filter.Span = span;
-            filter.Start = start;
-            filter.End = end;
+            filter.Query.Limit = limit;
+            filter.Query.Span = span;
+            filter.Query.Start = start;
+            filter.Query.End = end;
             
             foreach (var key in types)
             {
                 var item = db.MessageTypes.Find(key);
-                if (item != null) { filter.FilterTypes.Add(item); }
+                if (item != null) { filter.Query.FilterTypes.Add(item); }
             }
 
             foreach (var key in sources)
             {
                 var item = db.MessageSources.Find(key);
-                if (item != null) { filter.FilterSources.Add(item); }
+                if (item != null) { filter.Query.FilterSources.Add(item); }
             }
 
             db.SaveChanges();
@@ -291,7 +292,10 @@ namespace c3o.Logger.Web
                     messages = messages.Take(limit);
                 }
 
-                var filters = db.Filters.Include(x => x.FilterSources).Include(x => x.FilterTypes).ToList();
+                var filters = db.Filters
+                //.Include(x => x.FilterSources)
+                //.Include(x => x.FilterTypes)
+                .ToList();
 
                 // Setup model
                 var model = new LogSearchResponseModel(messages.ToList(), filters, level);
