@@ -44,12 +44,13 @@ namespace c3o.Logger.Data
 		//public LoggerContext()	: base("Name=LoggerContext")
         public LoggerContext(SiteContext siteContext) : base(siteContext.Site.ConnectionString)
         {
+            siteContext.UpdateDb();
             //this.sitcon
-			//Database.SetInitializer<c3o_loggerContext>(new CreateDatabaseIfNotExists<c3o_loggerContext>());
-			//Database.SetInitializer<c3o_loggerContext>(new DropCreateDatabaseIfModelChanges<c3o_loggerContext>());
-			//Database.SetInitializer<c3o_loggerContext>(new DBInitializer());
-			//Database.SetInitializer(new DBInitializer());
-			this.Configuration.LazyLoadingEnabled = false;
+            //Database.SetInitializer<c3o_loggerContext>(new CreateDatabaseIfNotExists<c3o_loggerContext>());
+            //Database.SetInitializer<c3o_loggerContext>(new DropCreateDatabaseIfModelChanges<c3o_loggerContext>());
+            //Database.SetInitializer<c3o_loggerContext>(new DBInitializer());
+            //Database.SetInitializer(new DBInitializer());
+            this.Configuration.LazyLoadingEnabled = false;
 		}
 
 		public DbSet<Log> Logs { get; set; }
@@ -72,7 +73,7 @@ namespace c3o.Logger.Data
 			modelBuilder.Configurations.Add(new LogMessageDetailMap());
             modelBuilder.Configurations.Add(new FilterMap());
         }
-	}
+    }
 
 	//public class DBInitializer : CreateDatabaseIfNotExists<c3o_loggerContext>
 	//public class DBInitializer : DropCreateDatabaseAlways<c3o_loggerContext>

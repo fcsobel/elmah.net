@@ -78,14 +78,14 @@ namespace c3o.Logger.Data
             }
         }
 
-        public void CreateDB()
+        public void UpdateDb()
         {
             var site = this.Site;
 
             if (site != null)
             {
                 // path to scripts
-                var path = HttpContext.Current.Server.MapPath("~/_deploy/sql/0.00.001");
+                var path = HttpContext.Current.Server.MapPath("~/_deploy/sql/0.00.003");
 
                 if (Directory.Exists(path))
                 {
@@ -97,14 +97,17 @@ namespace c3o.Logger.Data
                             //.LogToConsole()
                             .Build();
 
-                    var response = upgrader.PerformUpgrade();
-                    if (response.Successful)
+                    if (upgrader.IsUpgradeRequired())
                     {
+                        var response = upgrader.PerformUpgrade();
+                        if (response.Successful)
+                        {
 
-                    }
-                    else
-                    {
+                        }
+                        else
+                        {
 
+                        }
                     }
                 }
             }

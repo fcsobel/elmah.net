@@ -53,6 +53,7 @@
 			    drp.setStartDate(scope.query.start.format('MM/DD/YYYY'));
 			    drp.setEndDate(scope.query.end.format('MM/DD/YYYY'));
 
+			    scope.Search();
 			    //scope.query.limit = 123;
 			    //scope.query.span = 'All';
 			}
