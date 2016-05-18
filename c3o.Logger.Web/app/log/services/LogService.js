@@ -41,6 +41,109 @@
 
 			};
 
+		    // Init
+			init = function () {
+			    var promise = loggerApi.init()
+					.then(function (response) { // handle response
+					    // convert message list - Transform json data to objects
+					    response.messages = $.map(response.messages, function (item, i) {
+					        return new c3o.Core.Data.LogMessage(item, response);
+					    });
+
+					    // reset model with serach results
+					    container.model = response;
+
+					    // auto select first message
+					    container.model.message = container.model.messages[0];
+
+					    // return container
+					    return container;
+					})
+					.catch(function (error) {  // handle error
+					    errorService.add(error, null, null, 'logService.search');
+					    return $q.reject(error);
+					});
+			    return promise;
+			};
+
+		    // Create or update filter
+			searchAndUpdate = function (name, limit, span, logs, applications, severities, types, sources, users, start, end) {
+			    var promise = loggerApi.searchAndUpdate(name, limit, span, logs, applications, severities, types, sources, users, start, end)
+					.then(function (response) { // handle response
+
+					    // convert message list - Transform json data to objects
+					    response.messages = $.map(response.messages, function (item, i) {
+					        return new c3o.Core.Data.LogMessage(item, response);
+					    });
+
+					    // reset model with serach results
+					    container.model = response;
+
+					    // auto select first message
+					    container.model.message = container.model.messages[0];
+
+					    // return container
+					    return container;
+					})
+					.catch(function (error) {  // handle error
+					    errorService.add(error, null, null, 'logService.searchAndUpdate');
+					    return $q.reject(error);
+					});
+			    return promise;
+			};
+
+
+		    // Delete
+			deleteByName = function (name) {
+			    var promise = loggerApi.deleteByName(name)
+					.then(function (response) { // handle response
+					    // convert message list - Transform json data to objects
+					    response.messages = $.map(response.messages, function (item, i) {
+					        return new c3o.Core.Data.LogMessage(item, response);
+					    });
+
+					    // reset model with serach results
+					    container.model = response;
+
+					    // auto select first message
+					    container.model.message = container.model.messages[0];
+
+					    // return container
+					    return container;
+					})
+					.catch(function (error) {  // handle error
+					    errorService.add(error, null, null, 'logService.search');
+					    return $q.reject(error);
+					});
+			    return promise;
+			};
+
+
+		    // Search Loge Messages
+			find = function (name) {
+			    var promise = loggerApi.find(name)
+					.then(function (response) { // handle response
+					    // convert message list - Transform json data to objects
+					    response.messages = $.map(response.messages, function (item, i) {
+					        return new c3o.Core.Data.LogMessage(item, response);
+					    });
+
+					    // reset model with serach results
+					    container.model = response;
+
+					    // auto select first message
+					    container.model.message = container.model.messages[0];
+
+					    // return container
+					    return container;
+					})
+					.catch(function (error) {  // handle error
+					    errorService.add(error, null, null, 'logService.search');
+					    return $q.reject(error);
+					});
+			    return promise;
+			};
+
 			// Search Loge Messages
 			search = function (log, limit, span, logs, applications, severities, types, sources, users, start, end, name) {
 			    var promise = loggerApi.search(log, limit, span, logs, applications, severities, types, sources, users, start, end, name)
@@ -118,10 +221,13 @@
 			return {
 				model: function () { return container; },
 				filter: filter,
+				find: find,
+				searchAndUpdate: searchAndUpdate,
 				detail: detail,
-				//search: function (log, severity, limit, span, types, sources, start, end) { return search(log, severity, limit, span, types, sources, start, end); },
+				init: init,
 				search: search,
-				update: function (obj) { return update(obj); }
+				update: function (obj) { return update(obj); },
+				deleteByName: deleteByName
 			};
 		}
 		]);

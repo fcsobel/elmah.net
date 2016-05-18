@@ -1,50 +1,57 @@
 ﻿<div>
 
-    <div>
-        <div class="form-group">
-            <select name="span" id="span" autocomplete="" class="form-control"
-                    ng-model="query.span"
-                    ng-change="SearchOnly()"
-                    ng-options="item.name as item.description for item in model.spans"></select>
-        </div>
-    </div>
-
-    <div>
-        <div class="form-group" ng-show="query.span=='All'">
-            <input id="demo" type="text" name="daterange" class="form-control" placeholder="Date Range" ng-model="query.dateRange">
-        </div>
-    </div>
-
     <div class="form-group">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Limit" ng-model="query.limit">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button" ng-click="SearchOnly()">Search</button>
-            </span>
-        </div><!-- /input-group -->
-    </div><!-- /input-group -->
-
-    <div class="form-group">
-        <div class="input-group">
-            <input type="text" class="form-control" aria-label="Filter" placeholder="Name" ng-model="query.name" >
+            <input type="text" class="form-control" aria-label="Filter" placeholder="Name" ng-model="filter.name">
             <div class="input-group-btn">
-                <!--<button type="button" class="btn btn-default">Save</button>-->                
+                <!--<button type="button" class="btn btn-default">Save</button>-->
+
+                <button ng-show="filter.name" ng-click="SearchAndUpdate()" type="button" class="btn btn-default" title="Update {{filter.name}}" aria-label="Help"><i class="fa fa-database" aria-hidden="true"></i></button>
+                <!--<button ng-show="filter.name" ng-click="Delete(filter)" type="button" class="btn btn-default" title="Delete {{filter.name}}" aria-label="Help"><span class="glyphicon glyphicon-remove"></span></button>-->
+
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li ng-repeat="item in model.filters"><a ng-click="SetFilter(item);" href="#">{{item.name}}</a></li>
+                    <li ng-repeat="item in model.filters"><a ng-click="SetFilter(item);" href="#"><i class="fa fa-refresh" aria-hidden="true"></i> {{item.name}}</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#" ng-click="SearchAndSave()">Update {{query.name}}</a></li>
-                    <li><a href="#" ng-click="Delete()">Delete {{query.name}}</a></li>
-                    <li><a href="#" ng-click="SearchAndSave()">Save As {{query.name}}</a></li>
-                    <li><a href="#" ng-click="SetFilter();">Clear</a></li>
+
+                    <!--<li><a href="#" ng-click="SearchAndUpdate()">Update {{filter.name}}</a></li>-->
+                    <li><a href="#" ng-show="filter.id" ng-click="Delete(filter)"><span class="glyphicon glyphicon-remove"></span>  Delete {{filter.name}}</a></li>
+                    <!--<li><a href="#" ng-click="SearchAndUpdate()">Save As {{filter.name}}</a></li>-->
+                    <li><a href="#" ng-click="SetFilter({});">Clear</a></li>
                 </ul>
-                <!--<button type="button" class="btn btn-default">Search</button>-->
+                <!--<button type="button" class="btn btn-default">Search</button>
+                <button type="button" class="btn btn-default" aria-label="Help"><span class="glyphicon glyphicon-question-sign"></span></button>-->
+
             </div>
         </div>
-
     </div>
+
+    <div>
+        <div class="form-group">
+            <select name="span" id="span" autocomplete="" class="form-control"
+                    ng-model="model.query.span"
+                    ng-change="Search()"
+                    ng-options="item.id as item.description for item in model.spans"></select>
+        </div>
+    </div>
+
+    <div>
+        <div class="form-group" ng-show="model.query.span==0">
+            <input id="demo" type="text" name="daterange" class="form-control" placeholder="Date Range" ng-model="dateRange">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Limit" ng-model="model.query.limit">
+            <div class="input-group-btn">
+                <!--<button class="btn btn-default" type="button" ng-click="Search()">Go!</button>-->
+                <button ng-click="Search()" type="button" class="btn btn-default" title="Update {{filter.name}}" aria-label="Help"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+            </div>
+        </div><!-- /input-group -->
+    </div><!-- /input-group -->
 
 
     <div class="panel panel-default">

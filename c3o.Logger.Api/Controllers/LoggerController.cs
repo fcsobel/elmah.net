@@ -59,111 +59,70 @@ namespace c3o.Logger.Web
 			//}			
 		}
 
-        [HttpPost]
-        [Route("messages/filter/{id:alpha?}")]
-        public LogSearchResponseModel Filter(string id = null
-            , List<long> types = null
-            , List<long> sources = null
-            , List<long> users = null
-            , DateTime? start = null
-            , DateTime? end = null
-            , SearchSpan span = SearchSpan.All
-            , int limit = 10
-            ,Filter request = null)
+        [HttpDelete]
+        [Route("messages/search/{id:alpha}")]
+        public LogSearchResponseModel Delete(string id)
         {
-            var filter = db.Filters.Where(x => x.Name == id)
-                //.Include(x=>x.FilterSources)
-                //.Include(x => x.FilterTypes)
-                .FirstOrDefault();
-
-            if (filter == null)
+            var filter = db.Filters.Where(x => x.Name == id).FirstOrDefault();
+            if (filter != null)
             {
-                filter = new c3o.Logger.Data.Filter() { Name = id };
-                filter.Query = new Query();
-                db.Filters.Add(filter);
+                db.Filters.Remove(filter);
                 db.SaveChanges();
             }
-            else
+            return Search(new Query());
+        }
+
+        [HttpGet]
+        [Route("messages/search/{id:alpha}")]
+        public LogSearchResponseModel SearchByName(string id)
+        {
+            var filter = db.Filters.Where(x => x.Name == id).FirstOrDefault();
+            if (filter != null)
             {
-                filter.Query.FilterTypes.Clear();
-                filter.Query.FilterSources.Clear();
+                return Search(filter.Query);
             }
-
-            filter.Query.Limit = limit;
-            filter.Query.Span = span;
-            filter.Query.Start = start;
-            filter.Query.End = end;
-            
-            foreach (var key in types)
-            {
-                var item = db.MessageTypes.Find(key);
-                if (item != null) { filter.Query.FilterTypes.Add(item); }
-            }
-
-            foreach (var key in sources)
-            {
-                var item = db.MessageSources.Find(key);
-                if (item != null) { filter.Query.FilterSources.Add(item); }
-            }
-
-            db.SaveChanges();
-
             return null;
         }
 
 
-        [HttpGet]
-		[Route("messages/search/{log:alpha?}")]
-		public LogSearchResponseModel Search(string log=null, string application = null
-            //, Elmah.Io.Client.Severity? severity = null
-            //, string type = null
-            //, string source = null
-            //,string user = null
-            , List<long> logs = null
-            , List<long> applications = null
-            , List<Elmah.Io.Client.Severity> severities = null
-            , List<long> types = null
-			,List<long> sources = null
-			,List<long> users = null
-			,DateTime? start = null
-			,DateTime? end = null
-            , SearchSpan span = SearchSpan.All
-            , int limit = 10
-            , HydrationLevel level = HydrationLevel.Basic
-            , string name = null
-            , Filter request = null)
+        [HttpPost]
+        [Route("messages/search/{id:alpha}")]
+        public LogSearchResponseModel SearchAndSave(string id, Query query)
         {
-            //using (LoggerContext db = new LoggerContext())
-            //{
-            //if (this.Site.Sites.Any())
-            //{
-            //    foreach (var site in this.Site.Sites)
-            //    {
-            //        var test = site;
-            //    }
-            //}
+            var filter = db.Filters.Where(x => x.Name == id).FirstOrDefault();
+            if (filter == null)
+            {
+                filter = new c3o.Logger.Data.Filter() { Name = id };                
+                db.Filters.Add(filter);
+            }
+            filter.Query = query;
+            db.SaveChanges();
 
-            // save filter
-            if (string.IsNullOrWhiteSpace(name)) { name = "Default"; }
-            this.Filter(name, types, sources, users, start, end, span, limit);
-            
+            return Search(filter.Query);
+        }
+
+
+        [HttpGet]
+		[Route("messages/search")]
+		public LogSearchResponseModel Search(Query query, HydrationLevel level = HydrationLevel.Basic, string log = null, string application = null)
+        {
             // convert to utc
-            if (start.HasValue) start.Value.ToUniversalTime();
-                if (end.HasValue) end.Value.ToUniversalTime();
+            if (query.Start.HasValue) query.Start.Value.ToUniversalTime();
+                if (query.End.HasValue) query.End.Value.ToUniversalTime();
 
                 // convert to span
-                if (!start.HasValue && span > 0)
+                if (!query.Start.HasValue && query.Span > 0)
                 {
-                    start = DateTime.UtcNow.AddMinutes((int)span * -1);
+                    query.Start = DateTime.UtcNow.AddMinutes((int)query.Span * -1);
                 }
 
                 IQueryable<c3o.Logger.Data.LogMessage> messages = null;
 
-                if (start.HasValue)
+                if (query.Start.HasValue)
                 {
-                    if (end.HasValue)
+                    if (query.End.HasValue)
                     {
-                        messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= start && x.DateTime <= end)
+                        messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start && x.DateTime <= query.End)
                             .Include(x => x.Log)
                             .Include(x => x.User)
                             .Include(x => x.Source)
@@ -173,7 +132,7 @@ namespace c3o.Logger.Web
                     }
                     else
                     {
-                        messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= start)
+                        messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start)
                             .Include(x => x.Log)
                             .Include(x => x.User)
                             .Include(x => x.Source)
@@ -205,9 +164,9 @@ namespace c3o.Logger.Web
                     }
                 }
 
-                if (logs != null && logs.Any())
+                if (query.Logs != null && query.Logs.Any())
                 {
-                    messages = messages.Where(x => logs.Any(y => y == x.LogId));
+                    messages = messages.Where(x => query.Logs.Any(y => y == x.LogId));
                 }
 
                 // application
@@ -222,10 +181,10 @@ namespace c3o.Logger.Web
                 }
 
                 // applications
-                if (applications != null && applications.Any())
+                if (query.Applications != null && query.Applications.Any())
                 {
                     //var list = types.Select(x => x.Id);
-                    messages = messages.Where(x => applications.Any(y => y == x.ApplicationId));
+                    messages = messages.Where(x => query.Applications.Any(y => y == x.ApplicationId));
                 }
 
                 //// types
@@ -238,22 +197,22 @@ namespace c3o.Logger.Web
                 //    }
                 //}
 
-                if (types != null && types.Any())
+                if (query.Types != null && query.Types.Any())
                 {
                     //var list = types.Select(x => x.Id);
-                    messages = messages.Where(x => types.Any(y => y == x.MessageTypeId));
+                    messages = messages.Where(x => query.Types.Any(y => y == x.MessageTypeId));
                 }
 
-                if (sources != null && sources.Any())
+                if (query.Sources != null && query.Sources.Any())
                 {
                     //var list = sources.Select(x => x.Id);
-                    messages = messages.Where(x => sources.Any(y => y == x.SourceId));
+                    messages = messages.Where(x => query.Sources.Any(y => y == x.SourceId));
                 }
 
-                if (users != null && users.Any())
+                if (query.Users != null && query.Users.Any())
                 {
                     //var list = users.Select(x => x.Id);
-                    messages = messages.Where(x => users.Any(y => y == x.UserId));
+                    messages = messages.Where(x => query.Users.Any(y => y == x.UserId));
                 }
 
                 //// sources
@@ -278,34 +237,26 @@ namespace c3o.Logger.Web
                 //}
 
                 // severities
-                if (severities != null && severities.Any())
+                if (query.Severities != null && query.Severities.Any())
                 {
                     //var list = users.Select(x => x.Id);
-                    messages = messages.Where(x => severities.Any(y => y == x.Severity));
+                    messages = messages.Where(x => query.Severities.Any(y => y == x.Severity));
                 }
 
                 // severity
                 //if (severity.HasValue) { messages = messages.Where(x => x.Severity == severity); }
 
-                if (limit > 0)
+                if (query.Limit > 0)
                 {
-                    messages = messages.Take(limit);
+                    messages = messages.Take(query.Limit);
                 }
 
-                var filters = db.Filters
-                //.Include(x => x.FilterSources)
-                //.Include(x => x.FilterTypes)
-                .ToList();
+                // get filters
+                var filters = db.Filters.ToList();
 
                 // Setup model
-                var model = new LogSearchResponseModel(messages.ToList(), filters, level);
-    //            if (theLog != null) { model.Log = theLog.Name; }
-				//model.Application = application;
-				//model.Severity = severity;
-				//model.Source = source;
-				//model.Span = span;
-				//model.Type = type;
-				//model.User = user;
+                var model = new LogSearchResponseModel(query, messages.ToList(), filters, level);
+
 				return model;
 			}
 		//}

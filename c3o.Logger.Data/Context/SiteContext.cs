@@ -85,7 +85,7 @@ namespace c3o.Logger.Data
             if (site != null)
             {
                 // path to scripts
-                var path = HttpContext.Current.Server.MapPath("~/_deploy/sql/0.00.003");
+                var path = HttpContext.Current.Server.MapPath("~/_deploy/sql/0.00.004");
 
                 if (Directory.Exists(path))
                 {
