@@ -16,6 +16,7 @@ namespace c3o.Logger.Web
         {
             this.Query = new Data.Query();
         }
+
         public Filter(c3o.Logger.Data.Filter obj): this()
         {
             this.Id = obj.Id;
@@ -24,6 +25,7 @@ namespace c3o.Logger.Web
             this.Query = obj.Query;
         }
     }
+
     
     public class LogSearchResponseModel
 	{

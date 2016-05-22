@@ -6,6 +6,12 @@ c3o.Core.Data.LogMessage = function (data, model) {
 
     _.extend(this, data);
 
+    model.logs = model.logs || [];
+    model.applications = model.applications || [];
+    model.users = model.users || [];
+    model.types = model.types || [];
+    model.sources = model.sources || [];
+
     // look for item in list and add it if missing
     this.log = this.CheckItem(this.logId, model.logs, this.log);
     this.application = this.CheckItem(this.applicationId, model.applications, this.application);
@@ -17,41 +23,10 @@ c3o.Core.Data.LogMessage = function (data, model) {
     //this.application = this.application || _.find(model.applications, { id: this.applicationId });
     //this.user = this.user || _.find(model.users, { id: this.userId });
     //this.messageType = this.messageType || _.find(model.types, { id: this.messageTypeId });
-    //this.source = this.source || _.find(model.sources, { id: this.sourceId });
-    //this.severityObj = this.severityObj || _.find(model.severities, { name: this.severity });
+    //this.source = this.source || _.find(model.sources, { id: this.sourceId });    
 
     // look for severity in list
     this.severityObj = _.find(model.severities, { name: this.severity });
-
-    //if (this.log) {
-    //    this.log.messages = this.log.messages || [];
-    //	this.log.messages.push(this);
-    //};
-
-    //if (this.application) {
-    //	this.application.messages = this.application.messages || [];
-    //	this.application.messages.push(this);
-    //};
-
-    //if (this.user) {
-    //	this.user.messages = this.user.messages || [];
-    //	this.user.messages.push(this);
-    //};
-
-    //if (this.messageType) {
-    //	this.messageType.messages = this.messageType.messages || [];
-    //	this.messageType.messages.push(this);
-    //};
-
-    //if (this.source) {
-    //    this.source.messages = this.source.messages || [];
-    //	this.source.messages.push(this);
-    //};
-
-    //if (this.severityObj) {
-    //    this.severityObj.messages = this.severityObj.messages || [];
-    //    this.severityObj.messages.push(this);
-    //};
 
     // add message to item list if new	
     if (this.log) this.CheckMessage(this.log);
@@ -68,6 +43,7 @@ c3o.Core.Data.LogMessage = function (data, model) {
 // SiteContent class methods
 c3o.Core.Data.LogMessage.prototype = {
     CheckItem: function (id, list, obj) {
+
         // look for item by id
         var item = _.find(list, { id: id });
         if (!item && obj) {
@@ -89,8 +65,6 @@ c3o.Core.Data.LogMessage.prototype = {
             }
         }
     }
-
 	//get Name() { return this.firstName + " " + this.lastName; },
-	//get NameLastFirst() { return this.lastName + ", " + this.firstName; }
-	
+	//get NameLastFirst() { return this.lastName + ", " + this.firstName; }	
 }

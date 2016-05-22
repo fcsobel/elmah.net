@@ -32,18 +32,28 @@
 		    scope.model = { types: [], sources: [], users: [], logs: [], applications: [], severities: [] };
 
 			// setup query
-			scope.model.query = {
-				log: scope.log,
-				severity: scope.severity,
-				limit: scope.limit,
-				span: scope.span,
-				type: scope.type,
-				source: scope.source,
-				start: moment().subtract(7, 'days').startOf('day'), //utc().
-				end : moment().endOf('day'), //utc()
-			};
+		    scope.model.query = {
+		        log: scope.log,
+		        severity: scope.severity,
+		        limit: scope.limit,
+		        span: scope.span,
+		        type: scope.type,
+		        source: scope.source,
+		        startMoment: moment().subtract(7, 'days').startOf('day'), //utc().
+		        endMoment: moment().endOf('day'), //utc()
+		    };
 
 			scope.filter = {};
+
+			scope.Clear = function () {
+			    scope.filter = {};
+			    scope.model.query = {
+			        limit: 100,
+			        span: 60 * 24,
+			        startMoment: moment().subtract(7, 'days').startOf('day'), //utc().
+			        endMoment: moment().endOf('day'), //utc()
+			    };
+			}
 
 			scope.SetFilter = function (item)
 			{
@@ -51,18 +61,19 @@
 			    scope.filter = item;
 
 			    scope.model.query = item.query;
-			    scope.model.query.start = moment(item.query.start);
-			    scope.model.query.end = moment(item.query.end);
 
-			    var drp = $('#demo').data('daterangepicker');
-			    drp.setStartDate(scope.model.query.start.format('MM/DD/YYYY'));
-			    drp.setEndDate(scope.model.query.end.format('MM/DD/YYYY'));
+			    //scope.query.name = item.name;
+
+			    if (scope.model.query.span == 0) {
+			        scope.model.query.startMoment = moment(item.query.start);
+			        scope.model.query.endMoment = moment(item.query.end);
+
+			        var drp = $('#demo').data('daterangepicker');
+			        drp.setStartDate(scope.model.query.startMoment.format('MM/DD/YYYY'));
+			        drp.setEndDate(scope.model.query.endMoment.format('MM/DD/YYYY'));
+			    }
 
 			    scope.Find(scope.filter.name);
-
-
-
-
 			}
 
 
@@ -128,15 +139,18 @@
 			    // get query data
 			    scope.RefreshQuery();
 
-			    var start = null;
-			    var end = null;
+			    // Get dates 
+			    var startDate = null;
+			    var endDate = null;
 			    if (scope.model.query.span === 0) {
-			        // gets the native Date object that Moment.js wraps
-			        if (scope.model.query.start) { start = scope.model.query.start.toDate(); }
-			        if (scope.model.query.end) { end = scope.model.query.end.toDate(); }
+			        if (scope.model.query.startMoment && scope.model.query.endMoment) {
+			            // gets the native Date object that Moment.js wraps
+			            startDate = scope.model.query.startMoment.toDate();
+			            endDate = scope.model.query.endMoment.toDate();
+			        }
 			    }
 
-			    logService.searchAndUpdate(scope.filter.name, scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, start, end)
+			    logService.searchAndUpdate(scope.filter.name, scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate)
 					.then(function (response) { // sucess
 					    scope.model = response.model;
 					    usSpinnerService.stop('spinner-1');
@@ -154,15 +168,18 @@
 			    // get query data
 			    scope.RefreshQuery();
 
-			    var start = null;
-			    var end = null;
+			    // Get dates 
+			    var startDate = null;
+			    var endDate = null;
 			    if (scope.model.query.span === 0) {
-			        // gets the native Date object that Moment.js wraps
-			        if (scope.model.query.start) { start = scope.model.query.start.toDate(); }
-			        if (scope.model.query.end) { end = scope.model.query.end.toDate(); }
+			        if (scope.model.query.startMoment && scope.model.query.endMoment) {
+			            // gets the native Date object that Moment.js wraps
+			            startDate = scope.model.query.startMoment.toDate();
+			            endDate = scope.model.query.endMoment.toDate();
+			        }
 			    }
 
-			    logService.search(scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, start, end)
+			    logService.search(scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate)
 					.then(function (response) { // sucess
 					    scope.model = response.model;
 
@@ -189,20 +206,18 @@
 			};
             
 
+		    // Update UI based on response
 			scope.Refresh = function () {
 
-			    var drp = $('#demo').data('daterangepicker');
-
-			    //if (scope.model.query.span == 0) {
-			    if (scope.model.query.start) {
-			        scope.model.query.start = moment(scope.model.query.start);
-			        drp.setStartDate(scope.model.query.start.format('MM/DD/YYYY'));
+			    if (scope.model.query.span == 0) {
+			        if (scope.model.query.startMoment && scope.model.query.endMoment) {
+			            var drp = $('#demo').data('daterangepicker');
+			            //scope.model.query.start = moment(scope.model.query.start);
+			            //scope.model.query.end = moment(scope.model.query.end);
+			            drp.setStartDate(scope.model.query.startMoment.format('MM/DD/YYYY'));
+			            drp.setEndDate(scope.model.query.endMoment.format('MM/DD/YYYY'));
+			        }
 			    }
-			    if (scope.model.query.end) {
-			        scope.model.query.end = moment(scope.model.query.end);
-			        drp.setEndDate(scope.model.query.end.format('MM/DD/YYYY'));
-			    }
-			    //}
 
 			    scope.Select(scope.model.query.types, scope.model.types);
 			    scope.Select(scope.model.query.sources, scope.model.sources);
@@ -250,15 +265,15 @@
 				$('#demo').daterangepicker({
 						"autoApply": true,
 						//"timePicker": true,
-						"startDate": scope.model.query.start.format('MM/DD/YYYY'),
-						"endDate": scope.model.query.end.format('MM/DD/YYYY'),
+						"startDate": scope.model.query.startMoment.format('MM/DD/YYYY'),
+						"endDate": scope.model.query.endMoment.format('MM/DD/YYYY'),
 						"maxDate": moment().format('MM/DD/YYYY')
 				}, function (start, end, label) {
 				    //scope.query.start = start;
 				    //scope.query.end = end;
 
-				    scope.model.query.start = start.startOf('day');
-				    scope.model.query.end = end.endOf('day');
+				    scope.model.query.startMoment = moment(start).startOf('day');
+				    scope.model.query.endMoment = moment(end).endOf('day');
 					
 					scope.Search();
 				});

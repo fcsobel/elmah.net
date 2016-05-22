@@ -140,7 +140,6 @@
     <Content Include="app\core\directives\ErrorTreeItem.html" />
     <Content Include="app\core\directives\ErrorTreeItem.js" />
     <Content Include="app\core\main.js" />
-    <Content Include="app\core\models\LogMessage.js" />
     <Content Include="app\core\models\main.js" />
     <Content Include="app\core\services\ErrorService.js" />
     <Content Include="app\core\services\RecursionHelper.js" />
@@ -151,6 +150,9 @@
     <Content Include="app\log\directives\MessageFilter.js" />
     <Content Include="app\log\directives\MessageList.html" />
     <Content Include="app\log\directives\MessageList.js" />
+    <Content Include="app\log\models\LogMessage.js" />
+    <Content Include="app\log\models\LogQuery.js" />
+    <Content Include="app\log\models\LogSearchResponse.js" />
     <Content Include="app\log\services\LoggerApi.js" />
     <Content Include="app\log\services\LogService.js" />
     <Content Include="favicon.ico" />
@@ -162,13 +164,10 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="_deploy\sql\0.00.001\001-create.sql" />
-    <Content Include="_deploy\sql\0.00.001\001-load.sql" />
     <Content Include="_deploy\sql\0.00.001\002-load.sql" />
-    <Content Include="_deploy\sql\0.00.001\004-Filters.sql" />
     <Content Include="_deploy\sql\0.00.002\003-tags.sql" />
     <Content Include="_deploy\sql\0.00.003\0.00.003-001-people.sql" />
     <Content Include="_deploy\sql\0.00.003\0.00.003-002-session.sql" />
-    <Content Include="_deploy\sql\0.00.004\004-Filters.sql" />
     <Content Include="_deploy\sql\create\002-grant.sql" />
     <Content Include="_deploy\sql\create\001-create.sql" />
   </ItemGroup>
@@ -196,7 +195,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\log\models\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

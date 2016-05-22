@@ -6,15 +6,27 @@
 		<div>
 			<i ng-if="context.model.message.severity=='Error'" class="fa fa-fw fa-lg fa-bug"></i>
 			<i ng-if="context.model.message.severity=='Information'" class="fa fa-fw fa-lg fa-info-circle"></i>
+            <i ng-if="context.model.message.severity=='Warning'" class="fa fa-fw fa-lg fa-warning"></i>
 			<i class="fa fa-fw fa-lg fa-{{context.model.message.messageType.icon}}" style="color:{{context.model.message.messageType.color}}"></i>
 			<strong><a href="/logger/Detail/{{context.model.message.id}}">{{context.model.message.messageType.name}}</a></strong>
+            <span ng-show="context.model.message.logCount > 1">* {{context.model.message.logCount}}</span>
+            <!--<span ng-show="context.model.message.deleted">Deleted</span>
+            <a href="#" ng-show="!context.model.message.deleted" ng-click="Delete()"><span class="glyphicon glyphicon-remove"></span></a>-->
 		</div>
 		<div style="clear:both;"></div>
 	</div>
 	<div class="panel-heading">
-		<div>{{context.model.message.title}}</div>
+        <div class="pull-right">
+            <div>{{context.model.message.log.name}}</div>
+        </div>
+        <div ng-bind-html="context.model.message.title"></div>
 	</div>
 
+    <div class="panel-heading" ng-show="context.model.message.url">
+        <span class="" ng-show="context.model.message.url">
+            <a target="_blank" href="{{context.model.message.url}}">{{context.model.message.url}}</a>
+        </span>
+    </div>
 	
 	<ul id="tabs1" class="nav nav-tabs" style="border-bottom:none;">
 		<li role="presentation" ng-class="{ 'active' : tab=='code' }">

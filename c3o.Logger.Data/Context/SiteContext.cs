@@ -78,40 +78,40 @@ namespace c3o.Logger.Data
             }
         }
 
-        public void UpdateDb()
-        {
-            var site = this.Site;
+        //public void UpdateDb()
+        //{
+        //    var site = this.Site;
 
-            if (site != null)
-            {
-                // path to scripts
-                var path = HttpContext.Current.Server.MapPath("~/_deploy/sql/0.00.004");
+        //    if (site != null)
+        //    {
+        //        // path to scripts
+        //        var path = HttpContext.Current.Server.MapPath("~/_deploy/sql/0.00.004");
 
-                if (Directory.Exists(path))
-                {
-                    // configure 
-                    var upgrader = DeployChanges.To
-                            .SqlDatabase(site.ConnectionString)
-                            .WithScriptsFromFileSystem(path)
-                            //.WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
-                            //.LogToConsole()
-                            .Build();
+        //        if (Directory.Exists(path))
+        //        {
+        //            // configure 
+        //            var upgrader = DeployChanges.To
+        //                    .SqlDatabase(site.ConnectionString)
+        //                    .WithScriptsFromFileSystem(path)
+        //                    //.WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
+        //                    //.LogToConsole()
+        //                    .Build();
 
-                    if (upgrader.IsUpgradeRequired())
-                    {
-                        var response = upgrader.PerformUpgrade();
-                        if (response.Successful)
-                        {
+        //            if (upgrader.IsUpgradeRequired())
+        //            {
+        //                var response = upgrader.PerformUpgrade();
+        //                if (response.Successful)
+        //                {
 
-                        }
-                        else
-                        {
+        //                }
+        //                else
+        //                {
 
-                        }
-                    }
-                }
-            }
-        }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
     }
 }

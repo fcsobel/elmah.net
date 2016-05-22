@@ -44,7 +44,8 @@ namespace c3o.Logger.Data
 		//public LoggerContext()	: base("Name=LoggerContext")
         public LoggerContext(SiteContext siteContext) : base(siteContext.Site.ConnectionString)
         {
-            siteContext.UpdateDb();
+            //siteContext.Site.UpdateDb();
+            //siteContext.UpdateDb();
             //this.sitcon
             //Database.SetInitializer<c3o_loggerContext>(new CreateDatabaseIfNotExists<c3o_loggerContext>());
             //Database.SetInitializer<c3o_loggerContext>(new DropCreateDatabaseIfModelChanges<c3o_loggerContext>());

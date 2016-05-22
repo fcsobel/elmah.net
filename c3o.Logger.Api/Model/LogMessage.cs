@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,34 +10,6 @@ using c3o.Core;
 namespace c3o.Logger.Web
 {
 	public enum HydrationLevel { Basic, Detailed }
-
-    //public enum SearchSpan
-    //{
-    //    [Description("Five Minutes")]
-    //    FiveMinutes = 5,
-    //    [Description("Fifteen Minutes")]
-    //    FifteenMinutes = 15,
-    //    [Description("One Hour")]
-    //    OneHour = 60,
-    //    [Description("Two Hours")]
-    //    TwoHours = 120,
-    //    [Description("Three Hours")]
-    //    ThreeHours = 180,
-    //    [Description("Four Hours")]
-    //    FourHours = 240,
-    //    [Description("Six Hours")]
-    //    SixHours = 360,
-    //    [Description("Twelve Hours")]
-    //    TwelveHours = 1260,
-    //    [Description("Twenty Four Hours")]
-    //    TwentyFourHours = 1440,
-    //    [Description("Three Days")]
-    //    ThreeDays = 4320,
-    //    [Description("One Week")]
-    //    OneWeek = 10080,
-    //    [Description("All")]
-    //    All = 0
-    //}
 
     public class Item
 	{
@@ -77,6 +49,13 @@ namespace c3o.Logger.Web
             this.Name = span.ToString();
             this.Description = EnumHelper.GetEnumDescription(span);
         }
+
+        public LogObject(Data.LogSeverity value)
+        {
+            this.Id = (long)value;
+            this.Name = value.ToString();
+            this.Description = EnumHelper.GetEnumDescription(value);
+        }
     }
 
 	public class LogMessage
@@ -109,10 +88,20 @@ namespace c3o.Logger.Web
 		public long? SourceId { get; set; }
 		[JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
 		public long? SessionId { get; set; }
-		[JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
+
+        public int LogCount { get; set; }
+
+        [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
 		public long? OrderId { get; set; }
 		[JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
 		public long? PersonId { get; set; }
+
+
+
+
+
+
+
 
 		[JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
 		public List<Elmah.Io.Client.Item> Form { get; set; }
@@ -154,8 +143,9 @@ namespace c3o.Logger.Web
 			this.MessageTypeId = obj.MessageTypeId;
 			this.SourceId = obj.SourceId;
 			this.HowLongAgo = obj.HowLongAgo;
+            this.LogCount = obj.LogCount;
 
-			if (level == HydrationLevel.Detailed)
+            if (level == HydrationLevel.Detailed)
 			{
 				// get object detail
 				if (obj.Log != null) this.Log = new LogObject(obj.Log);
@@ -179,6 +169,16 @@ namespace c3o.Logger.Web
 					this.Data = data.Data;
 				}
 			}
-		}
+            else
+            {
+                // still load some data
+                var data = obj.Original;
+                if (data != null)
+                {
+                    this.Data = data.Data;
+                }
+            }
+
+        }
 	}
 }

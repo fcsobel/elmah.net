@@ -25,5 +25,4 @@ namespace c3o.Logger.Data
 			this.Property(t => t.Name).HasColumnName("Name");
 		}
 	}
-
 }

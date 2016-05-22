@@ -1,8 +1,11 @@
-﻿using System;
+﻿using DbUp;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace c3o.Logger.Data
 {
@@ -24,6 +27,40 @@ namespace c3o.Logger.Data
             if (connection != null)
             {
                 this.ConnectionString = string.Format(connection.ConnectionString, this.Database);
+            }
+        }
+
+
+        public void UpdateDb()
+        {
+            if (!string.IsNullOrWhiteSpace(SiteSettings.DeploymentPath))
+            {
+                // path to scripts
+                var path = HttpContext.Current.Server.MapPath(SiteSettings.DeploymentPath);
+
+                if (Directory.Exists(path))
+                {
+                    // configure 
+                    var upgrader = DeployChanges.To
+                            .SqlDatabase(this.ConnectionString)
+                            .WithScriptsFromFileSystem(path)
+                            //.WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
+                            //.LogToConsole()
+                            .Build();
+
+                    if (upgrader.IsUpgradeRequired())
+                    {
+                        var response = upgrader.PerformUpgrade();
+                        if (response.Successful)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
             }
         }
     }

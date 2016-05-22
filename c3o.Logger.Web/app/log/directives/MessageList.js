@@ -42,13 +42,34 @@
 				});
 			}
 
+		    // find by name
+			scope.Find = function (name) {
+			    usSpinnerService.spin('spinner-1');
+			    logService.find(name)
+					.then(function (response) { // sucess
+					    //scope.model = response.model;
+					    scope.model.model = response.model;
+					    usSpinnerService.stop('spinner-1');
+					});
+			}
+
+			scope.Delete = function (item) {
+			    usSpinnerService.spin('spinner-1');
+			    // find by name
+			    logService.deleteMessage(item)
+					.then(function (response) { // sucess
+					    usSpinnerService.stop('spinner-1');
+					});
+			}
+
 			// Load Message List 
 			scope.init = function () {
 
-				if (scope.log) {
-					logService.search(scope.log, scope.severity, scope.limit, scope.span).then(function (response) { // sucess
-						scope.model.model = response.model;
-					});
+			    if (scope.log) {
+			        scope.Find(scope.log);
+					//logService.search(scope.log, scope.severity, scope.limit, scope.span).then(function (response) { // sucess
+						//scope.model.model = response.model;
+					//});
 				}
 				else {
 					scope.model = logService.model();

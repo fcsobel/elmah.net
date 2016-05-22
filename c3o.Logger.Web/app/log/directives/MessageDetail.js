@@ -4,10 +4,10 @@
 	angular.module('c3o.core').directive('logMessageDetail', logMessageDetail);
 
 	// dependencies
-	logMessageDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService'];
+	logMessageDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
 
 	// Package Options Directive
-	function logMessageDetail($window, $cookies, $timeout, logService) {
+	function logMessageDetail($window, $cookies, $timeout, logService, usSpinnerService) {
 
 		// Directive Settings
 		return {
@@ -25,6 +25,14 @@
 			scope.context = {};
 
 			scope.tab = 'code';
+
+			scope.Delete = function () {
+			    usSpinnerService.spin('spinner-1');
+			    logService.deleteMessage(scope.context.model.message)
+					.then(function (response) { // sucess
+					    usSpinnerService.stop('spinner-1');
+					});
+			}
 
 			// Load Message Detail 
 			scope.init = function () {

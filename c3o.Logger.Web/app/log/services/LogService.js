@@ -11,6 +11,8 @@
 
 			filter = function (value, index, array) {
 
+			    if (value.deleted) return false;
+
 			    var logs = _.filter(container.model.logs, { 'selected': true });
 			    logs = _.map(logs, 'id');
 
@@ -45,16 +47,22 @@
 			init = function () {
 			    var promise = loggerApi.init()
 					.then(function (response) { // handle response
-					    // convert message list - Transform json data to objects
-					    response.messages = $.map(response.messages, function (item, i) {
-					        return new c3o.Core.Data.LogMessage(item, response);
-					    });
 
-					    // reset model with serach results
-					    container.model = response;
+					    container.model = new c3o.Core.Data.LogSearchResponse(response);
 
-					    // auto select first message
-					    container.model.message = container.model.messages[0];
+					    //// convert message list - Transform json data to objects
+					    //response.messages = $.map(response.messages, function (item, i) {
+					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //});
+
+					    //// Map Query
+					    //response.query = new c3o.Core.Data.LogQuery(response.query);
+
+					    //// reset model with serach results
+					    //container.model = response;
+
+					    //// auto select first message
+					    //container.model.message = container.model.messages[0];
 
 					    // return container
 					    return container;
@@ -71,16 +79,18 @@
 			    var promise = loggerApi.searchAndUpdate(name, limit, span, logs, applications, severities, types, sources, users, start, end)
 					.then(function (response) { // handle response
 
-					    // convert message list - Transform json data to objects
-					    response.messages = $.map(response.messages, function (item, i) {
-					        return new c3o.Core.Data.LogMessage(item, response);
-					    });
+					    container.model = new c3o.Core.Data.LogSearchResponse(response);
 
-					    // reset model with serach results
-					    container.model = response;
+					    //// convert message list - Transform json data to objects
+					    //response.messages = $.map(response.messages, function (item, i) {
+					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //});
 
-					    // auto select first message
-					    container.model.message = container.model.messages[0];
+					    //// reset model with serach results
+					    //container.model = response;
+
+					    //// auto select first message
+					    //container.model.message = container.model.messages[0];
 
 					    // return container
 					    return container;
@@ -97,16 +107,19 @@
 			deleteByName = function (name) {
 			    var promise = loggerApi.deleteByName(name)
 					.then(function (response) { // handle response
-					    // convert message list - Transform json data to objects
-					    response.messages = $.map(response.messages, function (item, i) {
-					        return new c3o.Core.Data.LogMessage(item, response);
-					    });
 
-					    // reset model with serach results
-					    container.model = response;
+					    container.model = new c3o.Core.Data.LogSearchResponse(response);
 
-					    // auto select first message
-					    container.model.message = container.model.messages[0];
+					    //// convert message list - Transform json data to objects
+					    //response.messages = $.map(response.messages, function (item, i) {
+					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //});
+
+					    //// reset model with serach results
+					    //container.model = response;
+
+					    //// auto select first message
+					    //container.model.message = container.model.messages[0];
 
 					    // return container
 					    return container;
@@ -123,16 +136,19 @@
 			find = function (name) {
 			    var promise = loggerApi.find(name)
 					.then(function (response) { // handle response
-					    // convert message list - Transform json data to objects
-					    response.messages = $.map(response.messages, function (item, i) {
-					        return new c3o.Core.Data.LogMessage(item, response);
-					    });
 
-					    // reset model with serach results
-					    container.model = response;
+					    container.model = new c3o.Core.Data.LogSearchResponse(response);
 
-					    // auto select first message
-					    container.model.message = container.model.messages[0];
+					    //// convert message list - Transform json data to objects
+					    //response.messages = $.map(response.messages, function (item, i) {
+					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //});
+
+					    //// reset model with serach results
+					    //container.model = response;
+
+					    //// auto select first message
+					    //container.model.message = container.model.messages[0];
 
 					    // return container
 					    return container;
@@ -145,19 +161,25 @@
 			};
 
 			// Search Loge Messages
-			search = function (log, limit, span, logs, applications, severities, types, sources, users, start, end, name) {
-			    var promise = loggerApi.search(log, limit, span, logs, applications, severities, types, sources, users, start, end, name)
+			search = function (limit, span, logs, applications, severities, types, sources, users, start, end) {
+			    var promise = loggerApi.search(limit, span, logs, applications, severities, types, sources, users, start, end)
 					.then(function (response) { // handle response
-						// convert message list - Transform json data to objects
-						response.messages = $.map(response.messages, function (item, i) {
-						    return new c3o.Core.Data.LogMessage(item, response);
-						});
 
-						// reset model with serach results
-						container.model = response;
+					    container.model = new c3o.Core.Data.LogSearchResponse(response);
 
-						// auto select first message
-						container.model.message = container.model.messages[0];
+						//// convert message list - Transform json data to objects
+						//response.messages = $.map(response.messages, function (item, i) {
+						//    return new c3o.Core.Data.LogMessage(item, response);
+						//});
+
+					    //// Map Query
+					    //response.query = new c3o.Core.Data.LogQuery(response.query);
+
+						//// reset model with serach results
+						//container.model = response;
+
+						//// auto select first message
+						//container.model.message = container.model.messages[0];
 
 						// return container
 						return container;
@@ -204,6 +226,23 @@
 				return promise;
 			};
 
+		    // Update Message
+			deleteMessage = function (message) {
+			    var promise = loggerApi.deleteMessage(message.id).then(
+						function (data) {
+
+						    message.deleted = true;
+
+						    //container.model = data;
+						    return container;
+						}).catch(
+								function (error) {
+								    errorService.add(error, null, null, 'logService.deleteMessage');
+								    return $q.reject(error);
+								});
+			    return promise;
+			};
+
 			// Update Message
 			update = function (obj) {
 				var promise = loggerApi.update(obj).then(
@@ -227,7 +266,8 @@
 				init: init,
 				search: search,
 				update: function (obj) { return update(obj); },
-				deleteByName: deleteByName
+			    deleteByName: deleteByName,
+			    deleteMessage: deleteMessage
 			};
 		}
 		]);

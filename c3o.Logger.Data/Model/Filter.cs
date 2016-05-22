@@ -20,7 +20,11 @@ namespace c3o.Logger.Data
         {
             get { return JsonConvert.SerializeObject(this.Query); }
             set { this.Query = JsonConvert.DeserializeObject<Query>(value); }
+        }
 
+        public Filter()
+        {
+            this.Query = new Query();
         }
     }
 }

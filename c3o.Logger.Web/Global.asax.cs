@@ -44,7 +44,7 @@ namespace c3o.Logger.Web
             //var site = (SiteInstance) DependencyResolver.Current.GetService(typeof(SiteInstance));
             //var list = site.Sites;
 
-            var site = (SiteInstance) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(SiteInstance));
+            var site = (SiteInstance)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(SiteInstance));
             var list = site.Sites;
 
             var site2 = (SiteContext)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(SiteContext));
@@ -101,6 +101,15 @@ namespace c3o.Logger.Web
 
             // Add formatters (CamelCasePropertyNamesContractResolver..etc)
             FormatterConfig.RegisterFormatters(GlobalConfiguration.Configuration.Formatters);
+
+            // Update DB for each site in list
+            var site = (SiteInstance)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(SiteInstance));
+            var list = site.Sites;
+            foreach (var item in list)
+            {
+                item.UpdateDb();
+            }
+
         }
     }
 }

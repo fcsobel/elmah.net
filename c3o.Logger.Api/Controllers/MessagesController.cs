@@ -25,6 +25,16 @@ namespace c3o.Logger.Web
 		[Route("")]
 		public IHttpActionResult Post(Message message, string logId)
 		{
+            // Clean up Source - remove dynamic name after .cshtml.
+            // App_Web_attractionorderboxv3.cshtml.89207646.iyumqbn_
+            if (!string.IsNullOrWhiteSpace(message.Source))
+            {
+                if (message.Source.Contains(".cshtml."))
+                {
+                    message.Source = message.Source.Substring(0, message.Source.IndexOf(".cshtml.") + ".cshtml".Length);
+                }
+            }
+
             // Fix Application
             if (string.IsNullOrWhiteSpace(message.Application)) message.Application = message.ServerVariables.GetValue("HTTP_HOST");
             if (string.IsNullOrWhiteSpace(message.Application)) message.Application = message.Hostname;
@@ -33,13 +43,18 @@ namespace c3o.Logger.Web
             if (string.IsNullOrWhiteSpace(message.Url)) { message.Url = message.Data.GetValue("Url"); }
             if (string.IsNullOrWhiteSpace(message.Url))
             {
-                if (message.ServerVariables.GetValue("HTTPS") == "off")
+                string host = message.ServerVariables.GetValue("HTTP_HOST");
+                if (!string.IsNullOrWhiteSpace(host))
                 {
-                    message.Url = string.Format("http://{0}{1}", message.ServerVariables.GetValue("HTTP_HOST"), message.ServerVariables.GetValue("URL"));
-                }
-                else
-                {
-                    message.Url = string.Format("https://{0}{1}", message.ServerVariables.GetValue("HTTP_HOST"), message.ServerVariables.GetValue("URL"));
+                    string url = message.ServerVariables.GetValue("URL");
+                    if (message.ServerVariables.GetValue("HTTPS") == "off")
+                    {
+                        message.Url = string.Format("http://{0}{1}", host, url);
+                    }
+                    else
+                    {
+                        message.Url = string.Format("https://{0}{1}", host, url);
+                    }
                 }
             }
 
@@ -83,15 +98,57 @@ namespace c3o.Logger.Web
 							.ToList()
 							.FirstOrDefault(x => x.Content == message.Detail) ?? entry.Detail; 
 					}
-					
-					db.LogMessages.Add(entry);
+
+                    // Location: https://elmah.io/api/v2/messages?id=6707A1B0A79C8E85&logid=5082a1ce-c234-4c2e-92d4-5c5bd5a72854
+                    string url = string.Format("{0}api/v2/messages?id={1}&logid={2}", ElmahIoSettings.Url, entry.Id, entry.Log.LogId);
+
+                    if (entry.Log != null && entry.Log.Id > 0) entry.LogId = entry.Log.Id;
+                    if (entry.Application != null && entry.Application.Id > 0) entry.ApplicationId = entry.Application.Id;
+                    if (entry.Detail != null && entry.Detail.Id > 0) entry.DetailId = entry.Detail.Id;
+                    if (entry.MessageType != null && entry.MessageType.Id > 0) entry.MessageTypeId = entry.MessageType.Id;
+                    if (entry.Source != null && entry.Source.Id > 0) entry.SourceId = entry.Source.Id;
+                    if (entry.User != null && entry.User.Id > 0) entry.UserId = entry.User.Id;
+
+                    // see if we already have a matching message
+                    if (entry.Severity == Data.LogSeverity.Information
+                        && entry.ElmahId == null
+                        && entry.Hostname == null
+                        && entry.StatusCode == null)
+                    {
+                        //TODO: Add Indexes to optimize this
+                        // check for matching entry in the last 10 minutes
+                        var limit = entry.DateTime.AddMinutes(-10);
+                        var match = db.LogMessages.Where(
+                            x => x.Severity == entry.Severity
+                            && x.StatusCode == null
+                            && x.Hostname == null
+                            && x.ElmahId == null
+                            && x.Title == entry.Title
+                            && x.Url == entry.Url
+                            && x.Blob == entry.Blob
+                            && x.LogId == entry.LogId
+                            && x.ApplicationId == entry.ApplicationId
+                            && x.UserId == entry.UserId
+                            && x.MessageTypeId == entry.MessageTypeId
+                            && x.SourceId == entry.SourceId
+                            && x.IpAddressId == entry.IpAddressId
+                            && x.DetailId == entry.DetailId
+                            && limit < x.DateTime
+                            ).FirstOrDefault();
+                        if (match != null)
+                        {
+                            match.LogCount = match.LogCount + 1;
+                            match.DateTime = entry.DateTime;
+                            db.SaveChanges();
+                            return Created(url, "");
+                        }
+                    }
+
+                    // Add new log entry
+                    db.LogMessages.Add(entry);
 					db.SaveChanges();
 
 					// created
-					// Location: https://elmah.io/api/v2/messages?id=6707A1B0A79C8E85&logid=5082a1ce-c234-4c2e-92d4-5c5bd5a72854
-
-					string url = string.Format("{0}api/v2/messages?id={1}&logid={2}", ElmahIoSettings.Url, entry.Id, entry.Log.LogId);
-
 					return Created(url, "");
 				}
 
@@ -99,7 +156,6 @@ namespace c3o.Logger.Web
 				return Ok();
 			}
 			//return "ok";
-
 		}
 
 		
