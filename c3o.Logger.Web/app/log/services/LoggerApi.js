@@ -7,7 +7,7 @@
 			var url = "/api.logger/messages/"
 
 			return {
-                
+
 			    // get intial data
 			    init: function () {
 			        var promise = $http.get(url + 'init/')

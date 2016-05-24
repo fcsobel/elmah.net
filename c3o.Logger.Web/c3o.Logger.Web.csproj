@@ -144,6 +144,8 @@
     <Content Include="app\core\services\ErrorService.js" />
     <Content Include="app\core\services\RecursionHelper.js" />
     <Content Include="app\log\apps\logger.js" />
+    <Content Include="app\log\directives\Logger.html" />
+    <Content Include="app\log\directives\Logger.js" />
     <Content Include="app\log\directives\MessageDetail.html" />
     <Content Include="app\log\directives\MessageDetail.js" />
     <Content Include="app\log\directives\MessageFilter.html" />
@@ -155,6 +157,9 @@
     <Content Include="app\log\models\LogSearchResponse.js" />
     <Content Include="app\log\services\LoggerApi.js" />
     <Content Include="app\log\services\LogService.js" />
+    <Content Include="app\site\models\Site.js" />
+    <Content Include="app\site\services\SiteApi.js" />
+    <Content Include="app\site\services\SiteService.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
@@ -226,7 +231,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>59837</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59837/</IISUrl>
+          <IISUrl>http://local-acme.elmah.net:59837/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

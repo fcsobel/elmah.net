@@ -67,8 +67,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\LoggerController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Model\SiteResponseModel.cs" />
     <Compile Include="Model\LogSearchResponseModel.cs" />
     <Compile Include="Model\LogMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

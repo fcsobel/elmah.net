@@ -42,7 +42,7 @@ namespace c3o.Logger.Data
 		}
 
 		//public LoggerContext()	: base("Name=LoggerContext")
-        public LoggerContext(SiteContext siteContext) : base(siteContext.Site.ConnectionString)
+        public LoggerContext(SiteContext siteContext) : base(siteContext.Site == null ? null : siteContext.Site.ConnectionString)
         {
             //siteContext.Site.UpdateDb();
             //siteContext.UpdateDb();

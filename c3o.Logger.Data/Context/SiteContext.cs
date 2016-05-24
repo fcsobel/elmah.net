@@ -26,12 +26,12 @@ namespace c3o.Logger.Data
             var name = this.SiteName;
             if (!string.IsNullOrWhiteSpace(name))
             {
-                this.Site = this.SiteInstance.Sites.First(x => x.Subdomain == name);
+                this.Site = this.SiteInstance.Sites.FirstOrDefault(x => x.Subdomain == name);
             }
-            if (this.Site == null)
-            {
-                this.Site = this.SiteInstance.Sites.First();
-            }
+            //if (this.Site == null)
+            //{
+            //    this.Site = this.SiteInstance.Sites.First();
+            //}
         }
 
         ///// <summary>
@@ -50,9 +50,9 @@ namespace c3o.Logger.Data
         //        return context;
         //    }
         //}
-   
 
-        protected string SiteName
+
+        public string SiteName
         {
             get
             {
@@ -65,7 +65,16 @@ namespace c3o.Logger.Data
 
                         if (host.EndsWith(".elmah.net"))
                         {
-                            return host.Remove(host.Length - ".elmah.net".Length, ".elmah.net".Length);
+                            var name = host.Remove(host.Length - ".elmah.net".Length, ".elmah.net".Length);
+
+                            if (name.Contains("-"))
+                            {
+                                return name.Split('-')[1];
+                            }
+                            else
+                            {
+                                return name;
+                            }
                         }
                     }
                 }
@@ -74,7 +83,7 @@ namespace c3o.Logger.Data
 
                 }        
                 // default to acme   
-                return "acme";
+                return null;
             }
         }
 

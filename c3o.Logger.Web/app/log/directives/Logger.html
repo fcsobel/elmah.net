@@ -1,0 +1,27 @@
+﻿<div ng-if="context.model!=null">
+
+    <div class="row" ng-if="context.model.site==null">
+        <div class="col-lg-12">
+            <input ng-model="context.model.name" />.elmah.net
+            <input type="button" class="btn btn-default" value="Create" />
+        </div>
+    </div>
+
+    <div class="row" ng-if="context.model.site!=null">
+        <div class="col-lg-2">
+            <div log-message-filter data-log='' data-limit="100" data-span="TwentyFourHours" data-type="error" data-source="System"></div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="/logger/index/Production?severity=Error">Latest Exceptions</a>
+                </div>
+                <div log-message-list></div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div log-message-detail></div>
+        </div>
+    </div>
+
+</div>

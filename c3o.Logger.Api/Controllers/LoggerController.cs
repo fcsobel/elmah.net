@@ -11,15 +11,15 @@ using c3o.Core;
 
 namespace c3o.Logger.Web
 {
-    [RoutePrefix("api.logger")]
+    [RoutePrefix("api.logger/messages")]
     public class LoggerController : ApiController
     {
-        protected SiteInstance Site { get; set; }
+        //protected SiteInstance Site { get; set; }
         protected LoggerContext db { get; set; }
 
-        public LoggerController(SiteInstance site, LoggerContext loggerContext)
+        public LoggerController(LoggerContext loggerContext) //SiteInstance site,
         {
-            this.Site = site;
+            //this.Site = site;
             this.db = loggerContext;
         }
 
@@ -42,7 +42,7 @@ namespace c3o.Logger.Web
         //}
 
         [HttpGet]
-        [Route("messages/{id}")]
+        [Route("{id}")]
         public LogMessage Detail(long id, HydrationLevel level = HydrationLevel.Detailed)
         {
             //using (LoggerContext db = new LoggerContext())
@@ -61,7 +61,7 @@ namespace c3o.Logger.Web
         }
 
         [HttpDelete]
-        [Route("messages/{id}")]
+        [Route("{id}")]
         public LogMessage Delete(long id)
         {
             //using (LoggerContext db = new LoggerContext())
@@ -77,7 +77,7 @@ namespace c3o.Logger.Web
 
 
         [HttpGet]
-        [Route("messages/init")]
+        [Route("init")]
         public LogSearchResponseModel Init()
         {
             LogSearchResponseModel model = new LogSearchResponseModel();
@@ -101,7 +101,7 @@ namespace c3o.Logger.Web
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("messages/search/{id}")]
+        [Route("search/{id}")]
         public LogSearchResponseModel Search(string id, Query query)
         {
 
@@ -125,7 +125,7 @@ namespace c3o.Logger.Web
         /// <param name="name"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("messages/search/{name}")]
+        [Route("search/{name}")]
         public LogSearchResponseModel SearchByName(string name)
         {
             var filter = db.Filters.Where(x => x.Name == name).FirstOrDefault();
@@ -142,7 +142,7 @@ namespace c3o.Logger.Web
         /// <param name="name"></param>
         /// <returns></returns>
         [HttpDelete]
-        [Route("messages/search/{name}")]
+        [Route("search/{name}")]
         public LogSearchResponseModel DeleteByName(string name)
         {
             var filter = db.Filters.Where(x => x.Name == name).FirstOrDefault();
@@ -165,7 +165,7 @@ namespace c3o.Logger.Web
         /// <param name="application"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("messages/search")]
+        [Route("search")]
         public LogSearchResponseModel Search(Query query, HydrationLevel level = HydrationLevel.Basic, string log = null, string application = null)
         {
             // convert to utc

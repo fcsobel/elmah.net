@@ -44,11 +44,11 @@ namespace c3o.Logger.Web
             //var site = (SiteInstance) DependencyResolver.Current.GetService(typeof(SiteInstance));
             //var list = site.Sites;
 
-            var site = (SiteInstance)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(SiteInstance));
-            var list = site.Sites;
+            //var site = (SiteInstance)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(SiteInstance));
+            //var list = site.Sites;
 
-            var site2 = (SiteContext)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(SiteContext));
-            var current = site2.Site;
+            //var site2 = (SiteContext)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(SiteContext));
+            //var current = site2.Site;
 
             //provider.ApplyPrincipleToHttpRequest(HttpContext.Current);
         }
@@ -84,7 +84,7 @@ namespace c3o.Logger.Web
             // This is an extension method from the integration package as well.
             container.RegisterMvcIntegratedFilterProvider();
 
-            container.Verify();
+           // container.Verify();
 
             //WEB API
             GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);

@@ -34,7 +34,11 @@
 
         <div ng-app="c3o.logger" class="container-fluid">
 
-            <div class="row">
+            
+            <div log-logger></div>
+            
+
+            <!--<div class="row">
                 <div class="col-lg-2">
                     <div log-message-filter data-log='' data-limit="100" data-span="TwentyFourHours" data-type="error" data-source="System"></div>
                 </div>
@@ -49,7 +53,7 @@
                 <div class="col-lg-6">
                     <div log-message-detail></div>
                 </div>
-            </div>
+            </div>-->
 
             <div us-spinner spinner-key="spinner-1" style="position:fixed;top:50%;left:50%"></div>
 
@@ -103,13 +107,22 @@
         <script src="/app/core/services/RecursionHelper.js"></script>
         <script src="/app/core/services/ErrorService.js"></script>
 
+        <!--Site-->
+        <script src="/app/site/models/Site.js"></script>
+        <script src="/app/site/services/SiteApi.js"></script>   
+        <script src="/app/site/services/SiteService.js"></script>
+
         <!--Logger-->
         <script src="/app/log/apps/logger.js"></script>
         <script src="/app/log/models/LogMessage.js"></script>
         <script src="/app/log/models/LogQuery.js"></script>
         <script src="/app/log/models/LogSearchResponse.js"></script>
+
         <script src="/app/log/services/LoggerApi.js"></script>
         <script src="/app/log/services/LogService.js"></script>
+
+
+        <script src="/app/log/directives/Logger.js"></script>
         <script src="/app/log/directives/MessageFilter.js"></script>
         <script src="/app/log/directives/MessageList.js"></script>
         <script src="/app/log/directives/MessageDetail.js"></script>
