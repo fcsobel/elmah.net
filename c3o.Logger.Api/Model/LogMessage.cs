@@ -50,7 +50,7 @@ namespace c3o.Logger.Web
             this.Description = EnumHelper.GetEnumDescription(span);
         }
 
-        public LogObject(Data.LogSeverity value)
+        public LogObject(LogSeverity value)
         {
             this.Id = (long)value;
             this.Name = value.ToString();

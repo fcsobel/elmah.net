@@ -9,6 +9,8 @@ namespace c3o.Logger.Web
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public string Distribution { get; set; }
         public Data.Query Query { get; set; }
 
@@ -21,6 +23,8 @@ namespace c3o.Logger.Web
         {
             this.Id = obj.Id;
             this.Name = obj.Name;
+            this.Title = obj.Title;
+            this.Description = obj.Description;
             this.Distribution = obj.Distribution;
             this.Query = obj.Query;
         }
@@ -58,10 +62,10 @@ namespace c3o.Logger.Web
             this.Filters = new List<Filter>();
 		}
 
-		public LogSearchResponseModel(Data.Query query, List<c3o.Logger.Data.LogMessage> list, List<c3o.Logger.Data.Filter> Filters, HydrationLevel level = HydrationLevel.Basic) : this()
+		public LogSearchResponseModel(Data.Query query, List<c3o.Logger.Data.LogMessage> list, List<c3o.Logger.Data.Filter> filters, HydrationLevel level = HydrationLevel.Basic) : this()
 		{
             this.Query = query;
-			this.Logs =				list.Where(x=>x.Log != null).Select(x => x.Log).Distinct().Select(y => new LogObject(y)).ToList();
+            this.Logs =				list.Where(x=>x.Log != null).Select(x => x.Log).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Applications =		list.Where(x=>x.Application != null).Select(x => x.Application).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Users =			list.Where(x=>x.User != null).Select(x => x.User).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Types =			list.Where(x=>x.MessageType != null).Select(x => x.MessageType).Distinct().Select(y => new LogObject(y)).ToList();
@@ -69,14 +73,19 @@ namespace c3o.Logger.Web
 			this.Severities =		list.Select(x=>x.Severity).Distinct().Select(y => new LogObject { Id = 0, Name = y.ToString() }).ToList();
             this.Spans =            EnumHelper.GetValues<c3o.Logger.Data.SearchSpan>().Select(y => new LogObject(y)).ToList();
 
+            // load messages
             foreach (var item in list)
 			{
 				this.Messages.Add(new LogMessage(item));
 			}
 
-            foreach (var item in Filters)
+            if (filters != null)
             {
-                this.Filters.Add(new Filter(item));
+                // load filters
+                foreach (var item in filters)
+                {
+                    this.Filters.Add(new Filter(item));
+                }
             }
         }
 	}

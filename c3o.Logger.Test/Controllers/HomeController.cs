@@ -8,13 +8,27 @@ namespace c3o.Logger.Test.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Home
         public ActionResult Index()
         {
-            throw new DivideByZeroException("boo");
-            throw new Exception("test2");
-            throw new Exception("test1");
+            if (User.IsInRole("Admin"))
+            {
+                return View();
+            }
 
+            return View();
+        }
+
+        [Authorize(Roles ="Admin2")]
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
 
             return View();
         }

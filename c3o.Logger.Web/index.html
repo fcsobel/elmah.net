@@ -27,10 +27,17 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+
+
 </head>
 <body>
 
     <div id="wrapper" style="padding-top:20px;">
+         <!--<div>
+            <a href="#" class="provider-login" data-provider="Google" data-return=".">Google</a>
+            <a href="#" class="provider-login" data-provider="Facebook" data-return=".">Facebook</a>
+        </div>-->
 
         <div ng-app="c3o.logger" class="container-fluid">
 
@@ -114,6 +121,7 @@
 
         <!--Logger-->
         <script src="/app/log/apps/logger.js"></script>
+        <script src="/app/log/models/LogItem.js"></script>
         <script src="/app/log/models/LogMessage.js"></script>
         <script src="/app/log/models/LogQuery.js"></script>
         <script src="/app/log/models/LogSearchResponse.js"></script>
@@ -127,5 +135,12 @@
         <script src="/app/log/directives/MessageList.js"></script>
         <script src="/app/log/directives/MessageDetail.js"></script>
 
+
+        <!--<script src="scripts/custom/jquery.oauthpopup.js"></script>
+        <script src="scripts/custom/REX.Auth.js"></script>
+        <script type="text/javascript">
+            REX.auth.init('Google', '763094653075-cphf4bla6j5cdouuafkk1im9s2sfrvhr.apps.googleusercontent.com', 'email');
+		    REX.auth.init('Facebook', '679444822195131', 'public_profile, email');
+        </script>-->
 </body>
 </html>

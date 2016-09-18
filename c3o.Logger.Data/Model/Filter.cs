@@ -11,6 +11,8 @@ namespace c3o.Logger.Data
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public string Distribution { get; set; }
 
         [NotMapped]

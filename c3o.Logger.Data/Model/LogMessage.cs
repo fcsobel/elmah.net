@@ -8,7 +8,7 @@ using c3o.Core;
 
 namespace c3o.Logger.Data 
 {
-	public enum LogSeverity { Verbose = 0, Debug = 1, Information = 2, Warning = 3, Error = 4, Fatal = 5, }
+	//public enum LogSeverity { Verbose = 0, Debug = 1, Information = 2, Warning = 3, Error = 4, Fatal = 5, }
 
     public class LogMessage 
 	{

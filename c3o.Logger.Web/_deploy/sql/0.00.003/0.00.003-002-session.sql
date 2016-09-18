@@ -12,12 +12,12 @@ GO
 
 
 CREATE TABLE [dbo].[Session](
-	[SessionId] [int] IDENTITY(1,1) NOT NULL,
+	[SessionId] [bigint] IDENTITY(1,1) NOT NULL,
 	[Key] [uniqueidentifier] NOT NULL,
 	[Start] [datetime2] NOT NULL,
 	[End] [datetime2] NOT NULL,
 	[SiteId] [int] NULL,
-	[UserId] [int] NULL,
+	[UserId] [bigint] NULL,
 	[Referrer] [varchar](260) NULL,
 	[Querystring] [varchar](256) NULL,
 	[Domain] [varchar](100) NULL,
@@ -50,7 +50,7 @@ PRIMARY KEY CLUSTERED
 
 
 CREATE TABLE [dbo].[UserAccess](
-	[UserId] [int] NOT NULL,
+	[UserId] [bigint] NOT NULL,
 	[RoleId] [int] NOT NULL,
 PRIMARY KEY CLUSTERED (	[UserId] ASC,	[RoleId] ASC) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY];
 

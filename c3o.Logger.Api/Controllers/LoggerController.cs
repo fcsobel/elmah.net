@@ -11,38 +11,52 @@ using c3o.Core;
 
 namespace c3o.Logger.Web
 {
-    [RoutePrefix("api.logger/messages")]
+    [RoutePrefix("api.logger")]
     public class LoggerController : ApiController
     {
         //protected SiteInstance Site { get; set; }
         protected LoggerContext db { get; set; }
+		//protected ISiteInstance SiteInstance { get; set; }
 
-        public LoggerController(LoggerContext loggerContext) //SiteInstance site,
-        {
+		public LoggerController(LoggerContext loggerContext) // , ISiteInstance siteInstance//SiteInstance site,
+		{
             //this.Site = site;
             this.db = loggerContext;
+			//this.SiteInstance = siteInstance;
         }
 
-        //[HttpPost]
-        //[Route("messages")]
-        //public LogMessage Update(LogMessage message)
-        //{
-        //    HydrationLevel level = HydrationLevel.Detailed;
 
-        //    var obj = db.LogMessages.Where(x => x.Id == message.Id)
-        //            .Include(x => x.Log)
-        //            .Include(x => x.User)
-        //            .Include(x => x.Source)
-        //            .Include(x => x.MessageType)
-        //            .Include(x => x.Application)
-        //            .Include(x => x.Detail)
-        //            .FirstOrDefault();
+		///// <summary>
+		///// Get Site
+		///// </summary>
+		///// <returns></returns>
+		//[HttpGet]
+		//[Route("sites")]
+		//public SiteResponseModel Detail()
+		//{
+		//	return new SiteResponseModel(this.SiteInstance);
+		//}
 
-        //    return new LogMessage(obj, level);
-        //}
+		//[HttpPost]
+		//[Route("messages")]
+		//public LogMessage Update(LogMessage message)
+		//{
+		//    HydrationLevel level = HydrationLevel.Detailed;
 
-        [HttpGet]
-        [Route("{id}")]
+		//    var obj = db.LogMessages.Where(x => x.Id == message.Id)
+		//            .Include(x => x.Log)
+		//            .Include(x => x.User)
+		//            .Include(x => x.Source)
+		//            .Include(x => x.MessageType)
+		//            .Include(x => x.Application)
+		//            .Include(x => x.Detail)
+		//            .FirstOrDefault();
+
+		//    return new LogMessage(obj, level);
+		//}
+
+		[HttpGet]
+        [Route("messages/{id}")]
         public LogMessage Detail(long id, HydrationLevel level = HydrationLevel.Detailed)
         {
             //using (LoggerContext db = new LoggerContext())
@@ -61,7 +75,7 @@ namespace c3o.Logger.Web
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("messages/{id}")]
         public LogMessage Delete(long id)
         {
             //using (LoggerContext db = new LoggerContext())
@@ -77,7 +91,7 @@ namespace c3o.Logger.Web
 
 
         [HttpGet]
-        [Route("init")]
+        [Route("messages/init")]
         public LogSearchResponseModel Init()
         {
             LogSearchResponseModel model = new LogSearchResponseModel();
@@ -101,18 +115,19 @@ namespace c3o.Logger.Web
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("search/{id}")]
-        public LogSearchResponseModel Search(string id, Query query)
+        [Route("messages/search/{id}")]
+        public LogSearchResponseModel Search(string id, Filter filter)
         {
-
-
-            var filter = db.Filters.Where(x => x.Name == id).FirstOrDefault();
-            if (filter == null)
+            var obj = db.Filters.Where(x => x.Name == id).FirstOrDefault();            
+            if (obj == null)
             {
-                filter = new c3o.Logger.Data.Filter() { Name = id };
-                db.Filters.Add(filter);
+                obj = new Data.Filter() { Name = id };
+                db.Filters.Add(obj);
             }
-            filter.Query = query;
+            obj.Title = filter.Title;
+            obj.Description = filter.Description;
+            obj.Distribution = filter.Distribution;
+            obj.Query = filter.Query;
             db.SaveChanges();
 
             return Search(filter.Query);
@@ -125,7 +140,7 @@ namespace c3o.Logger.Web
         /// <param name="name"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("search/{name}")]
+        [Route("messages/search/{name}")]
         public LogSearchResponseModel SearchByName(string name)
         {
             var filter = db.Filters.Where(x => x.Name == name).FirstOrDefault();
@@ -142,7 +157,7 @@ namespace c3o.Logger.Web
         /// <param name="name"></param>
         /// <returns></returns>
         [HttpDelete]
-        [Route("search/{name}")]
+        [Route("messages/search/{name}")]
         public LogSearchResponseModel DeleteByName(string name)
         {
             var filter = db.Filters.Where(x => x.Name == name).FirstOrDefault();
@@ -165,7 +180,7 @@ namespace c3o.Logger.Web
         /// <param name="application"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("search")]
+        [Route("messages/search")]
         public LogSearchResponseModel Search(Query query, HydrationLevel level = HydrationLevel.Basic, string log = null, string application = null)
         {
             // convert to utc
@@ -318,6 +333,14 @@ namespace c3o.Logger.Web
 
             // Setup model
             var model = new LogSearchResponseModel(query, messages.ToList(), filters, level);
+
+            // always return all logs and applications...
+            model.Logs = db.Logs.ToList().Select(y => new LogObject(y)).ToList();
+            model.Applications = db.LogApplications.ToList().Select(y => new LogObject(y)).ToList();
+            model.Severities = EnumHelper.GetValues<LogSeverity>().Select(y => new LogObject(y)).ToList();
+            model.Types = db.MessageTypes.ToList().Select(y => new LogObject(y)).ToList();
+            //model.Sources = db.MessageSources.ToList().Select(y => new LogObject(y)).ToList();
+            //model.Spans = EnumHelper.GetValues<SearchSpan>().Select(y => new LogObject(y)).ToList();
 
             // Make sure Query Items are in lists!
             foreach (var type in query.Types)

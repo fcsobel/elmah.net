@@ -1,0 +1,69 @@
+﻿
+<div class="toast {{error.type}} alert alert-danger" ng-hide="error.hide">
+	<img ng-src="/Content/images/icons/delete.png">
+	<span ng-bind-html="error.message"></span>
+	<a href="javascript:void(0);" class="toast-dismiss pull-right" ng-click="error.hide=true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+
+	<div><strong>{{error.key}}</strong></div>
+
+	<div>
+		<a href="" ng-click="model.showRaw=!model.showRaw">Cause</a>
+		<pre ng-show="model.showRaw">{{error.cause | json}}</pre>
+	</div>
+
+	<div ng-if="!error.child">
+		<div>
+			<a href="" ng-click="model.showDetail=!model.showDetail">Error Detail</a>
+		</div>
+		<div ng-show="model.showDetail">
+			<div><strong>{{error.error.statusText}}</strong></div>
+			<div><strong>Status: {{error.error.status}}</strong></div>
+			<div><strong>Url:</strong> {{error.error.config.url}}</div>
+			<div><strong>Params:</strong> {{error.error.config.params}}</div>
+			<div><strong>Method:</strong> {{error.error.config.method}}</div>
+			<div><strong>Message:</strong> {{error.error.data.message}}</div>
+			<div><strong>Exception:</strong> {{error.error.data.exceptionMessage}}</div>
+			<div><strong>Type:</strong> {{error.error.data.exceptionType}}</div>
+			<div><strong>Trace:</strong> </div>
+			<p style="color:#9d1717">
+				{{error.error.data.stackTrace}}
+			</p>
+		</div>
+	</div>
+
+	<!--Show Child Error-->
+	<div ng-repeat="child in error.children">
+		<div c3o-error-tree-item="child"></div>
+	</div>
+
+</div>
+
+
+<!--<div class="alert alert-warning">
+
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="error.hide=true">&times;</span></button>
+	<div>{{error.message}}</div>
+	<div>
+		<a href="" ng-show="error.key" ng-click="model.showDetail=!model.showDetail">{{error.key}}</a>
+		<a href="" ng-hide="error.key" ng-click="model.showDetail=!model.showDetail">Detail</a>
+	</div>
+
+	<div ng-show="model.showDetail">
+		<div><strong>{{error.error.statusText}}</strong></div>
+		<div><strong>Status: {{error.error.status}}</strong></div>
+		<div><strong>Url:</strong> {{error.error.config.url}}</div>
+		<div><strong>Params:</strong> {{error.error.config.params}}</div>
+		<div><strong>Method:</strong> {{error.error.config.method}}</div>
+		<div><strong>Message:</strong> {{error.error.data.message}}</div>
+		<div><strong>Exception:</strong> {{error.error.data.exceptionMessage}}</div>
+		<div><strong>Type:</strong> {{error.error.data.exceptionType}}</div>
+		<div><strong>Trace:</strong> </div>
+		<p style="color:#9d1717">
+			{{error.error.data.stackTrace}}
+		</p>
+		<div>
+			<a href="" ng-click="model.showRaw=!model.showRaw">Raw</a>
+			<pre ng-show="model.showRaw">{{error | json}}</pre>
+		</div>
+	</div>
+</div>-->

@@ -1,6 +1,8 @@
 ﻿using DbUp;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -48,8 +50,33 @@ namespace c3o.Logger.Data
         //            HttpContext.Current.Items["SiteContext"] = context;
         //        }
         //        return context;
-        //    }
+        //    }☺
         //}
+
+        public void CreateSite()
+        {
+            if (this.Site == null)
+            {
+                var siteName = this.SiteName;
+
+                if (!string.IsNullOrWhiteSpace(siteName))
+                {
+                    SiteRecord site = new SiteRecord(siteName, siteName);
+
+                    // create
+                    if (site.CreateDb())
+                    {
+                        // update
+                        site.UpdateDb();
+
+                        // add site                        
+                        SiteInstance.Sites.Add(site);
+
+                        this.Site = site;
+                    }
+                }
+            }
+        }
 
 
         public string SiteName
@@ -87,12 +114,14 @@ namespace c3o.Logger.Data
             }
         }
 
-        //public void UpdateDb()
+        //public void CreateDb()
         //{
+        //    var conn = System.Configuration.ConfigurationManager.ConnectionStrings["SiteContext"];
+
         //    var site = this.Site;
 
         //    if (site != null)
-        //    {
+        //    {www.
         //        // path to scripts
         //        var path = HttpContext.Current.Server.MapPath("~/_deploy/sql/0.00.004");
 
@@ -100,7 +129,7 @@ namespace c3o.Logger.Data
         //        {
         //            // configure 
         //            var upgrader = DeployChanges.To
-        //                    .SqlDatabase(site.ConnectionString)
+        //                    .SqlDatabase(conn.ConnectionString)
         //                    .WithScriptsFromFileSystem(path)
         //                    //.WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
         //                    //.LogToConsole()

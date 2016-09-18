@@ -1,0 +1,130 @@
+﻿<div class="panel panel-default" ng-show="context.model.message">
+	<div class="panel-heading">
+		<div class="pull-right">
+			<div>{{context.model.message.howLongAgo}}</div>
+		</div>
+		<div>
+			<i ng-if="context.model.message.severity=='Error'" class="fa fa-fw fa-lg fa-bug"></i>
+			<i ng-if="context.model.message.severity=='Information'" class="fa fa-fw fa-lg fa-info-circle"></i>
+            <i ng-if="context.model.message.severity=='Warning'" class="fa fa-fw fa-lg fa-warning"></i>
+			<i class="fa fa-fw fa-lg fa-{{context.model.message.messageType.icon}}" style="color:{{context.model.message.messageType.color}}"></i>
+			<strong><a href="/logger/Detail/{{context.model.message.id}}">{{context.model.message.messageType.name}}</a></strong>
+            <span ng-show="context.model.message.logCount > 1">* {{context.model.message.logCount}}</span>
+            <!--<span ng-show="context.model.message.deleted">Deleted</span>
+            <a href="#" ng-show="!context.model.message.deleted" ng-click="Delete()"><span class="glyphicon glyphicon-remove"></span></a>-->
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+	<div class="panel-heading">
+        <div class="pull-right">
+            <div>{{context.model.message.log.name}}</div>
+        </div>
+        <div ng-bind-html="context.model.message.title"></div>
+	</div>
+
+    <div class="panel-heading" ng-show="context.model.message.url">
+        <span class="" ng-show="context.model.message.url">
+            <a target="_blank" href="{{context.model.message.url}}">{{context.model.message.url}}</a>
+        </span>
+    </div>
+	
+	<ul id="tabs1" class="nav nav-tabs" style="border-bottom:none;">
+		<li role="presentation" ng-class="{ 'active' : tab=='code' }">
+			<a href="" ng-click="tab='code'">Trace</a>
+		</li>
+		<li role="presentation" ng-class="{ 'active' : tab=='data' }">
+			<a href="" ng-click="tab='data'">Details</a>
+		</li>
+		<li role="presentation" ng-class="{ 'active' : tab=='cookies' }" ng-show="context.model.message.cookies.length">
+			<a href="" ng-click="tab='cookies'">Cookies</a>
+		</li>
+		<li role="presentation" ng-class="{ 'active' : tab=='form' }" ng-show="context.model.message.form.length">
+			<a href="" ng-click="tab='form'">Form</a>
+		</li>
+		<li role="presentation" ng-class="{ 'active' : tab=='querystring' }" ng-show="context.model.message.queryString.length">
+			<a href="" ng-click="tab='querystring'">Query String</a>
+		</li>
+		<li role="presentation" ng-class="{ 'active' : tab=='servervariables' }" ng-show="context.model.message.serverVariables.length">
+			<a href="" ng-click="tab='servervariables'">Server Variables</a>
+		</li>
+	</ul>
+	
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane" ng-class="{ 'active' : tab=='code' }">
+			<pre style="color:brown; background-color:#fff; margin-bottom:0;">{{context.model.message.detail}}</pre>
+		</div>
+
+		<div role="tabpanel" class="tab-pane" ng-class="{ 'active' : tab=='data' }">
+
+			<table class="table table-bordered table-condensed table-striped" style="margin-bottom:0;">
+				<tbody>
+					<tr><th style="width:160px;">Time</th><td>{{context.model.message.howLongAgo}}</td></tr>
+					<tr><th>Severity</th><td>{{context.model.message.severity}}</td></tr>
+					<tr><th>Url</th><td>{{context.model.message.url}}</td></tr>
+					<tr><th>Status Code</th><td>{{context.model.message.StatusCode}}</td></tr>
+					<tr><th>Host</th><td>{{context.model.message.hostname}}</td></tr>
+					<tr><th>Type</th><td>{{context.model.message.messageType.name}}</td></tr>
+					<tr><th>Application</th><td>{{context.model.message.application.name}}</td></tr>
+					<tr><th>Source</th><td>{{context.model.message.source.name}}</td></tr>
+					<tr><th>Log</th><td>{{context.model.message.log.name}}</td></tr>
+					<tr ng-repeat="data in context.model.message.data"><th>{{data.key}}</th><td>{{data.value}}</td></tr>
+				</tbody>
+
+			</table>
+
+		</div>
+
+		<div role="tabpanel" class="tab-pane" ng-class="{ 'active' : tab=='cookies' }">
+			<table class="table table-bordered table-condensed table-striped" style="margin-bottom:0;">
+				<tbody>
+					<tr ng-repeat="data in context.model.message.cookies"><th>{{data.key}}</th><td>{{data.value}}</td></tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div role="tabpanel" class="tab-pane" ng-class="{ 'active' : tab=='form' }">
+			<table class="table table-bordered table-condensed table-striped" style="margin-bottom:0;">
+				<tbody>
+					<tr ng-repeat="data in context.model.message.form"><th>{{data.key}}</th><td>{{data.value}}</td></tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div role="tabpanel" class="tab-pane" ng-class="{ 'active' : tab=='querystring' }">
+			<table class="table table-bordered table-condensed table-striped" style="margin-bottom:0;">
+				<tbody>
+					<tr ng-repeat="data in context.model.message.queryString"><th>{{data.key}}</th><td>{{data.value}}</td></tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div role="tabpanel" class="tab-pane" ng-class="{ 'active' : tab=='servervariables' }">
+			<table class="table table-bordered table-condensed table-striped" style="margin-bottom:0;">
+				<tbody>
+					<tr ng-repeat="data in context.model.message.serverVariables"><th>{{data.key}}</th><td>{{data.value}}</td></tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+		$(function () {
+			//$('.collapse').collapse()
+			// Handler for .ready() called.
+
+			//// wireup tabs
+			//$('#tabs1.nav-tabs a').click(function (e) {
+			//	console.log('hi');
+			//	e.preventDefault();
+			//	e.stopPropagation();
+			//	$(this).tab('show');
+			//});
+
+			//$().tab;
+			//$('.nav-tabs a:last').tab('show')
+			//$().tab;
+		});
+</script>

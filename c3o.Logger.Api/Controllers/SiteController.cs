@@ -11,36 +11,58 @@ using c3o.Core;
 
 namespace c3o.Logger.Web
 {
-    [RoutePrefix("api.logger/sites")]
-    public class SiteController : ApiController
-    {
-        protected SiteContext SiteContext { get; set; }
+	[RoutePrefix("api.site")]
+	public class SiteController : ApiController
+	{
+		protected ISiteInstance SiteInstance { get; set; }
+		//private SiteContext db { get; set; }
+		//private SiteList SiteList { get; set; }
 
-        public SiteController(SiteContext siteContext) 
-        {
-            this.SiteContext = siteContext;
-        }
+		public SiteController(ISiteInstance siteInstance)  // SiteContext siteContext , SiteList siteList
+		{
+			// this.db = siteContext;
+			this.SiteInstance = siteInstance;
+			//  this.SiteList = siteList;
 
-        [HttpGet]
-        [Route("")]
-        public SiteResponseModel Detail()
-        {
-            return new SiteResponseModel(this.SiteContext);
-        }
+		}
 
-        [HttpDelete]
-        [Route("")]
-        public SiteResponseModel Delete(long id)
-        {
-            return new SiteResponseModel(this.SiteContext);
-        }
+		/// <summary>
+		/// Get Site
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		[Route("sites")]
+		public SiteResponseModel Detail()
+		{
+			return new SiteResponseModel(this.SiteInstance);
+		}
 
+		/// <summary>
+		/// Create Site
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		[HttpPost]
+		[Route("sites")]
+		public SiteResponseModel Create(SiteResponseModel model)
+		{
+			var message = this.SiteInstance.CreateSite(null);
 
-        [HttpPost]
-        [Route("")]
-        public SiteResponseModel Create(SiteRecord model)
-        {
-            return new SiteResponseModel(this.SiteContext);
-        }
-    }
+			SiteResponseModel obj = new SiteResponseModel(this.SiteInstance);
+			obj.Notes = message;
+			return obj;
+		}
+
+		/// <summary>
+		/// Delete Site
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpDelete]
+		[Route("sites")]
+		public SiteResponseModel Delete(long id)
+		{
+			return new SiteResponseModel(this.SiteInstance);
+		}
+	}
 }

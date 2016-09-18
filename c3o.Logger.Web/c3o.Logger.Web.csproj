@@ -22,8 +22,6 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +41,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elmah.Contrib.WebApi, Version=1.0.10.25, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elmah.Contrib.WebApi.1.0.10.25\lib\net45\Elmah.Contrib.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elmah.Io, Version=2.0.28.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.io.core.2.0.28\lib\net40\Elmah.Io.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elmah.Io.Client, Version=2.0.28.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.io.client.2.0.28\lib\net40\Elmah.Io.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elmah.Mvc, Version=2.1.2.1389, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elmah.Mvc.2.1.2\lib\net40\Elmah.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -56,8 +74,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SimpleInjector, Version=3.1.4.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
@@ -153,6 +171,7 @@
     <Content Include="app\log\directives\MessageList.html" />
     <Content Include="app\log\directives\MessageList.js" />
     <Content Include="app\log\models\LogMessage.js" />
+    <Content Include="app\log\models\LogItem.js" />
     <Content Include="app\log\models\LogQuery.js" />
     <Content Include="app\log\models\LogSearchResponse.js" />
     <Content Include="app\log\services\LoggerApi.js" />
@@ -160,9 +179,21 @@
     <Content Include="app\site\models\Site.js" />
     <Content Include="app\site\services\SiteApi.js" />
     <Content Include="app\site\services\SiteService.js" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
+    <Content Include="scripts\bootstrap.js" />
+    <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\custom\jquery.oauthpopup.js" />
+    <Content Include="scripts\custom\REX.Auth.js" />
+    <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\spin.js" />
     <Content Include="scripts\spin.min.js" />
     <Content Include="Web.config">
@@ -170,16 +201,20 @@
     </Content>
     <Content Include="_deploy\sql\0.00.001\001-create.sql" />
     <Content Include="_deploy\sql\0.00.001\002-load.sql" />
+    <Content Include="_deploy\sql\0.00.001\003-alter-Filters.sql" />
     <Content Include="_deploy\sql\0.00.002\003-tags.sql" />
     <Content Include="_deploy\sql\0.00.003\0.00.003-001-people.sql" />
     <Content Include="_deploy\sql\0.00.003\0.00.003-002-session.sql" />
     <Content Include="_deploy\sql\create\002-grant.sql" />
     <Content Include="_deploy\sql\create\001-create.sql" />
+    <Content Include="_deploy\sql\create\spCreate.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\FormatterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -191,7 +226,14 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="app\Web.config" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\elmah.net.pubxml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -201,19 +243,28 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="_logs\errors\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\c3o.Core\c3o.Core.csproj">
-      <Project>{fbcf6b06-1c97-4404-9b5a-27eb6c443932}</Project>
-      <Name>c3o.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\c3o.Logger.Api\c3o.Logger.Api.csproj">
       <Project>{e502d4fd-dc87-4bf9-af05-5e67c1f7d72c}</Project>
       <Name>c3o.Logger.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\c3o.Logger.Core\c3o.Logger.Core.csproj">
+      <Project>{f69a1847-085b-4caa-a070-21ad8fb024fe}</Project>
+      <Name>c3o.Logger.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\c3o.Logger.Data\c3o.Logger.Data.csproj">
       <Project>{31f13da5-3f60-488b-b925-e96f546774c1}</Project>
       <Name>c3o.Logger.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\c3o.Logger.Instance\c3o.Logger.Instance.csproj">
+      <Project>{d051931a-4c3a-4936-82c7-fba7c43723af}</Project>
+      <Name>c3o.Logger.Instance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\c3o.Site.Instance\c3o.Site.Instance.csproj">
+      <Project>{447279ac-bec9-4df9-90d9-d89f0a52b76f}</Project>
+      <Name>c3o.Site.Instance</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -231,7 +282,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>59837</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://local-acme.elmah.net:59837/</IISUrl>
+          <IISUrl>http://local-test.elmah.net:59837/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -241,13 +292,12 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <!--
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
+-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

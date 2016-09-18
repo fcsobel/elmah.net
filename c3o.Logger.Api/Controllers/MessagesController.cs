@@ -110,7 +110,7 @@ namespace c3o.Logger.Web
                     if (entry.User != null && entry.User.Id > 0) entry.UserId = entry.User.Id;
 
                     // see if we already have a matching message
-                    if (entry.Severity == Data.LogSeverity.Information
+                    if (entry.Severity == LogSeverity.Information
                         && entry.ElmahId == null
                         && entry.Hostname == null
                         && entry.StatusCode == null)
