@@ -1,2 +1,2 @@
-# c3o.logger
+# elmah.net
 ELMAH logging serveice, database and UI
