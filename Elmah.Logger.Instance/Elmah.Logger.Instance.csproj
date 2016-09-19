@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D051931A-4C3A-4936-82C7-FBA7C43723AF}</ProjectGuid>
+    <ProjectGuid>{23708656-F283-4D93-B539-186B7A2E694A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>c3o.Logger.Instance</RootNamespace>
-    <AssemblyName>c3o.Logger.Instance</AssemblyName>
+    <RootNamespace>Elmah.Logger.Instance</RootNamespace>
+    <AssemblyName>Elmah.Logger.Instance</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -58,9 +58,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\c3o.Logger.Core\c3o.Logger.Core.csproj">
-      <Project>{f69a1847-085b-4caa-a070-21ad8fb024fe}</Project>
-      <Name>c3o.Logger.Core</Name>
+    <ProjectReference Include="..\Elmah.Logger.Core\Elmah.Logger.Core.csproj">
+      <Project>{4a642633-2bc6-425a-b7bf-1cb35c4d74a4}</Project>
+      <Name>Elmah.Logger.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

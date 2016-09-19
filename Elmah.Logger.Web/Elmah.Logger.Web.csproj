@@ -9,12 +9,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FABDB57A-F9E8-430D-B4CA-F106C4DF7AE7}</ProjectGuid>
+    <ProjectGuid>{480B49FB-D461-4FF9-BF3D-3716C9353903}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Elmah.Net</RootNamespace>
-    <AssemblyName>Elmah.Net</AssemblyName>
+    <RootNamespace>Elmah.Logger.Web</RootNamespace>
+    <AssemblyName>Elmah.Logger.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -186,21 +186,21 @@
     <Folder Include="_logs\errors\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\c3o.Logger.Api\c3o.Logger.Api.csproj">
-      <Project>{e502d4fd-dc87-4bf9-af05-5e67c1f7d72c}</Project>
-      <Name>c3o.Logger.Api</Name>
+    <ProjectReference Include="..\Elmah.Logger.Api\Elmah.Logger.Api.csproj">
+      <Project>{895a0cbf-8fd1-46f5-84fe-8d8a058882d4}</Project>
+      <Name>Elmah.Logger.Api</Name>
     </ProjectReference>
-    <ProjectReference Include="..\c3o.Logger.Core\c3o.Logger.Core.csproj">
-      <Project>{f69a1847-085b-4caa-a070-21ad8fb024fe}</Project>
-      <Name>c3o.Logger.Core</Name>
+    <ProjectReference Include="..\Elmah.Logger.Core\Elmah.Logger.Core.csproj">
+      <Project>{4a642633-2bc6-425a-b7bf-1cb35c4d74a4}</Project>
+      <Name>Elmah.Logger.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\c3o.Logger.Data\c3o.Logger.Data.csproj">
-      <Project>{31f13da5-3f60-488b-b925-e96f546774c1}</Project>
-      <Name>c3o.Logger.Data</Name>
+    <ProjectReference Include="..\Elmah.Logger.Data\Elmah.Logger.Data.csproj">
+      <Project>{85c01ef9-3ce0-4ebe-b519-c027c92939e1}</Project>
+      <Name>Elmah.Logger.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\c3o.Logger.Instance\c3o.Logger.Instance.csproj">
-      <Project>{d051931a-4c3a-4936-82c7-fba7c43723af}</Project>
-      <Name>c3o.Logger.Instance</Name>
+    <ProjectReference Include="..\Elmah.Logger.Instance\Elmah.Logger.Instance.csproj">
+      <Project>{23708656-f283-4d93-b539-186b7a2e694a}</Project>
+      <Name>Elmah.Logger.Instance</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

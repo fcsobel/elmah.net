@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E502D4FD-DC87-4BF9-AF05-5E67C1F7D72C}</ProjectGuid>
+    <ProjectGuid>{85C01EF9-3CE0-4EBE-B519-C027C92939E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>c3o.Logger.Api</RootNamespace>
-    <AssemblyName>c3o.Logger.Api</AssemblyName>
+    <RootNamespace>Elmah.Logger.Data</RootNamespace>
+    <AssemblyName>Elmah.Logger.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Elmah.Io.Client">
+    <Reference Include="Elmah.Io.Client, Version=2.0.26.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\elmah.io.client.2.0.26\lib\net40\Elmah.Io.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -50,16 +50,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,34 +60,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\SiteController.cs" />
-    <Compile Include="Controllers\LoggerController.cs" />
-    <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Model\SiteResponseModel.cs" />
-    <Compile Include="Model\LogSearchResponseModel.cs" />
+    <Compile Include="Context\ElamhIoHelper.cs" />
+    <Compile Include="Context\ElmahIoSettings.cs" />
+    <Compile Include="Context\AccountContext.cs" />
+    <Compile Include="Context\LoggerContext.cs" />
+    <Compile Include="Context\SiteList.cs" />
+    <Compile Include="Context\SiteInstance.cs" />
+    <Compile Include="Context\SiteRecord.cs" />
+    <Compile Include="Mapping\LogApplicationMap.cs" />
+    <Compile Include="Mapping\FilterMap.cs" />
+    <Compile Include="Mapping\LogMap.cs" />
+    <Compile Include="Mapping\LogMessageDetailMap.cs" />
+    <Compile Include="Mapping\LogMessageMap.cs" />
+    <Compile Include="Mapping\LogMessageSourceMap.cs" />
+    <Compile Include="Mapping\LogMessageTypeMap.cs" />
+    <Compile Include="Mapping\LogUserMap.cs" />
+    <Compile Include="Model\LogMessageBlob.cs" />
+    <Compile Include="Model\SearchSpan.cs" />
+    <Compile Include="Model\Query.cs" />
+    <Compile Include="Model\INameId.cs" />
+    <Compile Include="Model\Filter.cs" />
+    <Compile Include="Model\Log.cs" />
+    <Compile Include="Model\LogApplication.cs" />
     <Compile Include="Model\LogMessage.cs" />
+    <Compile Include="Model\LogMessageDetail.cs" />
+    <Compile Include="Model\LogMessageSource.cs" />
+    <Compile Include="Model\LogMessageType.cs" />
+    <Compile Include="Model\LogUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\c3o.Logger.Core\c3o.Logger.Core.csproj">
-      <Project>{f69a1847-085b-4caa-a070-21ad8fb024fe}</Project>
-      <Name>c3o.Logger.Core</Name>
+    <ProjectReference Include="..\Elmah.Logger.Core\Elmah.Logger.Core.csproj">
+      <Project>{4a642633-2bc6-425a-b7bf-1cb35c4d74a4}</Project>
+      <Name>Elmah.Logger.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\c3o.Logger.Data\c3o.Logger.Data.csproj">
-      <Project>{31f13da5-3f60-488b-b925-e96f546774c1}</Project>
-      <Name>c3o.Logger.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\c3o.Logger.Instance\c3o.Logger.Instance.csproj">
-      <Project>{d051931a-4c3a-4936-82c7-fba7c43723af}</Project>
-      <Name>c3o.Logger.Instance</Name>
+    <ProjectReference Include="..\Elmah.Logger.Instance\Elmah.Logger.Instance.csproj">
+      <Project>{23708656-f283-4d93-b539-186b7a2e694a}</Project>
+      <Name>Elmah.Logger.Instance</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
