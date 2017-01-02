@@ -1,4 +1,4 @@
 # elmah.net
-ELMAH logging serveice, db and ui
+ELMAH logging serveice, database & ui
 
 ![Alt text](/content/screenshot.png?raw=true "Screenshot")

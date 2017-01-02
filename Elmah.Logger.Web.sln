@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Core", "Elmah.Core\El
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elmah.Core.Site", "Elmah.Core.Site\Elmah.Core.Site.csproj", "{F16506D5-AE26-4243-9A05-4249B9A41F83}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{C568946E-A5CE-4360-86BB-50AE5447DB03}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{C9C9B4B3-BD86-46FA-9277-5A30DABAF4BD}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 		content\screenshot.png = content\screenshot.png
