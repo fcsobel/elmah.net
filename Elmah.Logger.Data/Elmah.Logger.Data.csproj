@@ -61,12 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\ElamhIoHelper.cs" />
-    <Compile Include="Context\ElmahIoSettings.cs" />
-    <Compile Include="Context\AccountContext.cs" />
     <Compile Include="Context\LoggerContext.cs" />
-    <Compile Include="Context\SiteList.cs" />
-    <Compile Include="Context\SiteInstance.cs" />
-    <Compile Include="Context\SiteRecord.cs" />
     <Compile Include="Mapping\LogApplicationMap.cs" />
     <Compile Include="Mapping\FilterMap.cs" />
     <Compile Include="Mapping\LogMap.cs" />
@@ -76,6 +71,8 @@
     <Compile Include="Mapping\LogMessageTypeMap.cs" />
     <Compile Include="Mapping\LogUserMap.cs" />
     <Compile Include="Model\LogMessageBlob.cs" />
+    <Compile Include="Model\Role.cs" />
+    <Compile Include="Mapping\RoleMap.cs" />
     <Compile Include="Model\SearchSpan.cs" />
     <Compile Include="Model\Query.cs" />
     <Compile Include="Model\INameId.cs" />
@@ -94,13 +91,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Elmah.Logger.Core\Elmah.Logger.Core.csproj">
-      <Project>{4a642633-2bc6-425a-b7bf-1cb35c4d74a4}</Project>
-      <Name>Elmah.Logger.Core</Name>
+    <ProjectReference Include="..\Elmah.Core.Site\Elmah.Core.Site.csproj">
+      <Project>{f16506d5-ae26-4243-9a05-4249b9a41f83}</Project>
+      <Name>Elmah.Core.Site</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Elmah.Logger.Instance\Elmah.Logger.Instance.csproj">
-      <Project>{23708656-f283-4d93-b539-186b7a2e694a}</Project>
-      <Name>Elmah.Logger.Instance</Name>
+    <ProjectReference Include="..\Elmah.Core\Elmah.Core.csproj">
+      <Project>{5f7a6a1d-a1f1-42f6-861a-f59e1ab30aee}</Project>
+      <Name>Elmah.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

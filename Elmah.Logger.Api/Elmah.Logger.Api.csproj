@@ -84,17 +84,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Elmah.Logger.Core\Elmah.Logger.Core.csproj">
-      <Project>{4a642633-2bc6-425a-b7bf-1cb35c4d74a4}</Project>
-      <Name>Elmah.Logger.Core</Name>
+    <ProjectReference Include="..\Elmah.Core.Site\Elmah.Core.Site.csproj">
+      <Project>{f16506d5-ae26-4243-9a05-4249b9a41f83}</Project>
+      <Name>Elmah.Core.Site</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Elmah.Core\Elmah.Core.csproj">
+      <Project>{5f7a6a1d-a1f1-42f6-861a-f59e1ab30aee}</Project>
+      <Name>Elmah.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Elmah.Logger.Data\Elmah.Logger.Data.csproj">
       <Project>{85c01ef9-3ce0-4ebe-b519-c027c92939e1}</Project>
       <Name>Elmah.Logger.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Elmah.Logger.Instance\Elmah.Logger.Instance.csproj">
-      <Project>{23708656-f283-4d93-b539-186b7a2e694a}</Project>
-      <Name>Elmah.Logger.Instance</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

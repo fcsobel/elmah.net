@@ -95,6 +95,13 @@ namespace c3o.Core
 			return bool.TryParse(value, out i) ? (bool?)i : null;
 		}
 
+		public static bool ParseBool(this string value, bool def)
+		{
+			bool i;
+			return bool.TryParse(value, out i) ? i : def;
+		}
+
+
 		public static bool ParseBoolFalse(this string value)
 		{
 			bool i;

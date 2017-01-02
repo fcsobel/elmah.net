@@ -30,6 +30,12 @@ namespace c3o.Logger.Web
         }
     }
 
+	public class LogCount
+	{
+		public long Id { get; set; }
+		public string Name { get; set; }
+		public int Count { get; set; }
+	}
     
     public class LogSearchResponseModel
 	{
@@ -51,6 +57,8 @@ namespace c3o.Logger.Web
         public List<LogObject> Users { get; set; }
         public List<LogObject> Spans { get; set; }
         public List<Filter> Filters { get; set; }
+
+		public List<LogCount> TypeCount { get; set; }
 
         public LogSearchResponseModel() {
 			this.Messages = new List<LogMessage>();

@@ -4,5 +4,6 @@
 	{
 		string ConnectionString { get; set; }
 		bool UpdateDb();
+
 	}
 }

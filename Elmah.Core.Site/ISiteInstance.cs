@@ -1,5 +1,10 @@
 ﻿namespace c3o.Logger.Data
 {
+	//public interface ISiteInstanceContext
+	//{
+
+	//}
+
 	public interface ISiteInstance
 	{
 		string SiteName { get; }

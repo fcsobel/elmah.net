@@ -171,15 +171,18 @@ namespace c3o.Logger.Web
 
 
 
-        /// <summary>
-        /// Search
-        /// </summary>
-        /// <param name="query"></param>
-        /// <param name="level"></param>
-        /// <param name="log"></param>
-        /// <param name="application"></param>
-        /// <returns></returns>
-        [HttpGet]
+		/// <summary>
+		/// Search
+		/// TO get this action to work we need this.  Otherwise query object does not get posted in...silly
+		/// Defaulting to [FromUri] for GET and HEAD requests
+		/// http://www.strathweb.com/2013/04/asp-net-web-api-parameter-binding-part-1-understanding-binding-from-uri/
+		/// </summary>
+		/// <param name="query"></param>
+		/// <param name="level"></param>
+		/// <param name="log"></param>
+		/// <param name="application"></param>
+		/// <returns></returns>
+		[HttpGet]
         [Route("messages/search")]
         public LogSearchResponseModel Search(Query query, HydrationLevel level = HydrationLevel.Basic, string log = null, string application = null)
         {
@@ -199,38 +202,48 @@ namespace c3o.Logger.Web
             {
                 if (query.End.HasValue)
                 {
-                    messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start && x.DateTime <= query.End)
-                        .Include(x => x.Log)
-                        .Include(x => x.User)
-                        .Include(x => x.Source)
-                        .Include(x => x.MessageType)
-                        .Include(x => x.Application)
-                        .OrderByDescending(x => x.DateTime);
-                }
+					messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start && x.DateTime <= query.End);
+      //                  .Include(x => x.Log)
+						//.Include(x => x.User)
+						//.Include(x => x.Source)
+						//.Include(x => x.MessageType)
+						//.Include(x => x.Application)
+						//.OrderByDescending(x => x.DateTime);
+				}
                 else
                 {
-                    messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start)
-                        .Include(x => x.Log)
-                        .Include(x => x.User)
-                        .Include(x => x.Source)
-                        .Include(x => x.MessageType)
-                        .Include(x => x.Application)
-                        .OrderByDescending(x => x.DateTime);
-                }
+					messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start);
+      //                  .Include(x => x.Log)
+						//.Include(x => x.User)
+						//.Include(x => x.Source)
+						//.Include(x => x.MessageType)
+						//.Include(x => x.Application)
+						//.OrderByDescending(x => x.DateTime);
+				}
             }
             else
             {
-                messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages
-                        .Include(x => x.Log)
-                        .Include(x => x.User)
-                        .Include(x => x.Source)
-                        .Include(x => x.MessageType)
-                        .Include(x => x.Application)
-                        .OrderByDescending(x => x.DateTime);
-            }
+				messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages;
+      //                  .Include(x => x.Log)
+						//.Include(x => x.User)
+						//.Include(x => x.Source)
+						//.Include(x => x.MessageType)
+						//.Include(x => x.Application)
+						//.OrderByDescending(x => x.DateTime);
+			}
 
-            //Log theLog = null;
-            if (!string.IsNullOrWhiteSpace(log))
+			//// Includes and order by
+			//messages = messages
+			//	.Include(x => x.Log)
+			//	.Include(x => x.User)
+			//	.Include(x => x.Source)
+			//	.Include(x => x.MessageType)
+			//	.Include(x => x.Application)
+			//	.OrderByDescending(x => x.DateTime);
+
+
+			//Log theLog = null;
+			if (!string.IsNullOrWhiteSpace(log))
             {
                 //var start = DateTime.Now.Date;
                 //var allLogs = (IQueryable<c3o.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
@@ -320,30 +333,66 @@ namespace c3o.Logger.Web
                 messages = messages.Where(x => query.Severities.Any(y => y == x.Severity));
             }
 
-            // severity
-            //if (severity.HasValue) { messages = messages.Where(x => x.Severity == severity); }
+			// severity
+			//if (severity.HasValue) { messages = messages.Where(x => x.Severity == severity); }
 
-            if (query.Limit > 0)
-            {
-                messages = messages.Take(query.Limit);
-            }
+
+			//if (query.Limit > 0)
+   //         {
+   //             messages = messages.Take(query.Limit);
+   //         }
 
             // get filters
             var filters = db.Filters.OrderBy(x => x.Name).ToList();
 
-            // Setup model
-            var model = new LogSearchResponseModel(query, messages.ToList(), filters, level);
+			// Includes and order by
+			messages = messages
+				.Include(x => x.Log)
+				.Include(x => x.User)
+				.Include(x => x.Source)
+				.Include(x => x.MessageType)
+				.Include(x => x.Application)
+				.OrderByDescending(x => x.DateTime);
+
+			//var counts = messages.GroupBy(x => x.MessageType).Select(z => new { type = z.Key, count = z.Count() }).ToList();
+
+			//var counts = messages.GroupBy(x => new { Year = x.DateTime.Year, Month = x.DateTime.Month } ).Select(z => new { type = z.Key, count = z.Count() }).ToList();
+
+			//var counts = messages.GroupBy(x => new { Year = x.DateTime.Year, Month = x.DateTime.Month, Day = x.DateTime.Day, Hour = x.DateTime.Hour }).Select(z => new { type = z.Key, count = z.Count() }).ToList();
+			var counts = messages.GroupBy(x => new { Year = x.DateTime.Year, Month = x.DateTime.Month, Day = x.DateTime.Day }).Select(z => new { type = z.Key, count = z.Count() }).ToList();
+
+			if (query.Limit > 0)
+			{
+				messages = messages.Take(query.Limit);
+			}
+
+			//var newCount = counts.Select(x => new LogCount() { Id = x.type.Id, Name = x.type.Name, Count = x.count }).ToList();
+
+			// Setup model
+			var model = new LogSearchResponseModel(query, messages.ToList(), filters, level);
 
             // always return all logs and applications...
             model.Logs = db.Logs.ToList().Select(y => new LogObject(y)).ToList();
             model.Applications = db.LogApplications.ToList().Select(y => new LogObject(y)).ToList();
             model.Severities = EnumHelper.GetValues<LogSeverity>().Select(y => new LogObject(y)).ToList();
             model.Types = db.MessageTypes.ToList().Select(y => new LogObject(y)).ToList();
-            //model.Sources = db.MessageSources.ToList().Select(y => new LogObject(y)).ToList();
-            //model.Spans = EnumHelper.GetValues<SearchSpan>().Select(y => new LogObject(y)).ToList();
+			//model.Sources = db.MessageSources.ToList().Select(y => new LogObject(y)).ToList();
+			//model.Spans = EnumHelper.GetValues<SearchSpan>().Select(y => new LogObject(y)).ToList();
+						
 
-            // Make sure Query Items are in lists!
-            foreach (var type in query.Types)
+			//model.TypeCount = counts.OrderBy(x=>x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100  + x.type.Hour).Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day, x.type.Hour, 0, 0).ToString(), Count = x.count }).ToList();
+			model.TypeCount = counts.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100).Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
+
+			//model.TypeCount = counts.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day + x.type.Hour).Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
+
+			//model.TypeCount = counts.OrderBy(x => x.type).Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day, x.type.Hour, 0, 0).ToString(), Count = x.count }).ToList();
+
+			//model.TypeCount = counts.OrderBy(x => x.type).Select(x => new LogCount() { Id = 0, Name = new x.ToString(), Count = x.count }).ToList();
+
+			//model.TypeCount = model.TypeCount.OrderBy(x => x.Name).ToList();
+
+			// Make sure Query Items are in lists!
+			foreach (var type in query.Types)
             {
                 if (!model.Types.Any(x => x.Id == type))
                 {

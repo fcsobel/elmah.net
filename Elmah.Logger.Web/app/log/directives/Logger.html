@@ -39,7 +39,7 @@
 
                             <div class="form-group">
                                 <div class="col-lg-12">
-                                    <label>Emial</label>
+                                    <label>Email</label>
                                 </div>
                                 <div class="col-sm-12">
                                     <input type="text" class="form-control" placeholder="email" aria-describedby="basic-addon2" ng-model="context.model.person.email" />
@@ -59,10 +59,22 @@
     </div>
 
     <div class="row" ng-if="context.model.site!=null">
-        <div class="col-lg-2">
-            <div log-message-filter data-log='' data-limit="100" data-span="TwentyFourHours" data-type="error" data-source="System"></div>
+
+        <div class="col-sm-2">
+            <div log-message-filter data-log='' data-limit="100" data-span="ThirtyDays" data-type="error" data-source="System"></div>
         </div>
-        <div class="col-lg-4">
+
+		<div class="col-sm-10">
+			<div log-message-chart></div>
+			<!--<div class="panel panel-default">
+				<canvas id="myChart" style="height:160px;"></canvas> 
+			</div>-->
+
+			<!--<div>
+				<a ng-click="test1()">test</a>
+			</div>-->
+		</div>
+        <div class="col-sm-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <a href="/logger/index/Production?severity=Error">Latest Exceptions</a>
@@ -70,7 +82,7 @@
                 <div log-message-list></div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <div log-message-detail></div>
         </div>
     </div>

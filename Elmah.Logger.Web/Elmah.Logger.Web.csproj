@@ -80,20 +80,20 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SimpleInjector, Version=3.1.4.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.3.1.4\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="SimpleInjector, Version=3.2.4.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.3.2.4\lib\net45\SimpleInjector.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SimpleInjector.Extensions.ExecutionContextScoping, Version=3.1.4.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.Extensions.ExecutionContextScoping.3.1.4\lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll</HintPath>
+    <Reference Include="SimpleInjector.Extensions.ExecutionContextScoping, Version=3.2.4.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Extensions.ExecutionContextScoping.3.2.4\lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SimpleInjector.Integration.Web, Version=3.1.4.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.Integration.Web.3.1.4\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
+    <Reference Include="SimpleInjector.Integration.Web, Version=3.2.4.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.3.2.4\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SimpleInjector.Integration.WebApi, Version=3.1.4.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.Integration.WebApi.3.1.4\lib\net45\SimpleInjector.Integration.WebApi.dll</HintPath>
+    <Reference Include="SimpleInjector.Integration.WebApi, Version=3.2.4.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.WebApi.3.2.4\lib\net45\SimpleInjector.Integration.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
@@ -145,6 +145,8 @@
     <Content Include="app\log\directives\MessageDetail.js" />
     <Content Include="app\log\directives\MessageFilter.html" />
     <Content Include="app\log\directives\MessageFilter.js" />
+    <Content Include="app\log\directives\MessageChart.html" />
+    <Content Include="app\log\directives\MessageChart.js" />
     <Content Include="app\log\directives\MessageList.html" />
     <Content Include="app\log\directives\MessageList.js" />
     <Content Include="app\log\models\LogItem.js" />
@@ -162,6 +164,10 @@
     <Content Include="_deploy\sql\0.00.001\001-create.sql" />
     <Content Include="_deploy\sql\0.00.001\002-load.sql" />
     <Content Include="_deploy\sql\0.00.001\003-alter-Filters.sql" />
+    <Content Include="_deploy\sql\0.00.001\004-cleanup.sql" />
+    <Content Include="_deploy\sql\0.00.001\005-optimize.sql" />
+    <Content Include="_deploy\sql\0.00.002\001-create.sql" />
+    <Content Include="_deploy\sql\0.00.002\002-load.sql" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FormatterConfig.cs" />
@@ -181,26 +187,23 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="_logs\errors\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Elmah.Core.Site\Elmah.Core.Site.csproj">
+      <Project>{f16506d5-ae26-4243-9a05-4249b9a41f83}</Project>
+      <Name>Elmah.Core.Site</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Elmah.Core\Elmah.Core.csproj">
+      <Project>{5f7a6a1d-a1f1-42f6-861a-f59e1ab30aee}</Project>
+      <Name>Elmah.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Elmah.Logger.Api\Elmah.Logger.Api.csproj">
       <Project>{895a0cbf-8fd1-46f5-84fe-8d8a058882d4}</Project>
       <Name>Elmah.Logger.Api</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Elmah.Logger.Core\Elmah.Logger.Core.csproj">
-      <Project>{4a642633-2bc6-425a-b7bf-1cb35c4d74a4}</Project>
-      <Name>Elmah.Logger.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Elmah.Logger.Data\Elmah.Logger.Data.csproj">
       <Project>{85c01ef9-3ce0-4ebe-b519-c027c92939e1}</Project>
       <Name>Elmah.Logger.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Elmah.Logger.Instance\Elmah.Logger.Instance.csproj">
-      <Project>{23708656-f283-4d93-b539-186b7a2e694a}</Project>
-      <Name>Elmah.Logger.Instance</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

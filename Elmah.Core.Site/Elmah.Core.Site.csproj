@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{23708656-F283-4D93-B539-186B7A2E694A}</ProjectGuid>
+    <ProjectGuid>{F16506D5-AE26-4243-9A05-4249B9A41F83}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Elmah.Logger.Instance</RootNamespace>
-    <AssemblyName>Elmah.Logger.Instance</AssemblyName>
+    <RootNamespace>Elmah.Core.Site</RootNamespace>
+    <AssemblyName>Elmah.Core.Site</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -58,9 +58,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Elmah.Logger.Core\Elmah.Logger.Core.csproj">
-      <Project>{4a642633-2bc6-425a-b7bf-1cb35c4d74a4}</Project>
-      <Name>Elmah.Logger.Core</Name>
+    <ProjectReference Include="..\Elmah.Core\Elmah.Core.csproj">
+      <Project>{5f7a6a1d-a1f1-42f6-861a-f59e1ab30aee}</Project>
+      <Name>Elmah.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

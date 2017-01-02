@@ -49,6 +49,7 @@ namespace c3o.Logger.Data
 
 		[NotMapped]
 		public LogMessageBlob Original { get { return JsonConvert.DeserializeObject<LogMessageBlob>(this.Blob); } }
+		//public LogMessageBlob Original { get { return JsonConvert.DeserializeObject<LogMessageBlob>(StringHelper.Decompress(this.Blob)); } }
 
 		public LogMessage()
         {
@@ -77,6 +78,7 @@ namespace c3o.Logger.Data
 
 			//this.Type = obj.Type;
 			this.Blob = JsonConvert.SerializeObject(new LogMessageBlob(obj));
+			//this.Blob = StringHelper.Compress(this.Blob);
 
 			// log & application
 			if (!string.IsNullOrWhiteSpace(obj.Application))

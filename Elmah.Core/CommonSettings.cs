@@ -8,7 +8,13 @@ namespace c3o.Core
 {
     public static class CommonSettings
     {
-        public static string Application { get { return ConfigurationManager.AppSettings.Get("Site:Application"); } }
+		public static string SessionDomain { get { return ConfigurationManager.AppSettings.Get("Site:SessionDomain"); } }
+
+		public static bool EnableSsl { get { return ConfigurationManager.AppSettings.Get("Site:EnableSsl").ParseBool(false); } }
+
+		public static int SiteId { get { return ConfigurationManager.AppSettings.Get("Site:Id").ParseInt(0); } }
+
+		public static string Application { get { return ConfigurationManager.AppSettings.Get("Site:Application"); } }
 
 		public static string DatabaseName { get { return ConfigurationManager.AppSettings.Get("Site.DatabaseName"); } }
 
@@ -16,5 +22,8 @@ namespace c3o.Core
 
 		// 0 = Clear / 1 = Encrypted / 2 = Hashed 
 		public static MembershipPasswordFormat PasswordFormat { get { return ConfigurationManager.AppSettings.Get("Site:PasswordFormat").ParseEnum<MembershipPasswordFormat>(MembershipPasswordFormat.Hashed); } }
+
+		public static string LoginPath { get { return ConfigurationManager.AppSettings.Get("Site.LoginPath"); } }
+		
 	}
 }

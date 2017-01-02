@@ -72,7 +72,8 @@
 					//});
 				}
 				else {
-					scope.model = logService.model();
+			    	scope.model = logService.model();
+
 				}
 			}
 

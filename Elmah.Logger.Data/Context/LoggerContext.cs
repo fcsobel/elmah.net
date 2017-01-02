@@ -10,31 +10,33 @@ namespace c3o.Logger.Data
 {
 	public partial class LoggerContext : DbContext
 	{
-        //public SiteContext SiteContext { get; set; }
+		public ISiteInstance siteInstance { get; set; }
 
-        ////<add name="LoggerContext" connectionString="data source=.; Integrated Security=SSPI; initial catalog=c3o_Logger" providerName="System.Data.SqlClient" />
-        //private static  string ConnectionString(SiteRecord site)
-        //{
-        //    //var site = SiteContext.Current.Site;
-        //    //var site = this.SiteContext.Site;
-        //    if (site != null)
-        //    {
-        //        return site.ConnectionString;                    
-        //    }
-        //    return null;
-        //    //// allow dynamic connection
-        //    //var connection = System.Configuration.ConfigurationManager.ConnectionStrings["LoggerContext"].ConnectionString;
-        //    //connection = string.Format(connection, "acme");
+		//public SiteContext SiteContext { get; set; }
 
-        //    ////SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
-        //    ////sqlBuilder.DataSource = ".";
-        //    ////sqlBuilder.InitialCatalog = "c3o_Logger";
-        //    ////sqlBuilder.PersistSecurityInfo = true;
-        //    ////sqlBuilder.IntegratedSecurity = true;            
-        //    ////sqlBuilder.MultipleActiveResultSets = true;
-        //    ////return sqlBuilder.ToString();
-        //    //return connection;
-        //}
+		////<add name="LoggerContext" connectionString="data source=.; Integrated Security=SSPI; initial catalog=c3o_Logger" providerName="System.Data.SqlClient" />
+		//private static  string ConnectionString(SiteRecord site)
+		//{
+		//    //var site = SiteContext.Current.Site;
+		//    //var site = this.SiteContext.Site;
+		//    if (site != null)
+		//    {
+		//        return site.ConnectionString;                    
+		//    }
+		//    return null;
+		//    //// allow dynamic connection
+		//    //var connection = System.Configuration.ConfigurationManager.ConnectionStrings["LoggerContext"].ConnectionString;
+		//    //connection = string.Format(connection, "acme");
+
+		//    ////SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
+		//    ////sqlBuilder.DataSource = ".";
+		//    ////sqlBuilder.InitialCatalog = "c3o_Logger";
+		//    ////sqlBuilder.PersistSecurityInfo = true;
+		//    ////sqlBuilder.IntegratedSecurity = true;            
+		//    ////sqlBuilder.MultipleActiveResultSets = true;
+		//    ////return sqlBuilder.ToString();
+		//    //return connection;
+		//}
 
 		static LoggerContext()
 		{
@@ -44,6 +46,7 @@ namespace c3o.Logger.Data
 		//public LoggerContext()	: base("Name=LoggerContext")
         public LoggerContext(ISiteInstance siteInstance) : base(siteInstance.Site == null ? null : siteInstance.Site.ConnectionString)
         {
+			this.siteInstance = siteInstance;
             //siteContext.Site.UpdateDb();
             //siteContext.UpdateDb();
             //this.sitcon
@@ -62,8 +65,9 @@ namespace c3o.Logger.Data
 		public DbSet<LogMessage> LogMessages { get; set; }
 		public DbSet<LogMessageDetail> MessageDetails { get; set; }
         public DbSet<Filter> Filters { get; set; }
+		public DbSet<Role> Roles{ get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			modelBuilder.Configurations.Add(new LogMap());
 			modelBuilder.Configurations.Add(new LogApplicationMap());			
@@ -73,7 +77,8 @@ namespace c3o.Logger.Data
 			modelBuilder.Configurations.Add(new LogMessageSourceMap());
 			modelBuilder.Configurations.Add(new LogMessageDetailMap());
             modelBuilder.Configurations.Add(new FilterMap());
-        }
+			modelBuilder.Configurations.Add(new RoleMap());
+		}
     }
 
 	//public class DBInitializer : CreateDatabaseIfNotExists<c3o_loggerContext>
