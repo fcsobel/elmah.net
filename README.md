@@ -1,2 +1,2 @@
 # elmah.net
-ELMAH logging serveice, database and UI
+ELMAH logging serveice, db and ui
