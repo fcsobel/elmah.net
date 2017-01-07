@@ -76,10 +76,11 @@
 				scales: {
 					xAxes: [{
 						type: 'time', display: true,
-						time: {
+						unit: 'day',						
+						time: {							
 							//min: scope.newDate(-80),
 							//max: scope.newDate(-0),
-							unitStepSize: 6,
+							unitStepSize: 1,
 							displayFormats: {
 								'millisecond': 'MMM DD',
 								'second': 'MMM DD',
