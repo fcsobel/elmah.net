@@ -75,23 +75,26 @@
 				maintainAspectRatio: false,
 				scales: {
 					xAxes: [{
-						type: 'time', display: true,
+						type: 'time',
+						display: true,
 						unit: 'day',
 						round: 'day',
 						time: {							
 							//min: scope.newDate(-80),
 							//max: scope.newDate(-0),
 							unitStepSize: 1,
+							unit: 'day',
+							round: 'day',
 							displayFormats: {
-								'millisecond': 'MMM DD',
-								'second': 'MMM DD',
-								'minute': 'MMM DD',
-								'hour': 'MMM DD',
-								'day': 'MMM DD',
-								'week': 'MMM DD YY',
+								'millisecond': 'SSS [ms]',
+								'second': 'h:mm:ss a',
+								'minute': 'h:mm:ss a',
+								'hour': 'MMM D, hA',
+								'day': 'll',
+								'week': 'll',
 								'month': 'MMM YY',
-								'quarter': 'MMM YY',
-								'year': 'MMM YY',
+								'quarter': '[Q]Q - YY',
+								'year': 'YY',
 							}
 						}
 					}, ],
