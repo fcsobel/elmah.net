@@ -76,7 +76,8 @@
 				scales: {
 					xAxes: [{
 						type: 'time', display: true,
-						unit: 'day',						
+						unit: 'day',
+						round: 'day',
 						time: {							
 							//min: scope.newDate(-80),
 							//max: scope.newDate(-0),
