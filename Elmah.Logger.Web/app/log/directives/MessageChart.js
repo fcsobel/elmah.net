@@ -77,24 +77,23 @@
 					xAxes: [{
 						type: 'time',
 						display: true,
-						unit: 'day',
+						//unit: 'day',
 						round: 'day',
-						time: {							
+						time: {
 							//min: scope.newDate(-80),
 							//max: scope.newDate(-0),
 							unitStepSize: 1,
-							unit: 'day',
 							round: 'day',
 							displayFormats: {
 								'millisecond': 'SSS [ms]',
 								'second': 'h:mm:ss a',
 								'minute': 'h:mm:ss a',
 								'hour': 'MMM D, hA',
-								'day': 'll',
-								'week': 'll',
+								'day': 'MMM DD YY',
+								'week': 'MMM DD YY',
 								'month': 'MMM YY',
 								'quarter': '[Q]Q - YY',
-								'year': 'YY',
+								'year': 'YYYY',
 							}
 						}
 					}, ],
