@@ -85,6 +85,7 @@
 							//unitStepSize: 2,
 							//round: 'day',
 							//unit: 'day',
+							minUnit: 'day',
 							displayFormats: {
 								'millisecond': 'SSS [ms]',
 								'second': 'h:mm:ss a',
