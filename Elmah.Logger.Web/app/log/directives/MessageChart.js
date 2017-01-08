@@ -12,12 +12,7 @@
 		// Directive Settings
 		return {
 			restrict: 'AE',
-			scope: {
-				log: '@',
-				severity: '@',
-				limit: '@',
-				span: '@'
-			},
+			scope: { },
 			templateUrl: '/app/log/directives/MessageChart.html?v=1',
 			link: link
 		};
@@ -26,49 +21,18 @@
 		// Link Function
 		function link(scope, el, attrs) {
 			scope.hasData = false;
-
 			scope.model = {};
-
 			// Load Message Chart 
 			scope.init = function () {
-			    if (scope.log) {
-			        scope.Find(scope.log);
-				}
-				else {
-			    	scope.model = logService.model();
-				}
-			}
-
-
-			scope.newDate = function (days) {
-				return moment().add(days, 'd');
-			}
+		    	scope.model = logService.model();
+			}	
 
 			// initialize
 			scope.init();
 
-
-			//scope.labels = ["January", "February", "March", "April", "May", "June", "July", "test"];
-			scope.labels = [scope.newDate(-90), scope.newDate(-6), scope.newDate(-5), scope.newDate(-4), scope.newDate(-3), scope.newDate(-1), scope.newDate(0)];
-			scope.series = ['Errors', 'Series B'];
-			scope.data = [
-			  [65, 59, 80, 81, 56, 55, 88],
-			  [28, 48, 40, 19, 27, 90, 34, ]
-			];
-			scope.onClick = function (points, evt) {
-				//console.log(points, evt);
-			};
-			//scope.chartOptions = { type: 'line', fill: true};
-
-			scope.test1 = function () {
-				scope.data = [
-				  [65, 59, 80, 81, 56, 155, 120],
-				  [28, 48, 40, 19, 27, 90, 24, ]
-				];
-			};
-
 			//http://www.chartjs.org/docs/#scales-linear-scale
 			scope.chartOptions = {
+
 				responsive: true,
 				spanGaps: true,
 				fullWidth: true,
@@ -77,15 +41,14 @@
 					xAxes: [{
 						type: 'time',
 						display: true,
-						//unit: 'day',
+						//minUnit: 'day',
 						//round: 'day',
-						time: {
+						time: {							
 							//min: scope.newDate(-80),
 							//max: scope.newDate(-0),
-							//unitStepSize: 2,
+							//unitStepSize: 1,
 							//round: 'day',
-							//unit: 'day',
-							minUnit: 'day',
+							minUnit: 'day',							
 							displayFormats: {
 								'millisecond': 'SSS [ms]',
 								'second': 'h:mm:ss a',
@@ -101,135 +64,140 @@
 					}, ],
 					yAxes: [{ display: false }, ]
 				}
-
 			};
 
-
-			//scope.labels = [scope.newDate(-90), scope.newDate(-6), scope.newDate(-5), scope.newDate(-4), scope.newDate(-3), scope.newDate(-1), scope.newDate(0)];
-			//scope.series = ['Series A', 'Series B'];
-			//scope.data = [
-			//  [65, 59, 80, 81, 56, 55, 88],
-			//  [28, 48, 40, 19, 27, 90, 34, ]
-			//];
-
-			scope.$watch('model.model.typeCount', function (newValue, oldValue, scope) {
+						
+			//scope.$watch('model.model.typeCount', function (newValue, oldValue, scope) {
+			//	scope.RefreshChart();
+			//});
+					
+			scope.$watch('model.model.types', function (newValue, oldValue, scope) {
 				scope.RefreshChart();
 			});
 
-			scope.counter = 0;
+			//$rootScope.$broadcast("refreshFilter");
+
+			scope.$on("refreshFilter", function () {
+				scope.RefreshChart();
+			});
+
+
+			//scope.$watch('messageFilter()', function (newValue, oldValue, scope) {
+			//	scope.RefreshChart();
+			//});
+
+
+			//scope.GetData = function () {
+			//	scope.hasData = false;
+			//	var data = [];
+			//	var selected = scope.model.model.types;
+	
+			//	// get selected types
+			//	selected = _.filter(selected, { 'selected': true });
+			//	if (selected.length <= 0) { selected = scope.model.model.types };
+							
+			//	_.forEach(selected, function (value, key) {
+			//		data.push(value.counts);
+			//		if (value.counts && value.counts.length > 0) { scope.hasData = true; }
+
+			//		scope.series.push(value.name);
+			//	});
+
+			//	return data;
+			//};
+
+			//scope.GetSeries = function () {
+			//	var series = [];
+			//	var selected = scope.model.model.types;
+
+			//	// get selected types
+			//	selected = _.filter(selected, { 'selected': true });
+			//	if (selected.length <= 0) { selected = scope.model.model.types };
+
+			//	_.forEach(selected, function (value, key) {
+			//		series.push(value.name);
+			//	});
+
+			//	return series;
+			//};
+
 
 			scope.RefreshChart = function () {
+
+				//console.log('RefreshChart');
+
+				//var labels = [];
+				//var data4 = [];
+				//var data3 = [];
+				//var list = scope.model.model.typeCount;
+
+				//_.forEach(list, function (value, key) {					
+				//	//labels.push(moment(new Date(value.name)));
+				//	///data1.push(value.count);
+				//	//data2.push(value.count * 2);
+				//	data3.push({ x: moment(new Date(value.name)), y: value.count })
+				//	data4.push({ x: moment(new Date(value.name)), y: value.count * 2 })
+				//	scope.hasData = true;
+				//});
+
+				// Set Labels / dates
+				//scope.labels = labels;
+				// Set Data / counts
+				//scope.data = [];
+				scope.data = [];
+				//scope.labels = [];
+				scope.series = [];
+				//scope.datasets = [];
+				//scope.data.push(data3);
+
+				// get selected types
+				var selected = _.filter(scope.model.model.types, { 'selected': true });
+				if (selected.length <= 0) { selected = scope.model.model.types };
 				
-				scope.counter = scope.counter  +1;
-				//console.log('refresh', scope.counter)
+				scope.colors = [];
 
-				//scope.chartOptions.responsive = false;
+				scope.hasData = false;
 
+				_.forEach(selected, function (value, key) {
 				
-				var labels = [];
-				//var data1 = [];
-				//var data2 = [];
-				var data4 = [];
-				var data3 = [];
-				var list = scope.model.model.typeCount;
+					var color = '#97BBCD';
+					if (value.color == undefined) {
+						color = '#97BBCD'
+					}
+					else {
+						color = value.color;
+						console.log('color', color);
+					}
+					if (value.color == 'brown') { color = '#800000'; }
+					if (value.color == 'orange') { color = '#FF4500'; }
+					if (value.color == 'green') { color = '#008000'; }
+					if (value.color == 'blue') { color = '#4682B4'; }
 
-				//console.log('list', list);
+					scope.colors.push(color);
 
-				_.forEach(list, function (value, key) {					
-					//console.log(value, key);
-					labels.push(moment(new Date(value.name)));
-					///data1.push(value.count);
-					//data2.push(value.count * 2);
-					data3.push({ x: moment(new Date(value.name)), y: value.count })
-					data4.push({ x: moment(new Date(value.name)), y: value.count * 2 })
-					scope.hasData = true;
+					
+					scope.data.push(value.counts);
+
+					if (value.counts && value.counts.length > 0)
+					{
+						scope.hasData = true;
+					}
+
+					//var obj = {
+					//	label: '# of Votes',
+					//	data: value.counts
+					//};
+					//scope.datasets.push(obj);
+					scope.series.push(value.name);
+
 				});
 
-				//data3 = data4.splice(20, 40);
-				//data4 = data4.splice(1, 20);
+				//scope.chartOptions.chartColors = colors;
 
-				//console.log(labels);
-				scope.data = [];
-				scope.labels = [];				
-				scope.labels = labels;
-				//scope.data = [data1, data2];
-				//scope.data = [data3, data4];
-				scope.data = [data3];
-
-				//scope.chartOptions.responsive = false;
-
-
-				//var ctx = document.getElementById("myChart");
-				//var myChart = new Chart(ctx, {
-				//	type: 'line',
-				//	data: {
-				//		labels: labels,
-				//		series : ['Series A', 'Series B'],
-				//		datasets: [{
-				//			label: '# of Votes',
-				//			data: data1,							
-				//			borderWidth: 1
-				//		}]
-				//	},
-				//	options: {
-				//		responsive: true,
-				//		spanGaps: true,
-				//		fullWidth: true,
-				//		maintainAspectRatio: false,
-				//		scales: {
-				//			xAxes: [{
-				//				type: 'time', display: true,
-				//				time: {
-				//					//min: scope.newDate(-80),
-				//					//max: scope.newDate(-0),
-				//					unitStepSize: 5,
-				//					displayFormats: {
-				//						'millisecond': 'MMM DD',
-				//						'second': 'MMM DD',
-				//						'minute': 'MMM DD',
-				//						'hour': 'MMM DD',
-				//						'day': 'MMM DD',
-				//						'week': 'MMM DD YY',
-				//						'month': 'MMM YY',
-				//						'quarter': 'MMM YY',
-				//						'year': 'MMM YY',
-				//					}
-				//				}
-				//			}, ],
-				//			yAxes: [{ display: false }, ]
-				//		}
-				//	}
-				//});
-
-				//// another chart
-				//var chart = new CanvasJS.Chart("chartContainer",
-				//{
-				//	axisX:{
-				//		title: "timeline",
-				//		gridThickness: 2
-				//	},
-				//});
-
-				//var dates = [];
-
-				//_.forEach(list, function (value, key) {
-				//	var item = { x: new Date(value.name), y: value.count };
-				//	dates.push(item);
-				//});
-				//console.log('dates', dates);
-				//chart.options.data = dates;
-				//chart.options.data = [
-				//	{
-				//		type: "splineArea",
-				//		dataPoints: dates
-				//	}
-				//];
-
-				//chart.render();
-
+				//scope.chartOptions.colors = [];
+				//: [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+				
 			}
-									
-
 		}
 	}
 })();

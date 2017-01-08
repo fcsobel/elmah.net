@@ -22,7 +22,7 @@ c3o.Core.Data.LogSearchResponse = function (model) {
 	this.logs = $.map(model.logs, function (item, i) { return new c3o.Core.Data.LogItem(item); });
 	this.applications = $.map(model.applications, function (item, i) { return new c3o.Core.Data.LogItem(item); });
 	this.severities = $.map(model.severities, function (item, i) { return new c3o.Core.Data.LogItem(item); });
-	this.types = $.map(model.types, function (item, i) { return new c3o.Core.Data.LogItem(item); });
+	this.types = $.map(model.types, function (item, i) { return new c3o.Core.Data.LogItem(item, model.typeCount2); });
 	this.sources = $.map(model.sources, function (item, i) { return new c3o.Core.Data.LogItem(item); });
 	this.users = $.map(model.users, function (item, i) { return new c3o.Core.Data.LogItem(item); });
 

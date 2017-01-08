@@ -4,10 +4,10 @@
 	angular.module('c3o.core').directive('logMessageFilter', logMessageFilter);
 
 	// dependencies
-	logMessageFilter.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
+	logMessageFilter.$inject = ['$window', '$cookies', '$timeout', '$rootScope','LogService', 'usSpinnerService'];
 
 	// Package Options Directive
-	function logMessageFilter($window, $cookies, $timeout, logService, usSpinnerService) {
+	function logMessageFilter($window, $cookies, $timeout, $rootScope, logService, usSpinnerService) {
 
 		// Directive Settings
 		return {
@@ -23,8 +23,7 @@
 			templateUrl: '/app/log/directives/MessageFilter.html',
 			link: link
 		};
-
-		
+			
 
 		// Link Function
 		function link(scope, el, attrs) {
@@ -128,6 +127,7 @@
 			    // get query data
 			    scope.RefreshQuery();
 
+			
 			    // find by name
 			    logService.find(name)
 					.then(function (response) { // sucess
@@ -211,7 +211,8 @@
 					    scope.Refresh();
 					});
 			};
-            
+        
+
 
 		    // Update UI based on response
 			scope.Refresh = function () {
@@ -258,6 +259,12 @@
 			        var obj = _.find(objList, { 'name': value });
 			        if (obj) { obj.selected = true; }
 			    });
+			}
+
+			scope.Filter = function ()
+			{
+				console.log('refreshFilter');
+				$rootScope.$broadcast("refreshFilter");
 			}
 
 
