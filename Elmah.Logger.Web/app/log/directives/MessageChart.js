@@ -34,7 +34,7 @@
 			scope.chartOptions = {
 
 				responsive: true,
-				spanGaps: true,
+				spanGaps: false,
 				fullWidth: true,
 				maintainAspectRatio: false,
 				scales: {
