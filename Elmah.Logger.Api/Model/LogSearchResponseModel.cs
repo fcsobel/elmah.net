@@ -59,8 +59,9 @@ namespace c3o.Logger.Web
         public List<Filter> Filters { get; set; }
 
 		public List<LogCount> TypeCount { get; set; }
+		public List<LogCount> TypeCount2 { get; set; }
 
-        public LogSearchResponseModel() {
+		public LogSearchResponseModel() {
 			this.Messages = new List<LogMessage>();
 			this.Logs = new List<LogObject>();
 			this.Applications = new List<LogObject>();

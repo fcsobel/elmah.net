@@ -170,6 +170,13 @@ namespace c3o.Logger.Web
         }
 
 
+		//[HttpGet]
+		//[Route("messages/search")]
+		//public LogSearchResponseModel Stats(Query query, HydrationLevel level = HydrationLevel.Basic, string log = null, string application = null)
+		//{
+		//}
+
+
 
 		/// <summary>
 		/// Search
@@ -360,6 +367,7 @@ namespace c3o.Logger.Web
 
 			//var counts = messages.GroupBy(x => new { Year = x.DateTime.Year, Month = x.DateTime.Month, Day = x.DateTime.Day, Hour = x.DateTime.Hour }).Select(z => new { type = z.Key, count = z.Count() }).ToList();
 			var counts = messages.GroupBy(x => new { Year = x.DateTime.Year, Month = x.DateTime.Month, Day = x.DateTime.Day }).Select(z => new { type = z.Key, count = z.Count() }).ToList();
+			var typeCounts = messages.GroupBy(x => new { TypeId = x.MessageTypeId, Year = x.DateTime.Year, Month = x.DateTime.Month, Day = x.DateTime.Day }).Select(z => new { type = z.Key, count = z.Count() }).ToList();
 
 			if (query.Limit > 0)
 			{
@@ -381,7 +389,15 @@ namespace c3o.Logger.Web
 						
 
 			//model.TypeCount = counts.OrderBy(x=>x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100  + x.type.Hour).Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day, x.type.Hour, 0, 0).ToString(), Count = x.count }).ToList();
-			model.TypeCount = counts.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100).Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
+			model.TypeCount = counts
+				.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100)
+				.Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
+
+			model.TypeCount2 = typeCounts
+				.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100)
+				.Select(x => new LogCount() { Id = x.type.TypeId ?? 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
+
+
 
 			//model.TypeCount = counts.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day + x.type.Hour).Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
 

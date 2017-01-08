@@ -168,6 +168,7 @@
     <Content Include="_deploy\sql\0.00.001\005-optimize.sql" />
     <Content Include="_deploy\sql\0.00.002\001-create.sql" />
     <Content Include="_deploy\sql\0.00.002\002-load.sql" />
+    <Content Include="_deploy\sql\0.00.002\007-LogCounts.sql" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FormatterConfig.cs" />
