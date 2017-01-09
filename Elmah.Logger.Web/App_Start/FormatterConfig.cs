@@ -14,6 +14,7 @@ namespace c3o.Logger.Web
 	{
 		public static void RegisterFormatters(MediaTypeFormatterCollection formatters)
 		{
+
 			// Remove the XML formatter
 			//formatters.Remove(formatters.XmlFormatter);
 
