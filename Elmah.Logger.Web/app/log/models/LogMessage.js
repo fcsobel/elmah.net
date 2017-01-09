@@ -42,29 +42,29 @@ c3o.Core.Data.LogMessage = function (data, model) {
 
 // SiteContent class methods
 c3o.Core.Data.LogMessage.prototype = {
-    CheckItem: function (id, list, obj) {
+	CheckItem: function (id, list, obj) {
 
-        // look for item by id
-        var item = _.find(list, { id: id });
-        if (!item && obj) {
-            item = obj;
-            list.push(item);
-        }
-        return item;
-    },
+		// look for item by id
+		var item = _.find(list, { id: id });
+		if (!item && obj) {
+			item = obj;
+			list.push(item);
+		}
+		return item;
+	},
 
-    // check for message in item
-    CheckMessage: function (item) {
-        if (item) {
-            item.messages = item.messages || []; // check for message list
-            var index = _.findIndex(item.messages, _.pick(this, 'id')); // get message index by id
-            if (index !== -1) {
-                item.messages.splice(index, 1, this); // replace message
-            } else {
-                item.messages.push(this); // add new message to list
-            }
-        }
-    }
+	// check for message in item
+	CheckMessage: function (item) {
+		if (item) {
+			item.messages = item.messages || []; // check for message list
+			var index = _.findIndex(item.messages, _.pick(this, 'id')); // get message index by id
+			if (index !== -1) {
+				item.messages.splice(index, 1, this); // replace message
+			} else {
+				item.messages.push(this); // add new message to list
+			}
+		}
+	}
 	//get Name() { return this.firstName + " " + this.lastName; },
 	//get NameLastFirst() { return this.lastName + ", " + this.firstName; }	
-}
+};

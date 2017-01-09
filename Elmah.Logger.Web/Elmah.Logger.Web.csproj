@@ -136,8 +136,13 @@
     <Content Include="app\core\directives\ErrorTreeItem.js" />
     <Content Include="app\core\main.js" />
     <Content Include="app\core\models\main.js" />
+    <Content Include="app\core\models\SiteError.js" />
     <Content Include="app\core\services\ErrorService.js" />
     <Content Include="app\core\services\RecursionHelper.js" />
+    <Content Include="app\log\apps\logger-bundle.js" />
+    <Content Include="app\log\apps\logger-bundle.min.js">
+      <DependentUpon>logger-bundle.js</DependentUpon>
+    </Content>
     <Content Include="app\log\apps\logger.js" />
     <Content Include="app\log\directives\Logger.html" />
     <Content Include="app\log\directives\Logger.js" />
@@ -181,6 +186,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="app\Web.config" />
+    <Content Include="bundleconfig.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

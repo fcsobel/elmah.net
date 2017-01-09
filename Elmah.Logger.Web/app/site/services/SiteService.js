@@ -8,7 +8,7 @@
 		    var context = { model: {} };
 
 		    // Init
-			check = function () {
+			var check = function () {
 			    var promise = siteApi.check()
 					.then(function (response) { // handle response
 
@@ -28,7 +28,7 @@
 			    return promise;
 			};
 
-			create = function () {
+			var create = function () {
 			    var promise = siteApi.create()
 					.then(function (response) { // handle response
 

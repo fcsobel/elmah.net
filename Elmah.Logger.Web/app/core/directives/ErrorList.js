@@ -5,7 +5,7 @@
 		// Package Detail
 		.directive('c3oErrorList', function () {
 			return {
-				restrict: 'E',
+				restrict: 'AE',
 				//scope:
 				//{
 				//	errors: '='

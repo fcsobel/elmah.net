@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('c3o.core')
+	angular.module('c3o.logger')
 
 		.factory('LoggerApi', ['$http', '$q', 'ErrorService', function ($http, $q, errorService) {
 
@@ -137,4 +137,5 @@
 			}
 		}
 		]);
+
 }());

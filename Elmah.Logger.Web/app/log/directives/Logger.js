@@ -1,7 +1,7 @@
 ﻿(function () {
 	'use strict';
 
-	angular.module('c3o.core').directive('logLogger', logLogger);
+	angular.module('c3o.logger').directive('logLogger', logLogger);
 
 	// dependencies
 	logLogger.$inject = ['$window', '$cookies', '$timeout', 'SiteService', 'usSpinnerService'];
@@ -51,4 +51,5 @@
 
 		}
 	}
+
 })();

@@ -14,7 +14,7 @@
 				templateUrl: '/app/core/directives/ErrorTreeItem.html',
 				controller: function ($scope, ErrorService) {
 
-					model = {
+					var model = {
 						showRaw: false,
 						showDetail: false
 					}

@@ -1,4 +1,6 @@
-﻿c3o = {};
+﻿'use strict';
+
+var c3o = {};
 c3o.Core = {};
 c3o.Core.Data = {};
 

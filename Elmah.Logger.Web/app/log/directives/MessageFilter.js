@@ -1,7 +1,7 @@
 ﻿(function () {
 	'use strict';
 
-	angular.module('c3o.core').directive('logMessageFilter', logMessageFilter);
+	angular.module('c3o.logger').directive('logMessageFilter', logMessageFilter);
 
 	// dependencies
 	logMessageFilter.$inject = ['$window', '$cookies', '$timeout', '$rootScope','LogService', 'usSpinnerService'];
@@ -263,7 +263,7 @@
 
 			scope.Filter = function ()
 			{
-				console.log('refreshFilter');
+				//console.log('refreshFilter');
 				$rootScope.$broadcast("refreshFilter");
 			}
 

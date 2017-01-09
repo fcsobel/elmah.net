@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('c3o.core')
+	angular.module('c3o.logger')
 
 		.factory('LogService', ['$q', 'LoggerApi', 'ErrorService', function ($q, loggerApi, errorService) {
 
@@ -9,7 +9,9 @@
 				model: { messages: [] }
 			};
 
-			filter = function (value, index, array) {
+
+			// builds filter used by list ng-repeat filter:
+			var filter = function (value, index, array) {
 
 			    if (value.deleted) return false;
 
@@ -65,7 +67,7 @@
 
 
 		    // Init
-			init = function () {
+			var init = function () {
 			    var promise = loggerApi.init()
 					.then(function (response) { // handle response
 
@@ -96,7 +98,7 @@
 			};
 
 		    // Create or update filter
-			searchAndUpdate = function (name, filter, limit, span, logs, applications, severities, types, sources, users, start, end) {
+			var searchAndUpdate = function (name, filter, limit, span, logs, applications, severities, types, sources, users, start, end) {
 			    var promise = loggerApi.searchAndUpdate(name, filter, limit, span, logs, applications, severities, types, sources, users, start, end)
 					.then(function (response) { // handle response
 
@@ -128,7 +130,7 @@
 
 
 		    // Delete
-			deleteByName = function (name) {
+			var deleteByName = function (name) {
 			    var promise = loggerApi.deleteByName(name)
 					.then(function (response) { // handle response
 
@@ -157,7 +159,7 @@
 
 
 		    // Search Loge Messages
-			find = function (name) {
+			var find = function (name) {
 			    var promise = loggerApi.find(name)
 					.then(function (response) { // handle response
 
@@ -185,7 +187,7 @@
 			};
 
 			// Search Loge Messages
-			search = function (limit, span, logs, applications, severities, types, sources, users, start, end) {
+			var search = function (limit, span, logs, applications, severities, types, sources, users, start, end) {
 			    var promise = loggerApi.search(limit, span, logs, applications, severities, types, sources, users, start, end)
 					.then(function (response) { // handle response
 
@@ -216,7 +218,7 @@
 			};
 
 			// get full Message detail
-			detail = function (id) {
+			var detail = function (id) {
 				var promise = loggerApi.detail(id)
 					// Handle message Response
 					.then(function (response) {
@@ -251,7 +253,7 @@
 			};
 
 		    // Update Message
-			deleteMessage = function (message) {
+			var deleteMessage = function (message) {
 			    var promise = loggerApi.deleteMessage(message.id).then(
 						function (data) {
 
@@ -268,7 +270,7 @@
 			};
 
 			// Update Message
-			update = function (obj) {
+			var update = function (obj) {
 				var promise = loggerApi.update(obj).then(
 						function (data) {
 							container.model = data;
@@ -296,4 +298,5 @@
 			};
 		}
 		]);
+
 }());

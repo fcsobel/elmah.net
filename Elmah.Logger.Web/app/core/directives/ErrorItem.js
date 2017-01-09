@@ -5,7 +5,7 @@
 		// Package Detail
 		.directive('c3oErrorItem', function () {
 			return {
-				restrict: 'A',
+				restrict: 'AE',
 				scope:
 				{
 				    error: '=c3oErrorItem'
@@ -16,8 +16,4 @@
 				}
 			};
 		})
-
 }());
-
-
-

@@ -393,6 +393,7 @@ namespace c3o.Logger.Web
 				.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100)
 				.Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
 
+			// count by type / id
 			model.TypeCount2 = typeCounts
 				.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100)
 				.Select(x => new LogCount() { Id = x.type.TypeId ?? 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();

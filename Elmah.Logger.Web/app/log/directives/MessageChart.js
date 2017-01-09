@@ -1,7 +1,6 @@
 ﻿(function () {
-	'use strict';
-
-	angular.module('c3o.core').directive('logMessageChart', exampleApiDetail);
+	
+	angular.module('c3o.logger').directive('logMessageChart', exampleApiDetail);
 
 	// dependencies
 	exampleApiDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
@@ -34,13 +33,14 @@
 			scope.chartOptions = {
 
 				responsive: true,
-				spanGaps: false,
+				spanGaps: true,
 				fullWidth: true,
 				maintainAspectRatio: false,
 				scales: {
 					xAxes: [{
 						type: 'time',
-						display: true,
+						display: true,						
+						spanGaps: true,
 						//minUnit: 'day',
 						//round: 'day',
 						time: {							
@@ -121,75 +121,50 @@
 			//	return series;
 			//};
 
-
 			scope.RefreshChart = function () {
 
 				//console.log('RefreshChart');
 
-				//var labels = [];
-				//var data4 = [];
-				//var data3 = [];
-				//var list = scope.model.model.typeCount;
-
-				//_.forEach(list, function (value, key) {					
-				//	//labels.push(moment(new Date(value.name)));
-				//	///data1.push(value.count);
-				//	//data2.push(value.count * 2);
-				//	data3.push({ x: moment(new Date(value.name)), y: value.count })
-				//	data4.push({ x: moment(new Date(value.name)), y: value.count * 2 })
-				//	scope.hasData = true;
-				//});
-
-				// Set Labels / dates
-				//scope.labels = labels;
-				// Set Data / counts
-				//scope.data = [];
 				scope.data = [];
-				//scope.labels = [];
 				scope.series = [];
-				//scope.datasets = [];
-				//scope.data.push(data3);
+				scope.colors = [];
+				scope.hasData = false;
 
 				// get selected types
-				var selected = _.filter(scope.model.model.types, { 'selected': true });
+				var selected = scope.model.model.types;
+				var selected = _.filter(selected, { 'selected': true });
+
+				//console.log('selected1', selected);
+
 				if (selected.length <= 0) { selected = scope.model.model.types };
 				
-				scope.colors = [];
-
-				scope.hasData = false;
+				//console.log('selected', selected);
 
 				_.forEach(selected, function (value, key) {
 				
-					var color = '#97BBCD';
-					if (value.color == undefined) {
-						color = '#97BBCD'
-					}
-					else {
-						color = value.color;
-						console.log('color', color);
-					}
-					if (value.color == 'brown') { color = '#800000'; }
-					if (value.color == 'orange') { color = '#FF4500'; }
-					if (value.color == 'green') { color = '#008000'; }
-					if (value.color == 'blue') { color = '#4682B4'; }
-
-					scope.colors.push(color);
-
-					
-					scope.data.push(value.counts);
-
+					// set flag 
 					if (value.counts && value.counts.length > 0)
 					{
+						//console.log('add', value.name);
+
+						var color = '#97BBCD';
+						if (value.color == undefined) {
+							color = '#97BBCD'
+						}
+						else {
+							color = value.color;
+							//console.log('color', color);
+						}
+						if (value.color == 'brown') { color = '#800000'; }
+						if (value.color == 'orange') { color = '#FF4500'; }
+						if (value.color == 'green') { color = '#008000'; }
+						if (value.color == 'blue') { color = '#4682B4'; }
+
+						scope.colors.push(color);  // Add color
+						scope.series.push(value.name); // Add series names
+						scope.data.push(value.counts); // Add counts				
 						scope.hasData = true;
 					}
-
-					//var obj = {
-					//	label: '# of Votes',
-					//	data: value.counts
-					//};
-					//scope.datasets.push(obj);
-					scope.series.push(value.name);
-
 				});
 
 				//scope.chartOptions.chartColors = colors;

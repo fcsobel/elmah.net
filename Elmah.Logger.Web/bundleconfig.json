@@ -1,0 +1,31 @@
+[
+  {
+    "outputFileName": "app/log/apps/logger-bundle.js",
+			"inputFiles": [
+				"app/core/models/main.js",
+				"app/core/models/SiteError.js",
+				"app/log/models/LogItem.js",
+				"app/log/models/LogMessage.js",
+				"app/log/models/LogQuery.js",
+				"app/log/models/LogSearchResponse.js",
+				"app/site/models/Site.js",
+				"app/core/main.js",
+				"app/core/services/RecursionHelper.js",
+				"app/core/directives/ErrorModel.js",
+				"app/core/directives/ErrorItem.js",
+				"app/core/directives/ErrorList.js",
+				"app/core/directives/ErrorTreeItem.js",
+				"app/core/services/ErrorService.js",
+				"app/site/services/SiteApi.js",
+				"app/site/services/SiteService.js",
+				"app/log/apps/logger.js",
+				"app/log/services/LoggerApi.js",
+				"app/log/services/LogService.js",
+				"app/log/directives/Logger.js",
+				"app/log/directives/MessageFilter.js",
+				"app/log/directives/MessageList.js",
+				"app/log/directives/MessageChart.js",
+				"app/log/directives/MessageDetail.js"
+			]
+  }
+]

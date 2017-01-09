@@ -1,7 +1,7 @@
 ﻿(function () {
 	'use strict';
 
-	angular.module('c3o.core').directive('logMessageList', exampleApiDetail);
+	angular.module('c3o.logger').directive('logMessageList', exampleApiDetail);
 
 	// dependencies
 	exampleApiDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
