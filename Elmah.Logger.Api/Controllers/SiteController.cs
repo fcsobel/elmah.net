@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Elmah.Io.Client;
-using c3o.Logger.Data;
-using c3o.Core;
+using Elmah.Net.Logger.Data;
+using Elmah.Net;
 
-namespace c3o.Logger.Web
+namespace Elmah.Net.Logger.Web
 {
 	[RoutePrefix("api.site")]
 	public class SiteController : ApiController

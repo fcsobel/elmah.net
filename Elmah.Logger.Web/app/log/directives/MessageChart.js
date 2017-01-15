@@ -1,6 +1,6 @@
 ﻿(function () {
 	
-	angular.module('c3o.logger').directive('logMessageChart', exampleApiDetail);
+	angular.module('elmah.net.logger').directive('logMessageChart', exampleApiDetail);
 
 	// dependencies
 	exampleApiDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];

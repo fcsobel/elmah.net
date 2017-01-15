@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
 		.factory('SiteApi', ['$http', '$q', 'ErrorService', function ($http, $q, errorService) {
 

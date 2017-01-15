@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Elmah.Io.Client;
-using c3o.Logger.Data;
-using c3o.Core;
+using Elmah.Net.Logger.Data;
+using Elmah.Net;
 
-namespace c3o.Logger.Web
+namespace Elmah.Net.Logger.Web
 {
     [RoutePrefix("api.logger")]
     public class LoggerController : ApiController
@@ -203,13 +203,13 @@ namespace c3o.Logger.Web
                 query.Start = DateTime.UtcNow.AddMinutes((int)query.Span * -1);
             }
 
-            IQueryable<c3o.Logger.Data.LogMessage> messages = null;
+            IQueryable<Elmah.Net.Logger.Data.LogMessage> messages = null;
 
             if (query.Start.HasValue)
             {
                 if (query.End.HasValue)
                 {
-					messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start && x.DateTime <= query.End);
+					messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start && x.DateTime <= query.End);
       //                  .Include(x => x.Log)
 						//.Include(x => x.User)
 						//.Include(x => x.Source)
@@ -219,7 +219,7 @@ namespace c3o.Logger.Web
 				}
                 else
                 {
-					messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start);
+					messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start);
       //                  .Include(x => x.Log)
 						//.Include(x => x.User)
 						//.Include(x => x.Source)
@@ -230,7 +230,7 @@ namespace c3o.Logger.Web
             }
             else
             {
-				messages = (IQueryable<c3o.Logger.Data.LogMessage>)db.LogMessages;
+				messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages;
       //                  .Include(x => x.Log)
 						//.Include(x => x.User)
 						//.Include(x => x.Source)
@@ -253,7 +253,7 @@ namespace c3o.Logger.Web
 			if (!string.IsNullOrWhiteSpace(log))
             {
                 //var start = DateTime.Now.Date;
-                //var allLogs = (IQueryable<c3o.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
+                //var allLogs = (IQueryable<Elmah.Net.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
                 var theLog = db.Logs.FirstOrDefault(x => x.Name == log);
                 if (theLog != null)
                 {

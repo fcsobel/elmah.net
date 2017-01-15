@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace c3o.Core
+namespace Elmah.Net
 {
     public static class NetworkHelper
 	{

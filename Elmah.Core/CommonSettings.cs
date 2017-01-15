@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Collections.Generic;
 using System.Web.Security;
 
-namespace c3o.Core
+namespace Elmah.Net
 {
     public static class CommonSettings
     {

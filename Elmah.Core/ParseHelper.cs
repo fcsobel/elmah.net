@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace c3o.Core
+namespace Elmah.Net
 {
 	public static class ParseHelper
 	{

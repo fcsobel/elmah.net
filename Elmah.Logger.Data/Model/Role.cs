@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 //using Microsoft.AspNet.Identity;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
 	public partial class Role // : IRole<int>
 	{

@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace c3o.Core
+namespace Elmah.Net
 {
 	public static class StringHelper
 	{

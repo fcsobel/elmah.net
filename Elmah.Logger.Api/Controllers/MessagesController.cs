@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Elmah.Io.Client;
-using c3o.Core;
-using c3o.Logger.Data;
+using Elmah.Net;
+using Elmah.Net.Logger.Data;
 
-namespace c3o.Logger.Web
+namespace Elmah.Net.Logger.Web
 {
 	[RoutePrefix("api/v2/messages")]
 	public class MessagesController : ApiController
@@ -63,7 +63,7 @@ namespace c3o.Logger.Web
 			{
 				if (!string.IsNullOrWhiteSpace(logId))
 				{
-					var entry = new c3o.Logger.Data.LogMessage(message, logId);
+					var entry = new Elmah.Net.Logger.Data.LogMessage(message, logId);
 
 					// map log
 					var key = new Guid(logId);

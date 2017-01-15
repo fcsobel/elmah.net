@@ -1,4 +1,4 @@
-﻿using c3o.Core;
+﻿using Elmah.Net;
 using DbUp;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
 	public class SiteRecordBase : ISiteRecord
 	{

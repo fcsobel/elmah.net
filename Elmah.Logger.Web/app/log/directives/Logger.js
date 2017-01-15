@@ -1,7 +1,7 @@
 ﻿(function () {
 	'use strict';
 
-	angular.module('c3o.logger').directive('logLogger', logLogger);
+	angular.module('elmah.net.logger').directive('logLogger', logLogger);
 
 	// dependencies
 	logLogger.$inject = ['$window', '$cookies', '$timeout', 'SiteService', 'usSpinnerService'];

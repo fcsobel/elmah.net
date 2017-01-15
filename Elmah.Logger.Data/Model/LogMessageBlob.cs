@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Elmah.Io.Client;
 using Newtonsoft.Json;
-using c3o.Core;
+using Elmah.Net;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
     public class LogMessageBlob
     {

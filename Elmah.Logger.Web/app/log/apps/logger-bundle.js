@@ -1,15 +1,15 @@
 'use strict';
 
-var c3o = {};
-c3o.Core = {};
-c3o.Core.Data = {};
+var Elmah = {};
+Elmah.Net = {};
+Elmah.Net.Models = {};
 
 //https://developer.mozilla.org/en-US/Add-ons/Overlay_Extensions/XUL_School/JavaScript_Object_Management
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 /////////////////////////////////////////////////////////////
 // Site Error
 /////////////////////////////////////////////////////////////
-c3o.Core.Data.SiteError = function (error, cause, message, key, type) {
+Elmah.Net.Models.SiteError = function (error, cause, message, key, type) {
 	var self = this;
 	if (!key) key = "";
 	if (!message && error) { message = error.message; }
@@ -43,7 +43,7 @@ c3o.Core.Data.SiteError = function (error, cause, message, key, type) {
 /////////////////////////////////////////////////////////////
 // LogQuery Class
 /////////////////////////////////////////////////////////////
-c3o.Core.Data.LogItem = function (model, countData) {
+Elmah.Net.Models.LogItem = function (model, countData) {
 	var self = this;
 
 	_.extend(this, model);
@@ -102,14 +102,14 @@ c3o.Core.Data.LogItem = function (model, countData) {
 }
 
 // SiteContent class methods
-c3o.Core.Data.LogItem.prototype = {
+Elmah.Net.Models.LogItem.prototype = {
 	get Visible() { return this.visible || this.selected || (this.messages && this.messages.length > 0); }
 };
 
 /////////////////////////////////////////////////////////////
 // LogMessage Class
 /////////////////////////////////////////////////////////////
-c3o.Core.Data.LogMessage = function (data, model) {
+Elmah.Net.Models.LogMessage = function (data, model) {
     var self = this;
 
     _.extend(this, data);
@@ -149,7 +149,7 @@ c3o.Core.Data.LogMessage = function (data, model) {
 }
 
 // SiteContent class methods
-c3o.Core.Data.LogMessage.prototype = {
+Elmah.Net.Models.LogMessage.prototype = {
 	CheckItem: function (id, list, obj) {
 
 		// look for item by id
@@ -180,7 +180,7 @@ c3o.Core.Data.LogMessage.prototype = {
 /////////////////////////////////////////////////////////////
 // LogQuery Class
 /////////////////////////////////////////////////////////////
-c3o.Core.Data.LogQuery = function (model) {
+Elmah.Net.Models.LogQuery = function (model) {
 	var self = this;
 
 	_.extend(this, model);
@@ -192,12 +192,12 @@ c3o.Core.Data.LogQuery = function (model) {
 }
 
 // SiteContent class methods
-//c3o.Core.Data.Query.prototype = {}
+//Elmah.Net.Models.Query.prototype = {}
 
 /////////////////////////////////////////////////////////////
 // LogSearchResponse Class
 /////////////////////////////////////////////////////////////
-c3o.Core.Data.LogSearchResponse = function (model) {
+Elmah.Net.Models.LogSearchResponse = function (model) {
 	var self = this;
 
 	_.extend(this, model);
@@ -211,26 +211,26 @@ c3o.Core.Data.LogSearchResponse = function (model) {
 
 	// convert message list - Transform json data to objects
 	this.messages = $.map(model.messages, function (item, i) {
-		return new c3o.Core.Data.LogMessage(item, model);
+		return new Elmah.Net.Models.LogMessage(item, model);
 	});
 
     // convert items
-	this.logs = $.map(model.logs, function (item, i) { return new c3o.Core.Data.LogItem(item); });
-	this.applications = $.map(model.applications, function (item, i) { return new c3o.Core.Data.LogItem(item); });
-	this.severities = $.map(model.severities, function (item, i) { return new c3o.Core.Data.LogItem(item); });
-	this.types = $.map(model.types, function (item, i) { return new c3o.Core.Data.LogItem(item, model.typeCount2); });
-	this.sources = $.map(model.sources, function (item, i) { return new c3o.Core.Data.LogItem(item); });
-	this.users = $.map(model.users, function (item, i) { return new c3o.Core.Data.LogItem(item); });
+	this.logs = $.map(model.logs, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
+	this.applications = $.map(model.applications, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
+	this.severities = $.map(model.severities, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
+	this.types = $.map(model.types, function (item, i) { return new Elmah.Net.Models.LogItem(item, model.typeCount2); });
+	this.sources = $.map(model.sources, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
+	this.users = $.map(model.users, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
 
 	// Map Query
-	this.query = new c3o.Core.Data.LogQuery(model.query);
+	this.query = new Elmah.Net.Models.LogQuery(model.query);
 
 	// auto select first message
 	this.message = model.messages[0];
 }
 
 //// SiteContent class methods
-//c3o.Core.Data.LogSearchResponse.prototype = {
+//Elmah.Net.Models.LogSearchResponse.prototype = {
 //	//get Name() { return this.firstName + " " + this.lastName; },
 //	//get NameLastFirst() { return this.lastName + ", " + this.firstName; }	
 //}
@@ -238,13 +238,13 @@ c3o.Core.Data.LogSearchResponse = function (model) {
 /////////////////////////////////////////////////////////////
 // Site Class
 /////////////////////////////////////////////////////////////
-c3o.Core.Data.Site = function (model) {
+Elmah.Net.Models.Site = function (model) {
 	var self = this;
 	_.extend(this, model);
 }
 
 // SiteContent class methods
-c3o.Core.Data.Site.prototype = {
+Elmah.Net.Models.Site.prototype = {
 	//get Name() { return this.firstName + " " + this.lastName; },
 	//get NameLastFirst() { return this.lastName + ", " + this.firstName; }	
 };
@@ -252,13 +252,13 @@ c3o.Core.Data.Site.prototype = {
 (function () {
 
 	// Declare Main Servcie Module
-    angular.module('c3o.core', []);
+    angular.module('elmah.net.core', []);
 
 }());
 
 (function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
 		.factory('RecursionHelper', ['$compile', function ($compile) {
 			return {
@@ -305,15 +305,15 @@ c3o.Core.Data.Site.prototype = {
 }());
 (function () {
 
-	angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
-		.directive('c3oErrorModel', function () {
+		.directive('elmahNetErrorModel', function () {
 			return {
 				restrict: 'AE',
-				scope: { c3oErrorModel: '=' },
+				scope: { elmahNetErrorModel: '=' },
 				controller: function ($scope, ErrorService) {
-					if (!$scope.c3oErrorModel) {
-						$scope.c3oErrorModel = ErrorService.model.errors;
+					if (!$scope.elmahNetErrorModel) {
+						$scope.elmahNetErrorModel = ErrorService.model.errors;
 					}
 				},
 			};
@@ -322,15 +322,15 @@ c3o.Core.Data.Site.prototype = {
 }());
 (function () {
 
-    angular.module('c3o.core')
+    angular.module('elmah.net.core')
 
 		// Package Detail
-		.directive('c3oErrorItem', function () {
+		.directive('elmahNetErrorItem', function () {
 			return {
 				restrict: 'AE',
 				scope:
 				{
-				    error: '=c3oErrorItem'
+				    error: '=elmahNetErrorItem'
 				},
 				//replace : true,
 				templateUrl: '/app/core/directives/ErrorItem.html',
@@ -342,10 +342,10 @@ c3o.Core.Data.Site.prototype = {
 
 (function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
 		// Package Detail
-		.directive('c3oErrorList', function () {
+		.directive('elmahNetErrorList', function () {
 			return {
 				restrict: 'AE',
 				//scope:
@@ -362,15 +362,15 @@ c3o.Core.Data.Site.prototype = {
 }());
 (function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
 		// Package Detail
-		.directive('c3oErrorTreeItem', function (RecursionHelper) {
+		.directive('elmahNetErrorTreeItem', function (RecursionHelper) {
 			return {
 				restrict: 'AE',
 				scope:
 				{
-				    error: '=c3oErrorTreeItem'
+					error: '=elmahNetErrorTreeItem'
 				},
 				//replace : true,
 				templateUrl: '/app/core/directives/ErrorTreeItem.html',
@@ -392,7 +392,7 @@ c3o.Core.Data.Site.prototype = {
 }());
 (function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 	.factory('ErrorService', [function () {
 
 		var model = { errors: [] };
@@ -417,7 +417,7 @@ c3o.Core.Data.Site.prototype = {
 				//}
 
 				// create new error object
-			    var siteError = new c3o.Core.Data.SiteError(error, cause, message, key, type);
+			    var siteError = new Elmah.Net.Models.SiteError(error, cause, message, key, type);
 
 				if (siteError.index > 0) {
 					model.errors[siteError.index - 1] = siteError; // replace error
@@ -440,7 +440,7 @@ c3o.Core.Data.Site.prototype = {
 	///////////////////////////////////////////////////////////////
 	//// Site Error
 	///////////////////////////////////////////////////////////////
-    //c3o.Core.Data.SiteError = function (error, cause, message, key, type) {
+    //Elmah.Net.Models.SiteError = function (error, cause, message, key, type) {
 	//	var self = this;
 	//	if (!key) key = "";
 	//	if (!message && error) { message = error.message; }
@@ -477,7 +477,7 @@ c3o.Core.Data.Site.prototype = {
 }());
 (function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
 		.factory('SiteApi', ['$http', '$q', 'ErrorService', function ($http, $q, errorService) {
 
@@ -537,7 +537,7 @@ c3o.Core.Data.Site.prototype = {
 }());
 (function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
 		.factory('SiteService', ['$q', 'SiteApi', 'ErrorService', function ($q, siteApi, errorService) {
 
@@ -552,7 +552,7 @@ c3o.Core.Data.Site.prototype = {
 					    //console.log('SiteService', response);
 
 					    if (response != null) {
-					        context.model = new c3o.Core.Data.Site(response);
+					        context.model = new Elmah.Net.Models.Site(response);
 					    }
 
 					    // return container
@@ -570,7 +570,7 @@ c3o.Core.Data.Site.prototype = {
 					.then(function (response) { // handle response
 
 					    if (response != null) {
-					        context.model = new c3o.Core.Data.Site(response);
+					        context.model = new Elmah.Net.Models.Site(response);
 					    }
 
 					    // return container
@@ -595,13 +595,13 @@ c3o.Core.Data.Site.prototype = {
 (function () {
 
 	// Declare app level module which depends on filters, and services
-	angular.module('c3o.logger', [
+	angular.module('elmah.net.logger', [
 	  'ngSanitize',
 	  'ngCookies',
 	  'ngRoute',
 	  'ngAnimate',
 	  'angularSpinner',
-	  'c3o.core',
+	  'elmah.net.core',
 	  'chart.js'
 	])
 
@@ -631,7 +631,7 @@ c3o.Core.Data.Site.prototype = {
 }());
 (function () {
 
-	angular.module('c3o.logger')
+	angular.module('elmah.net.logger')
 
 		.factory('LoggerApi', ['$http', '$q', 'ErrorService', function ($http, $q, errorService) {
 
@@ -772,7 +772,7 @@ c3o.Core.Data.Site.prototype = {
 }());
 (function () {
 
-	angular.module('c3o.logger')
+	angular.module('elmah.net.logger')
 
 		.factory('LogService', ['$q', 'LoggerApi', 'ErrorService', function ($q, loggerApi, errorService) {
 
@@ -824,7 +824,7 @@ c3o.Core.Data.Site.prototype = {
 			//		.then(function (response) { // handle response
 
 			//			if (response != null) {
-			//				container.site = new c3o.Core.Data.Site(response);
+			//				container.site = new Elmah.Net.Models.Site(response);
 			//			}
 
 			//			// return container
@@ -843,15 +843,15 @@ c3o.Core.Data.Site.prototype = {
 			    var promise = loggerApi.init()
 					.then(function (response) { // handle response
 
-					    container.model = new c3o.Core.Data.LogSearchResponse(response);
+					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
 
 					    //// convert message list - Transform json data to objects
 					    //response.messages = $.map(response.messages, function (item, i) {
-					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //    return new Elmah.Net.Models.LogMessage(item, response);
 					    //});
 
 					    //// Map Query
-					    //response.query = new c3o.Core.Data.LogQuery(response.query);
+					    //response.query = new Elmah.Net.Models.LogQuery(response.query);
 
 					    //// reset model with serach results
 					    //container.model = response;
@@ -874,11 +874,11 @@ c3o.Core.Data.Site.prototype = {
 			    var promise = loggerApi.searchAndUpdate(name, filter, limit, span, logs, applications, severities, types, sources, users, start, end)
 					.then(function (response) { // handle response
 
-					    container.model = new c3o.Core.Data.LogSearchResponse(response);
+					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
 
 					    //// convert message list - Transform json data to objects
 					    //response.messages = $.map(response.messages, function (item, i) {
-					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //    return new Elmah.Net.Models.LogMessage(item, response);
 					    //});
 
 					    //// reset model with serach results
@@ -906,11 +906,11 @@ c3o.Core.Data.Site.prototype = {
 			    var promise = loggerApi.deleteByName(name)
 					.then(function (response) { // handle response
 
-					    container.model = new c3o.Core.Data.LogSearchResponse(response);
+					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
 
 					    //// convert message list - Transform json data to objects
 					    //response.messages = $.map(response.messages, function (item, i) {
-					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //    return new Elmah.Net.Models.LogMessage(item, response);
 					    //});
 
 					    //// reset model with serach results
@@ -935,11 +935,11 @@ c3o.Core.Data.Site.prototype = {
 			    var promise = loggerApi.find(name)
 					.then(function (response) { // handle response
 
-					    container.model = new c3o.Core.Data.LogSearchResponse(response);
+					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
 
 					    //// convert message list - Transform json data to objects
 					    //response.messages = $.map(response.messages, function (item, i) {
-					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //    return new Elmah.Net.Models.LogMessage(item, response);
 					    //});
 
 					    //// reset model with serach results
@@ -963,15 +963,15 @@ c3o.Core.Data.Site.prototype = {
 			    var promise = loggerApi.search(limit, span, logs, applications, severities, types, sources, users, start, end)
 					.then(function (response) { // handle response
 
-					    container.model = new c3o.Core.Data.LogSearchResponse(response);
+					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
 
 						//// convert message list - Transform json data to objects
 						//response.messages = $.map(response.messages, function (item, i) {
-						//    return new c3o.Core.Data.LogMessage(item, response);
+						//    return new Elmah.Net.Models.LogMessage(item, response);
 						//});
 
 					    //// Map Query
-					    //response.query = new c3o.Core.Data.LogQuery(response.query);
+					    //response.query = new Elmah.Net.Models.LogQuery(response.query);
 
 						//// reset model with serach results
 						//container.model = response;
@@ -996,7 +996,7 @@ c3o.Core.Data.Site.prototype = {
 					.then(function (response) {
 
 						// convert response message to message object
-					    var message = new c3o.Core.Data.LogMessage(response, container.model);
+					    var message = new Elmah.Net.Models.LogMessage(response, container.model);
 
 						// get index by id
 						var index = _.findIndex(container.model.messages, _.pick(message, 'id'));
@@ -1075,7 +1075,7 @@ c3o.Core.Data.Site.prototype = {
 (function () {
 	'use strict';
 
-	angular.module('c3o.logger').directive('logLogger', logLogger);
+	angular.module('elmah.net.logger').directive('logLogger', logLogger);
 
 	// dependencies
 	logLogger.$inject = ['$window', '$cookies', '$timeout', 'SiteService', 'usSpinnerService'];
@@ -1130,7 +1130,7 @@ c3o.Core.Data.Site.prototype = {
 (function () {
 	'use strict';
 
-	angular.module('c3o.logger').directive('logMessageFilter', logMessageFilter);
+	angular.module('elmah.net.logger').directive('logMessageFilter', logMessageFilter);
 
 	// dependencies
 	logMessageFilter.$inject = ['$window', '$cookies', '$timeout', '$rootScope','LogService', 'usSpinnerService'];
@@ -1435,7 +1435,7 @@ c3o.Core.Data.Site.prototype = {
 (function () {
 	'use strict';
 
-	angular.module('c3o.logger').directive('logMessageList', exampleApiDetail);
+	angular.module('elmah.net.logger').directive('logMessageList', exampleApiDetail);
 
 	// dependencies
 	exampleApiDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
@@ -1517,7 +1517,7 @@ c3o.Core.Data.Site.prototype = {
 })();
 (function () {
 	
-	angular.module('c3o.logger').directive('logMessageChart', exampleApiDetail);
+	angular.module('elmah.net.logger').directive('logMessageChart', exampleApiDetail);
 
 	// dependencies
 	exampleApiDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
@@ -1696,7 +1696,7 @@ c3o.Core.Data.Site.prototype = {
 (function () {
 	'use strict';
 
-	angular.module('c3o.logger').directive('logMessageDetail', logMessageDetail);
+	angular.module('elmah.net.logger').directive('logMessageDetail', logMessageDetail);
 
 	// dependencies
 	logMessageDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];

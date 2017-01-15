@@ -1,4 +1,4 @@
-﻿using c3o.Core;
+﻿using Elmah.Net;
 using Elmah.Io.Client;
 using Newtonsoft.Json;
 using System;
@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
     public class Query
     {

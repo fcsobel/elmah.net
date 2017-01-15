@@ -1,14 +1,14 @@
 ﻿(function () {
 
-	angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
-		.directive('c3oErrorModel', function () {
+		.directive('elmahNetErrorModel', function () {
 			return {
 				restrict: 'AE',
-				scope: { c3oErrorModel: '=' },
+				scope: { elmahNetErrorModel: '=' },
 				controller: function ($scope, ErrorService) {
-					if (!$scope.c3oErrorModel) {
-						$scope.c3oErrorModel = ErrorService.model.errors;
+					if (!$scope.elmahNetErrorModel) {
+						$scope.elmahNetErrorModel = ErrorService.model.errors;
 					}
 				},
 			};

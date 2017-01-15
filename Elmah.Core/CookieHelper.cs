@@ -1,4 +1,4 @@
-﻿using c3o.Core;
+﻿using Elmah.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace c3o.Core
+namespace Elmah.Net
 {
 	public static class CookieHelper
 	{

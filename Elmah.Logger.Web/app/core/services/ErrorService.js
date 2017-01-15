@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 	.factory('ErrorService', [function () {
 
 		var model = { errors: [] };
@@ -25,7 +25,7 @@
 				//}
 
 				// create new error object
-			    var siteError = new c3o.Core.Data.SiteError(error, cause, message, key, type);
+			    var siteError = new Elmah.Net.Models.SiteError(error, cause, message, key, type);
 
 				if (siteError.index > 0) {
 					model.errors[siteError.index - 1] = siteError; // replace error
@@ -48,7 +48,7 @@
 	///////////////////////////////////////////////////////////////
 	//// Site Error
 	///////////////////////////////////////////////////////////////
-    //c3o.Core.Data.SiteError = function (error, cause, message, key, type) {
+    //Elmah.Net.Models.SiteError = function (error, cause, message, key, type) {
 	//	var self = this;
 	//	if (!key) key = "";
 	//	if (!message && error) { message = error.message; }

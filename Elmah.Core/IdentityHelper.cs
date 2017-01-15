@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace c3o.Core
+namespace Elmah.Net
 {
 	public static class IdentityHelper
 	{

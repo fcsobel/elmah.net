@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 using Newtonsoft.Json;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
     public class Filter
     {

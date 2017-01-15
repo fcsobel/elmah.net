@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
 		.factory('SiteService', ['$q', 'SiteApi', 'ErrorService', function ($q, siteApi, errorService) {
 
@@ -15,7 +15,7 @@
 					    //console.log('SiteService', response);
 
 					    if (response != null) {
-					        context.model = new c3o.Core.Data.Site(response);
+					        context.model = new Elmah.Net.Models.Site(response);
 					    }
 
 					    // return container
@@ -33,7 +33,7 @@
 					.then(function (response) { // handle response
 
 					    if (response != null) {
-					        context.model = new c3o.Core.Data.Site(response);
+					        context.model = new Elmah.Net.Models.Site(response);
 					    }
 
 					    // return container

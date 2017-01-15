@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
 	public class RoleMap : EntityTypeConfiguration<Role>
 	{

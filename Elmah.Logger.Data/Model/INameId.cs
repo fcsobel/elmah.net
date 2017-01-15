@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
 	public interface INameId
 	{

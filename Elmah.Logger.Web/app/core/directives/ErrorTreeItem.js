@@ -1,14 +1,14 @@
 ﻿(function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
 		// Package Detail
-		.directive('c3oErrorTreeItem', function (RecursionHelper) {
+		.directive('elmahNetErrorTreeItem', function (RecursionHelper) {
 			return {
 				restrict: 'AE',
 				scope:
 				{
-				    error: '=c3oErrorTreeItem'
+					error: '=elmahNetErrorTreeItem'
 				},
 				//replace : true,
 				templateUrl: '/app/core/directives/ErrorTreeItem.html',

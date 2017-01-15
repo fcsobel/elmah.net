@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 //using WebApiContrib.Formatting.Jsonp;
 
-namespace c3o.Logger.Web
+namespace Elmah.Net.Logger.Web
 {
 	public class FormatterConfig
 	{

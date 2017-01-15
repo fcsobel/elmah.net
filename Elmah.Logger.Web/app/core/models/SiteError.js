@@ -1,7 +1,7 @@
 ﻿/////////////////////////////////////////////////////////////
 // Site Error
 /////////////////////////////////////////////////////////////
-c3o.Core.Data.SiteError = function (error, cause, message, key, type) {
+Elmah.Net.Models.SiteError = function (error, cause, message, key, type) {
 	var self = this;
 	if (!key) key = "";
 	if (!message && error) { message = error.message; }

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
 	public class LogMessageDetail
 	{

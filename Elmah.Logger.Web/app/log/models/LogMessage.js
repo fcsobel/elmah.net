@@ -1,7 +1,7 @@
 ﻿/////////////////////////////////////////////////////////////
 // LogMessage Class
 /////////////////////////////////////////////////////////////
-c3o.Core.Data.LogMessage = function (data, model) {
+Elmah.Net.Models.LogMessage = function (data, model) {
     var self = this;
 
     _.extend(this, data);
@@ -41,7 +41,7 @@ c3o.Core.Data.LogMessage = function (data, model) {
 }
 
 // SiteContent class methods
-c3o.Core.Data.LogMessage.prototype = {
+Elmah.Net.Models.LogMessage.prototype = {
 	CheckItem: function (id, list, obj) {
 
 		// look for item by id

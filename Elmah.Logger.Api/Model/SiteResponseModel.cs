@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using c3o.Logger.Data;
+using Elmah.Net.Logger.Data;
 
-namespace c3o.Logger.Web
+namespace Elmah.Net.Logger.Web
 {
 	public class SiteResponseModel
 	{

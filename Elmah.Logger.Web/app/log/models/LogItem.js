@@ -1,7 +1,7 @@
 ﻿/////////////////////////////////////////////////////////////
 // LogQuery Class
 /////////////////////////////////////////////////////////////
-c3o.Core.Data.LogItem = function (model, countData) {
+Elmah.Net.Models.LogItem = function (model, countData) {
 	var self = this;
 
 	_.extend(this, model);
@@ -60,6 +60,6 @@ c3o.Core.Data.LogItem = function (model, countData) {
 }
 
 // SiteContent class methods
-c3o.Core.Data.LogItem.prototype = {
+Elmah.Net.Models.LogItem.prototype = {
 	get Visible() { return this.visible || this.selected || (this.messages && this.messages.length > 0); }
 };

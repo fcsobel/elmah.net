@@ -1,4 +1,4 @@
-﻿namespace c3o.Logger.Data
+﻿namespace Elmah.Net.Logger.Data
 {
 	//public interface ISiteInstanceContext
 	//{

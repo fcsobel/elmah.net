@@ -1,7 +1,7 @@
 ﻿(function () {
 	'use strict';
 
-	angular.module('c3o.logger').directive('logMessageFilter', logMessageFilter);
+	angular.module('elmah.net.logger').directive('logMessageFilter', logMessageFilter);
 
 	// dependencies
 	logMessageFilter.$inject = ['$window', '$cookies', '$timeout', '$rootScope','LogService', 'usSpinnerService'];

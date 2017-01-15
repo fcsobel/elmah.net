@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.ComponentModel;
-using c3o.Core;
+using Elmah.Net;
 
-namespace c3o.Logger.Web
+namespace Elmah.Net.Logger.Web
 {
 	public enum HydrationLevel { Basic, Detailed }
 
@@ -43,7 +43,7 @@ namespace c3o.Logger.Web
 			this.Color = obj.Color;		
 		}
 
-        public LogObject(c3o.Logger.Data.SearchSpan span)
+        public LogObject(Elmah.Net.Logger.Data.SearchSpan span)
         {
             this.Id = (long)span;
             this.Name = span.ToString();
@@ -127,7 +127,7 @@ namespace c3o.Logger.Web
 		[JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
 		public LogObject Source { get; set; }
 
-		public LogMessage(c3o.Logger.Data.LogMessage obj, HydrationLevel level = HydrationLevel.Basic)
+		public LogMessage(Elmah.Net.Logger.Data.LogMessage obj, HydrationLevel level = HydrationLevel.Basic)
 		{
 			this.Id = obj.Id;
 			this.DateTime = obj.DateTime;

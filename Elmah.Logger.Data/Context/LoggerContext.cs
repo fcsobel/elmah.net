@@ -6,37 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
 	public partial class LoggerContext : DbContext
 	{
 		public ISiteInstance siteInstance { get; set; }
 
-		//public SiteContext SiteContext { get; set; }
-
-		////<add name="LoggerContext" connectionString="data source=.; Integrated Security=SSPI; initial catalog=c3o_Logger" providerName="System.Data.SqlClient" />
-		//private static  string ConnectionString(SiteRecord site)
-		//{
-		//    //var site = SiteContext.Current.Site;
-		//    //var site = this.SiteContext.Site;
-		//    if (site != null)
-		//    {
-		//        return site.ConnectionString;                    
-		//    }
-		//    return null;
-		//    //// allow dynamic connection
-		//    //var connection = System.Configuration.ConfigurationManager.ConnectionStrings["LoggerContext"].ConnectionString;
-		//    //connection = string.Format(connection, "acme");
-
-		//    ////SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
-		//    ////sqlBuilder.DataSource = ".";
-		//    ////sqlBuilder.InitialCatalog = "c3o_Logger";
-		//    ////sqlBuilder.PersistSecurityInfo = true;
-		//    ////sqlBuilder.IntegratedSecurity = true;            
-		//    ////sqlBuilder.MultipleActiveResultSets = true;
-		//    ////return sqlBuilder.ToString();
-		//    //return connection;
-		//}
 
 		static LoggerContext()
 		{
@@ -47,13 +22,6 @@ namespace c3o.Logger.Data
         public LoggerContext(ISiteInstance siteInstance) : base(siteInstance.Site == null ? null : siteInstance.Site.ConnectionString)
         {
 			this.siteInstance = siteInstance;
-            //siteContext.Site.UpdateDb();
-            //siteContext.UpdateDb();
-            //this.sitcon
-            //Database.SetInitializer<c3o_loggerContext>(new CreateDatabaseIfNotExists<c3o_loggerContext>());
-            //Database.SetInitializer<c3o_loggerContext>(new DropCreateDatabaseIfModelChanges<c3o_loggerContext>());
-            //Database.SetInitializer<c3o_loggerContext>(new DBInitializer());
-            //Database.SetInitializer(new DBInitializer());
             this.Configuration.LazyLoadingEnabled = false;
 		}
 
@@ -81,8 +49,6 @@ namespace c3o.Logger.Data
 		}
     }
 
-	//public class DBInitializer : CreateDatabaseIfNotExists<c3o_loggerContext>
-	//public class DBInitializer : DropCreateDatabaseAlways<c3o_loggerContext>
 	//public class DBInitializer : DropCreateDatabaseIfModelChanges<LoggerContext>
 	public class DBInitializer : CreateDatabaseIfNotExists<LoggerContext>
 	{

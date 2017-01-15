@@ -146,6 +146,7 @@
     <Content Include="app\log\apps\logger.js" />
     <Content Include="app\log\directives\Logger.html" />
     <Content Include="app\log\directives\Logger.js" />
+    <Content Include="app\log\directives\MessageChartOld.js" />
     <Content Include="app\log\directives\MessageDetail.html" />
     <Content Include="app\log\directives\MessageDetail.js" />
     <Content Include="app\log\directives\MessageFilter.html" />

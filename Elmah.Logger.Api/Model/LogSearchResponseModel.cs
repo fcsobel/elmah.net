@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using c3o.Core;
+using Elmah.Net;
 
-namespace c3o.Logger.Web
+namespace Elmah.Net.Logger.Web
 {
     public class Filter
     {
@@ -19,7 +19,7 @@ namespace c3o.Logger.Web
             this.Query = new Data.Query();
         }
 
-        public Filter(c3o.Logger.Data.Filter obj): this()
+        public Filter(Elmah.Net.Logger.Data.Filter obj): this()
         {
             this.Id = obj.Id;
             this.Name = obj.Name;
@@ -71,7 +71,7 @@ namespace c3o.Logger.Web
             this.Filters = new List<Filter>();
 		}
 
-		public LogSearchResponseModel(Data.Query query, List<c3o.Logger.Data.LogMessage> list, List<c3o.Logger.Data.Filter> filters, HydrationLevel level = HydrationLevel.Basic) : this()
+		public LogSearchResponseModel(Data.Query query, List<Elmah.Net.Logger.Data.LogMessage> list, List<Elmah.Net.Logger.Data.Filter> filters, HydrationLevel level = HydrationLevel.Basic) : this()
 		{
             this.Query = query;
             this.Logs =				list.Where(x=>x.Log != null).Select(x => x.Log).Distinct().Select(y => new LogObject(y)).ToList();
@@ -80,7 +80,7 @@ namespace c3o.Logger.Web
 			this.Types =			list.Where(x=>x.MessageType != null).Select(x => x.MessageType).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Sources =			list.Where(x=>x.Source != null).Select(x => x.Source).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Severities =		list.Select(x=>x.Severity).Distinct().Select(y => new LogObject { Id = 0, Name = y.ToString() }).ToList();
-            this.Spans =            EnumHelper.GetValues<c3o.Logger.Data.SearchSpan>().Select(y => new LogObject(y)).ToList();
+            this.Spans =            EnumHelper.GetValues<Elmah.Net.Logger.Data.SearchSpan>().Select(y => new LogObject(y)).ToList();
 
             // load messages
             foreach (var item in list)

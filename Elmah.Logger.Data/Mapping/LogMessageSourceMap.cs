@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
 	// Message Source
 	public class LogMessageSourceMap : EntityTypeConfiguration<LogMessageSource>

@@ -28,17 +28,17 @@
 <body>
 	<div id="wrapper" style="padding-top:20px;">
 
-		<div ng-app="c3o.logger" class="container-fluid">
+		<div ng-app="elmah.net.logger" class="container-fluid">
 
 			<div log-logger></div>
 
 			<div us-spinner spinner-key="spinner-1" style="position:fixed;top:50%;left:50%"></div>
 
 			<!--Inject Error Model into scope-->
-			<div c3o-error-model="errors"></div>
+			<div elmah-net-error-model="errors"></div>
 
 			<!--Error List -->
-			<div c3o-error-tree-item="error" ng-repeat="error in errors"></div>
+			<div elmah-net-error-tree-item="error" ng-repeat="error in errors"></div>
 		</div>
 	</div>
 
@@ -54,13 +54,19 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
 
 	<!--menu-->
-	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.2.0/metisMenu.min.js"></script>-->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.2.0/metisMenu.min.js"></script>	
+
 	<!-- angular -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-cookies.min.js"></script>
+
+	<!--chartjs-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
 
 	<!-- spinner -->
 	<!--<script src="/Scripts/spin.min.js"></script>-->
@@ -70,11 +76,9 @@
 	<!-- Include Date Range Picker -->
 	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-
-	<!--chartjs-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
-
-	<script src="app/log/apps/logger-bundle.min.js"></script>
+	
+	<!--Logger App Minified version get a js error-->		
+	<script src="app/log/apps/logger-bundle.js?v=7"></script>
+	<!--<script src="app/log/apps/logger-bundle.min.js?v=7"></script>-->
 </body>
 </html>

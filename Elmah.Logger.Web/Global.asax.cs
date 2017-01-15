@@ -1,5 +1,5 @@
-﻿using c3o.Logger.Data;
-using c3o.Logger.Web;
+﻿using Elmah.Net.Logger.Data;
+using Elmah.Net.Logger.Web;
 using Elmah.Contrib.WebApi;
 using SimpleInjector;
 using SimpleInjector.Integration.Web;
@@ -11,7 +11,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
 
-namespace c3o.Logger.Demo
+namespace Elmah.Net.Logger.Web
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

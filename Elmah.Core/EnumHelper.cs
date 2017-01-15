@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace c3o.Core
+namespace Elmah.Net
 {
     /// Taken from : http://blog.spontaneouspublicity.com/associating-strings-with-enums-in-c
     public static class EnumHelper 

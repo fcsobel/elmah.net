@@ -2,7 +2,7 @@
 using System.Web;
 using Elmah;
 
-namespace c3o.Core
+namespace Elmah.Net
 {
 	public static class ElmahExtension
 	{

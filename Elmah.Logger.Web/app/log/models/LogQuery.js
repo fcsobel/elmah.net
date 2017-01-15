@@ -1,7 +1,7 @@
 ﻿/////////////////////////////////////////////////////////////
 // LogQuery Class
 /////////////////////////////////////////////////////////////
-c3o.Core.Data.LogQuery = function (model) {
+Elmah.Net.Models.LogQuery = function (model) {
 	var self = this;
 
 	_.extend(this, model);
@@ -13,4 +13,4 @@ c3o.Core.Data.LogQuery = function (model) {
 }
 
 // SiteContent class methods
-//c3o.Core.Data.Query.prototype = {}
+//Elmah.Net.Models.Query.prototype = {}

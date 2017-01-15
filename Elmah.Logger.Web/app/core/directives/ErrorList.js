@@ -1,9 +1,9 @@
 ﻿(function () {
 
-    angular.module('c3o.core')
+	angular.module('elmah.net.core')
 
 		// Package Detail
-		.directive('c3oErrorList', function () {
+		.directive('elmahNetErrorList', function () {
 			return {
 				restrict: 'AE',
 				//scope:

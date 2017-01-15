@@ -6,7 +6,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
 
-namespace c3o.Logger.Demo
+namespace Elmah.Net.Logger.Web
 {
     public static class WebApiConfig
     {

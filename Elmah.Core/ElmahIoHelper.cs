@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Elmah.Io.Client;
 using Newtonsoft.Json;
 
-namespace c3o.Core
+namespace Elmah.Net
 {
 	public enum LogSeverity { Verbose = 0, Debug = 1, Information = 2, Warning = 3, Error = 4, Fatal = 5, }
     
@@ -17,7 +17,7 @@ namespace c3o.Core
 		public string Detail { get; set; }
 		public LogSeverity? Severity { get; set; }
 		public string Source { get; set; }				// 	System.Web.Mvc
-		public string Title { get; set; }				// A public action method 'QuickSearchResults' was not found on controller 'REX.Mvc.Controllers.SearchController'.
+		public string Title { get; set; }						
 		public string Type { get; set; }				// System.Web.HttpException
 		public string Url { get; set; }
 		public List<Item> Data { get; set; }

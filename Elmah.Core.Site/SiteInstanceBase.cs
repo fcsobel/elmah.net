@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace c3o.Logger.Data
+namespace Elmah.Net.Logger.Data
 {
 	public class SiteInstanceBase : ISiteInstance
 	{

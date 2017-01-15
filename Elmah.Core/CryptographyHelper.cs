@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Security;
 
-namespace c3o.Core
+namespace Elmah.Net
 {
 	public class CryptographyHelper
 	{

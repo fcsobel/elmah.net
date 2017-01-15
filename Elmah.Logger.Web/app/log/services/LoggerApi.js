@@ -1,6 +1,6 @@
 ﻿(function () {
 
-	angular.module('c3o.logger')
+	angular.module('elmah.net.logger')
 
 		.factory('LoggerApi', ['$http', '$q', 'ErrorService', function ($http, $q, errorService) {
 

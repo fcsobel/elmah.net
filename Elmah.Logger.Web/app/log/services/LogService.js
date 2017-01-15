@@ -1,6 +1,6 @@
 ﻿(function () {
 
-	angular.module('c3o.logger')
+	angular.module('elmah.net.logger')
 
 		.factory('LogService', ['$q', 'LoggerApi', 'ErrorService', function ($q, loggerApi, errorService) {
 
@@ -52,7 +52,7 @@
 			//		.then(function (response) { // handle response
 
 			//			if (response != null) {
-			//				container.site = new c3o.Core.Data.Site(response);
+			//				container.site = new Elmah.Net.Models.Site(response);
 			//			}
 
 			//			// return container
@@ -71,15 +71,15 @@
 			    var promise = loggerApi.init()
 					.then(function (response) { // handle response
 
-					    container.model = new c3o.Core.Data.LogSearchResponse(response);
+					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
 
 					    //// convert message list - Transform json data to objects
 					    //response.messages = $.map(response.messages, function (item, i) {
-					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //    return new Elmah.Net.Models.LogMessage(item, response);
 					    //});
 
 					    //// Map Query
-					    //response.query = new c3o.Core.Data.LogQuery(response.query);
+					    //response.query = new Elmah.Net.Models.LogQuery(response.query);
 
 					    //// reset model with serach results
 					    //container.model = response;
@@ -102,11 +102,11 @@
 			    var promise = loggerApi.searchAndUpdate(name, filter, limit, span, logs, applications, severities, types, sources, users, start, end)
 					.then(function (response) { // handle response
 
-					    container.model = new c3o.Core.Data.LogSearchResponse(response);
+					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
 
 					    //// convert message list - Transform json data to objects
 					    //response.messages = $.map(response.messages, function (item, i) {
-					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //    return new Elmah.Net.Models.LogMessage(item, response);
 					    //});
 
 					    //// reset model with serach results
@@ -134,11 +134,11 @@
 			    var promise = loggerApi.deleteByName(name)
 					.then(function (response) { // handle response
 
-					    container.model = new c3o.Core.Data.LogSearchResponse(response);
+					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
 
 					    //// convert message list - Transform json data to objects
 					    //response.messages = $.map(response.messages, function (item, i) {
-					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //    return new Elmah.Net.Models.LogMessage(item, response);
 					    //});
 
 					    //// reset model with serach results
@@ -163,11 +163,11 @@
 			    var promise = loggerApi.find(name)
 					.then(function (response) { // handle response
 
-					    container.model = new c3o.Core.Data.LogSearchResponse(response);
+					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
 
 					    //// convert message list - Transform json data to objects
 					    //response.messages = $.map(response.messages, function (item, i) {
-					    //    return new c3o.Core.Data.LogMessage(item, response);
+					    //    return new Elmah.Net.Models.LogMessage(item, response);
 					    //});
 
 					    //// reset model with serach results
@@ -191,15 +191,15 @@
 			    var promise = loggerApi.search(limit, span, logs, applications, severities, types, sources, users, start, end)
 					.then(function (response) { // handle response
 
-					    container.model = new c3o.Core.Data.LogSearchResponse(response);
+					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
 
 						//// convert message list - Transform json data to objects
 						//response.messages = $.map(response.messages, function (item, i) {
-						//    return new c3o.Core.Data.LogMessage(item, response);
+						//    return new Elmah.Net.Models.LogMessage(item, response);
 						//});
 
 					    //// Map Query
-					    //response.query = new c3o.Core.Data.LogQuery(response.query);
+					    //response.query = new Elmah.Net.Models.LogQuery(response.query);
 
 						//// reset model with serach results
 						//container.model = response;
@@ -224,7 +224,7 @@
 					.then(function (response) {
 
 						// convert response message to message object
-					    var message = new c3o.Core.Data.LogMessage(response, container.model);
+					    var message = new Elmah.Net.Models.LogMessage(response, container.model);
 
 						// get index by id
 						var index = _.findIndex(container.model.messages, _.pick(message, 'id'));
