@@ -185,9 +185,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <None Include="packages.config" />
     <Content Include="app\Web.config" />
-    <Content Include="bundleconfig.json" />
+    <None Include="bundleconfig.json" />
+    <None Include="build-release.bat" />
+    <None Include="build-debug.bat" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

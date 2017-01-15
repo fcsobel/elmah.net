@@ -1,0 +1,2 @@
+call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86
+msbuild	/t:Build;PipelinePreDeployCopyAllFilesToOneFolder	/p:Configuration=Release;_PackageTempDir=..\deploy\Elmah.Logger.Web	Elmah.Logger.Web.csproj
