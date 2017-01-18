@@ -17,7 +17,7 @@ namespace Elmah.Net.Logger.Data
 
 		public ISiteRecord Site { get; set; }
 
-		public virtual string SiteName { get { return "Logger"; } }
+		public virtual string Name { get { return "Logger"; } }
 
 		public virtual string CreateSite(ISiteRecord site)
 		{

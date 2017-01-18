@@ -15,6 +15,8 @@ namespace Elmah.Net.Logger.Data
 {
 	public class SiteRecordBase : ISiteRecord
 	{
+		public int Id { get; set; }
+		public string Name { get; set; }
 		public string ConnectionString { get; set; }
 				
 		public SiteRecordBase()

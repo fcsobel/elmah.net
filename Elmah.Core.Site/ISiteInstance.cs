@@ -7,7 +7,7 @@
 
 	public interface ISiteInstance
 	{
-		string SiteName { get; }
+		string Name { get; }
 		ISiteRecord Site { get; }
 		string CreateSite(ISiteRecord site);
 	}

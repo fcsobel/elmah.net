@@ -18,7 +18,7 @@ namespace Elmah.Net.Logger.Web
 
 		public SiteResponseModel(ISiteInstance siteInstance) : base()
 		{
-			this.Name = siteInstance.SiteName;
+			this.Name = siteInstance.Name;
 			this.Site = siteInstance.Site;
 		}
 	}
