@@ -5,16 +5,19 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_PADDING ON
 GO
+
 CREATE TABLE [dbo].[Filters](
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](100) NOT NULL,
+	[Title] [nvarchar](100) NULL,
+	[Description] [varchar](max) NULL,
 	[Distribution] [varchar](max) NULL,
 	[Query] [varchar](max) NULL,
  CONSTRAINT [PK_Filters] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY];
 
 GO
 SET ANSI_PADDING OFF
@@ -62,7 +65,6 @@ CREATE TABLE [dbo].[LogMessages](
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[ElmahId] [nvarchar](1000) NULL,
 	[DateTime] [datetime] NOT NULL,
-	[Detail] [nvarchar](max) NULL,
 	[Hostname] [nvarchar](1000) NULL,
 	[Severity] [int] NOT NULL,
 	[StatusCode] [int] NULL,
@@ -77,11 +79,17 @@ CREATE TABLE [dbo].[LogMessages](
 	[IpAddressId] [bigint] NULL,
 	[DetailId] [bigint] NULL,
 	[LogCount] [int] NOT NULL DEFAULT ((1)),
+	ContentKey nvarchar(128) NULL, -- content key hash used to match log messages
+	Copies varchar(MAX) NULL, -- count # of copies
  CONSTRAINT [PK_dbo.LogMessages] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+
+
+
 
 GO
 SET ANSI_PADDING OFF
