@@ -47,7 +47,6 @@ namespace Elmah.Net
 			}
 			else
 			{
-				//HttpCookie cookie = context.Response.Cookies.AllKeys.Contains(name) && !String.IsNullOrEmpty(context.Response.Cookies[name].Value) ? context.Response.Cookies[name] : HttpContext.Current.Request.Cookies.AllKeys.Contains(name) && !String.IsNullOrEmpty(HttpContext.Current.Request.Cookies[name].Value) ? HttpContext.Current.Request.Cookies[name] : new HttpCookie(name);
 				HttpCookie cookie = new HttpCookie(name);
 				cookie.HttpOnly = httpOnly;
 				cookie.Secure = secure && CommonSettings.EnableSsl; // use secure cookie if we enable ssl				

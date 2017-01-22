@@ -21,10 +21,6 @@ namespace Elmah.Net
 		public string Type { get; set; }				// System.Web.HttpException
 		public string Url { get; set; }
 		public List<Item> Data { get; set; }
-		//public int? StatusCode { get; set; }
-		//public string User { get; set; }
-		//public string Hostname { get; set; }
-		//public string Id { get; set; }
 
         // check for key
 		public bool Contains(string key)
@@ -128,7 +124,7 @@ namespace Elmah.Net
 		}
 
 		/// <summary>
-		/// Modified to send OUTER Source & Type.  Taken From Elamh.io code. 
+		/// Modified to send OUTER Source & Type. 
 		/// </summary>
 		/// <param name="error"></param>
 		/// <param name="severity"></param>
@@ -156,12 +152,9 @@ namespace Elmah.Net
 				User = error.User,
 				Data = error.Exception.ToDataList(),
 			};
-
 			LogMessage(message);
 		}
 		
-
-
 		public static void LogToElmahIo(this Exception error, LogSeverity severity = LogSeverity.Error)
 		{
 			// map exception to message

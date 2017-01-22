@@ -10,15 +10,8 @@ namespace Elmah.Net.Logger.Data
 {
 	public class SiteInstanceBase : ISiteInstance
 	{
-		//public static SiteInstanceBase Current { get; set; }
-
-		//SiteRecordBase _site { get; set; }
-		//public ISiteRecord Site { get { return _site; } }
-
 		public ISiteRecord Site { get; set; }
-
 		public virtual string Name { get { return "Logger"; } }
-
 		public virtual string CreateSite(ISiteRecord site)
 		{
 			throw new NotImplementedException();
@@ -26,9 +19,7 @@ namespace Elmah.Net.Logger.Data
 
 		public SiteInstanceBase()
 		{
-			//this._site = new SiteRecordBase();
 			this.Site = new SiteRecordBase();
-			//Current = this;
 		}
 	}
 }

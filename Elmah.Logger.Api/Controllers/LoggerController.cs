@@ -25,42 +25,10 @@ namespace Elmah.Net.Logger.Web
 			//this.SiteInstance = siteInstance;
         }
 
-
-		///// <summary>
-		///// Get Site
-		///// </summary>
-		///// <returns></returns>
-		//[HttpGet]
-		//[Route("sites")]
-		//public SiteResponseModel Detail()
-		//{
-		//	return new SiteResponseModel(this.SiteInstance);
-		//}
-
-		//[HttpPost]
-		//[Route("messages")]
-		//public LogMessage Update(LogMessage message)
-		//{
-		//    HydrationLevel level = HydrationLevel.Detailed;
-
-		//    var obj = db.LogMessages.Where(x => x.Id == message.Id)
-		//            .Include(x => x.Log)
-		//            .Include(x => x.User)
-		//            .Include(x => x.Source)
-		//            .Include(x => x.MessageType)
-		//            .Include(x => x.Application)
-		//            .Include(x => x.Detail)
-		//            .FirstOrDefault();
-
-		//    return new LogMessage(obj, level);
-		//}
-
 		[HttpGet]
         [Route("messages/{id}")]
         public LogMessage Detail(long id, HydrationLevel level = HydrationLevel.Detailed)
         {
-            //using (LoggerContext db = new LoggerContext())
-            //{
             var message = db.LogMessages.Where(x => x.Id == id)
                     .Include(x => x.Log)
                     .Include(x => x.User)
@@ -71,7 +39,6 @@ namespace Elmah.Net.Logger.Web
                     .FirstOrDefault();
 
             return new LogMessage(message, level);
-            //}			
         }
 
         [HttpDelete]
@@ -95,8 +62,6 @@ namespace Elmah.Net.Logger.Web
         public LogSearchResponseModel Init()
         {
             LogSearchResponseModel model = new LogSearchResponseModel();
-            // using (LoggerContext db = new LoggerContext())
-            //{
             model.Logs = db.Logs.ToList().Select(y => new LogObject(y)).ToList();
             model.Applications = db.LogApplications.ToList().Select(y => new LogObject(y)).ToList();
             //model.Users = db.Users.Select(y => new LogObject(y)).ToList();
@@ -104,7 +69,6 @@ namespace Elmah.Net.Logger.Web
             model.Sources = db.MessageSources.ToList().Select(y => new LogObject(y)).ToList();
             model.Severities = EnumHelper.GetValues<LogSeverity>().Select(y => new LogObject(y)).ToList();
             model.Spans = EnumHelper.GetValues<SearchSpan>().Select(y => new LogObject(y)).ToList();
-            //}
             return model;
         }
 
@@ -131,7 +95,6 @@ namespace Elmah.Net.Logger.Web
             db.SaveChanges();
 
             return Search(filter.Query);
-
         }
 
         /// <summary>
@@ -170,17 +133,7 @@ namespace Elmah.Net.Logger.Web
         }
 
 
-		//[HttpGet]
-		//[Route("messages/search")]
-		//public LogSearchResponseModel Stats(Query query, HydrationLevel level = HydrationLevel.Basic, string log = null, string application = null)
-		//{
-		//}
-
-
-
 		/// <summary>
-		/// Search
-		/// TO get this action to work we need this.  Otherwise query object does not get posted in...silly
 		/// Defaulting to [FromUri] for GET and HEAD requests
 		/// http://www.strathweb.com/2013/04/asp-net-web-api-parameter-binding-part-1-understanding-binding-from-uri/
 		/// </summary>
@@ -210,44 +163,16 @@ namespace Elmah.Net.Logger.Web
                 if (query.End.HasValue)
                 {
 					messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start && x.DateTime <= query.End);
-      //                  .Include(x => x.Log)
-						//.Include(x => x.User)
-						//.Include(x => x.Source)
-						//.Include(x => x.MessageType)
-						//.Include(x => x.Application)
-						//.OrderByDescending(x => x.DateTime);
 				}
                 else
                 {
 					messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start);
-      //                  .Include(x => x.Log)
-						//.Include(x => x.User)
-						//.Include(x => x.Source)
-						//.Include(x => x.MessageType)
-						//.Include(x => x.Application)
-						//.OrderByDescending(x => x.DateTime);
 				}
             }
             else
             {
 				messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages;
-      //                  .Include(x => x.Log)
-						//.Include(x => x.User)
-						//.Include(x => x.Source)
-						//.Include(x => x.MessageType)
-						//.Include(x => x.Application)
-						//.OrderByDescending(x => x.DateTime);
 			}
-
-			//// Includes and order by
-			//messages = messages
-			//	.Include(x => x.Log)
-			//	.Include(x => x.User)
-			//	.Include(x => x.Source)
-			//	.Include(x => x.MessageType)
-			//	.Include(x => x.Application)
-			//	.OrderByDescending(x => x.DateTime);
-
 
 			//Log theLog = null;
 			if (!string.IsNullOrWhiteSpace(log))
@@ -343,7 +268,6 @@ namespace Elmah.Net.Logger.Web
 			// severity
 			//if (severity.HasValue) { messages = messages.Where(x => x.Severity == severity); }
 
-
 			//if (query.Limit > 0)
    //         {
    //             messages = messages.Take(query.Limit);
@@ -362,7 +286,6 @@ namespace Elmah.Net.Logger.Web
 				.OrderByDescending(x => x.DateTime);
 
 			//var counts = messages.GroupBy(x => x.MessageType).Select(z => new { type = z.Key, count = z.Count() }).ToList();
-
 			//var counts = messages.GroupBy(x => new { Year = x.DateTime.Year, Month = x.DateTime.Month } ).Select(z => new { type = z.Key, count = z.Count() }).ToList();
 
 			//var counts = messages.GroupBy(x => new { Year = x.DateTime.Year, Month = x.DateTime.Month, Day = x.DateTime.Day, Hour = x.DateTime.Hour }).Select(z => new { type = z.Key, count = z.Count() }).ToList();
@@ -398,14 +321,9 @@ namespace Elmah.Net.Logger.Web
 				.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100)
 				.Select(x => new LogCount() { Id = x.type.TypeId ?? 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
 
-
-
 			//model.TypeCount = counts.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day + x.type.Hour).Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
-
 			//model.TypeCount = counts.OrderBy(x => x.type).Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day, x.type.Hour, 0, 0).ToString(), Count = x.count }).ToList();
-
 			//model.TypeCount = counts.OrderBy(x => x.type).Select(x => new LogCount() { Id = 0, Name = new x.ToString(), Count = x.count }).ToList();
-
 			//model.TypeCount = model.TypeCount.OrderBy(x => x.Name).ToList();
 
 			// Make sure Query Items are in lists!

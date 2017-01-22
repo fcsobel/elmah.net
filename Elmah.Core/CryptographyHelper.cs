@@ -86,36 +86,7 @@ namespace Elmah.Net
         }
 
 
-
-        //public static string EncodePassword(string pass, int passwordFormat, string salt)
-        //{
-        //    switch (passwordFormat)
-        //    {
-        //        case 0: // MembershipPasswordFormat.Clear
-        //            return pass;
-        //        case 4: // custom hash, random salt is generated and stored in hash
-        //            return ComputeHash(pass);
-        //        default:
-        //            byte[] bIn = Encoding.Unicode.GetBytes(pass);
-        //            byte[] bSalt = Convert.FromBase64String(salt);
-        //            byte[] bAll = new byte[bSalt.Length + bIn.Length];
-        //            byte[] bRet = null;
-        //            Buffer.BlockCopy(bSalt, 0, bAll, 0, bSalt.Length);
-        //            Buffer.BlockCopy(bIn, 0, bAll, bSalt.Length, bIn.Length);
-        //            if (passwordFormat == 1)
-        //            { // MembershipPasswordFormat.Hashed
-        //                HashAlgorithm s = HashAlgorithm.Create(Membership.HashAlgorithmType);
-        //                bRet = s.ComputeHash(bAll);
-        //            }
-        //            else
-        //            {
-        //                bRet = EncryptPassword(bAll);
-        //            }
-        //            return Convert.ToBase64String(bRet);
-        //    }
-        //}
-
-        protected static string UnEncodePassword(string pass, int passwordFormat)
+		protected static string UnEncodePassword(string pass, int passwordFormat)
         {
             switch (passwordFormat)
             {
