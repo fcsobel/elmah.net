@@ -164,6 +164,13 @@
     <Content Include="app\site\models\Site.js" />
     <Content Include="app\site\services\SiteApi.js" />
     <Content Include="app\site\services\SiteService.js" />
+    <Content Include="content\images\touch\icon-144.png" />
+    <Content Include="content\images\touch\icon-168.png" />
+    <Content Include="content\images\touch\icon-192.png" />
+    <Content Include="content\images\touch\icon-256.png" />
+    <Content Include="content\images\touch\icon-48.png" />
+    <Content Include="content\images\touch\icon-72.png" />
+    <Content Include="content\images\touch\icon-96.png" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="Web.config" />
@@ -180,6 +187,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="manifest.json" />
     <None Include="packages.config" />
     <Content Include="app\Web.config" />
     <None Include="bundleconfig.json" />
