@@ -64,12 +64,6 @@ namespace Elmah.Net
 			}
 			return decimal.TryParse(value, out i) ? (decimal)i : def;
 		}
-		
-		public static int ParseInt0(this string value)
-		{
-			int i;
-			return int.TryParse(value, out i) ? i : 0;
-		}
 
 		public static long? ParseLong(this string value)
 		{
@@ -82,12 +76,6 @@ namespace Elmah.Net
             long i;
             return long.TryParse(value, out i) ? i : def;
         }
-
-		public static long ParseLong0(this string value)
-		{
-			long i;
-			return long.TryParse(value, out i) ? i : 0;
-		}
 
 		public static bool? ParseBool(this string value)
 		{
@@ -146,8 +134,7 @@ namespace Elmah.Net
             decimal i;
             return decimal.TryParse(val, out i) ? i : 0;
         }
-
-
+        
         public static List<T> ParseList<T>(this string value)
         {
             return value.ParseList<T>(',');

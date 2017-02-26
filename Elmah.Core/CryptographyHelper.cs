@@ -135,56 +135,56 @@ namespace Elmah.Net
         }
 
         
-        public static string GenerateFriendlyPassword(int intPasswordLength)
-        {
-            string strChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!";
+        //public static string GenerateFriendlyPassword(int intPasswordLength)
+        //{
+        //    string strChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!";
 
-            Random r = new Random();
-            string strNewPassword = "";
+        //    Random r = new Random();
+        //    string strNewPassword = "";
 
-            for (int i = 0; i < intPasswordLength; i++)
-            {
-                int intRandom = r.Next(0, strChars.Length);
-                strNewPassword += strChars[intRandom];
-            }
+        //    for (int i = 0; i < intPasswordLength; i++)
+        //    {
+        //        int intRandom = r.Next(0, strChars.Length);
+        //        strNewPassword += strChars[intRandom];
+        //    }
 
-            return strNewPassword;
-        }
+        //    return strNewPassword;
+        ////}
         
-        /// <summary>
-        /// Generate Random Password
-        /// </summary>
-        /// <returns></returns>
-        public static string CreateRandomPassword()
-        {
-            string password;
-            Random Rnd = new Random();
-            password = "" + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10) + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10) + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10) + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10);
-            password = password.Replace("I", "J").Replace("O", "P");
-            return password;
-        }
+        ///// <summary>
+        ///// Generate Random Password
+        ///// </summary>
+        ///// <returns></returns>
+        //public static string CreateRandomPassword()
+        //{
+        //    string password;
+        //    Random Rnd = new Random();
+        //    password = "" + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10) + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10) + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10) + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10);
+        //    password = password.Replace("I", "J").Replace("O", "P");
+        //    return password;
+        //}
 
 
 
         // ASPNetIdentity Default Implementation
-        public static string HashPassword(string password)
-        {
-            byte[] salt;
-            byte[] buffer2;
-            if (password == null)
-            {
-                throw new ArgumentNullException("password");
-            }
-            using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, 0x10, 0x3e8))
-            {
-                salt = bytes.Salt;
-                buffer2 = bytes.GetBytes(0x20);
-            }
-            byte[] dst = new byte[0x31];
-            Buffer.BlockCopy(salt, 0, dst, 1, 0x10);
-            Buffer.BlockCopy(buffer2, 0, dst, 0x11, 0x20);
-            return Convert.ToBase64String(dst);
-        }
+        //public static string HashPassword(string password)
+        //{
+        //    byte[] salt;
+        //    byte[] buffer2;
+        //    if (password == null)
+        //    {
+        //        throw new ArgumentNullException("password");
+        //    }
+        //    using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, 0x10, 0x3e8))
+        //    {
+        //        salt = bytes.Salt;
+        //        buffer2 = bytes.GetBytes(0x20);
+        //    }
+        //    byte[] dst = new byte[0x31];
+        //    Buffer.BlockCopy(salt, 0, dst, 1, 0x10);
+        //    Buffer.BlockCopy(buffer2, 0, dst, 0x11, 0x20);
+        //    return Convert.ToBase64String(dst);
+        //}
 
         // ASPNetIdentity Default Implementation
         public static bool VerifyHashedPassword(string hashedPassword, string password)
@@ -244,50 +244,6 @@ namespace Elmah.Net
             }
             return true;
         }
-
-        /// <summary>
-        /// hash_hmac — Generate a keyed hash value using the HMAC method
-        /// same as PHP:
-        /// $Sig = base64_encode(hash_hmac('sha256', $data, $key, true));
-        /// http://stackoverflow.com/questions/1609899/java-equivalent-to-phps-hmac-sha1
-        /// </summary>
-        /// <param name="algo">algo Name of selected hashing algorithm (i.e. "md5", "sha256", "haval160,4", etc..) See hash_algos() for a list of supported algorithms.</param>
-        /// <param name="data">Message to be hashed.</param>
-        /// <param name="key">Shared secret key used for generating the HMAC variant of the message digest.</param>
-        /// <param name="raw_output">When set to TRUE, outputs raw binary data. FALSE outputs lowercase hexits.</param>
-        /// <returns></returns>
-        public static string hash_hmac(string algo, string data, string key)
-        {
-            byte[] keyByte = Encoding.UTF8.GetBytes(key);
-            byte[] messageBytes = Encoding.UTF8.GetBytes(data);
-            HMAC algorithm = null;
-            switch (algo)
-            {
-                case "md5":
-                    algorithm = new HMACMD5(keyByte);
-                    break;
-                case "sha1":
-                    algorithm = new HMACSHA1(keyByte);
-                    break;
-                case "sha256":
-                    algorithm = new HMACSHA256(keyByte);
-                    break;
-                case "sha384":
-                    algorithm = new HMACSHA384(keyByte);
-                    break;
-                case "sha512":
-                    algorithm = new HMACSHA384(keyByte);
-                    break;
-                case "ripemd160":
-                    algorithm = new HMACRIPEMD160(keyByte);
-                    break;
-                default:
-                    throw new Exception(string.Format("'{0}' not supported", algo));
-            }
-            byte[] hashmessage = algorithm.ComputeHash(messageBytes);
-            return Convert.ToBase64String(hashmessage);
-        }
-
 
 
         /// <summary>
