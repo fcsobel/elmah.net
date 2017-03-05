@@ -6,6 +6,7 @@ Elmah.Net.Models.LogMessage = function (data, model) {
 
     _.extend(this, data);
 
+	//// uncommet because we need it for detail....may cause issue elsewhere...
     //model.logs = model.logs || [];
     //model.applications = model.applications || [];
     //model.users = model.users || [];

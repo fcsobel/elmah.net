@@ -134,57 +134,27 @@ namespace Elmah.Net
             return decryptedData;
         }
 
-        
-        //public static string GenerateFriendlyPassword(int intPasswordLength)
-        //{
-        //    string strChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!";
 
-        //    Random r = new Random();
-        //    string strNewPassword = "";
-
-        //    for (int i = 0; i < intPasswordLength; i++)
-        //    {
-        //        int intRandom = r.Next(0, strChars.Length);
-        //        strNewPassword += strChars[intRandom];
-        //    }
-
-        //    return strNewPassword;
-        ////}
-        
-        ///// <summary>
-        ///// Generate Random Password
-        ///// </summary>
-        ///// <returns></returns>
-        //public static string CreateRandomPassword()
-        //{
-        //    string password;
-        //    Random Rnd = new Random();
-        //    password = "" + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10) + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10) + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10) + (char)Rnd.Next(65, 91) + Rnd.Next(2, 10);
-        //    password = password.Replace("I", "J").Replace("O", "P");
-        //    return password;
-        //}
-
-
-
-        // ASPNetIdentity Default Implementation
-        //public static string HashPassword(string password)
-        //{
-        //    byte[] salt;
-        //    byte[] buffer2;
-        //    if (password == null)
-        //    {
-        //        throw new ArgumentNullException("password");
-        //    }
-        //    using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, 0x10, 0x3e8))
-        //    {
-        //        salt = bytes.Salt;
-        //        buffer2 = bytes.GetBytes(0x20);
-        //    }
-        //    byte[] dst = new byte[0x31];
-        //    Buffer.BlockCopy(salt, 0, dst, 1, 0x10);
-        //    Buffer.BlockCopy(buffer2, 0, dst, 0x11, 0x20);
-        //    return Convert.ToBase64String(dst);
-        //}
+ 
+        //ASPNetIdentity Default Implementation
+        public static string HashPassword(string password)
+        {
+            byte[] salt;
+            byte[] buffer2;
+            if (password == null)
+            {
+                throw new ArgumentNullException("password");
+            }
+            using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, 0x10, 0x3e8))
+            {
+                salt = bytes.Salt;
+                buffer2 = bytes.GetBytes(0x20);
+            }
+            byte[] dst = new byte[0x31];
+            Buffer.BlockCopy(salt, 0, dst, 1, 0x10);
+            Buffer.BlockCopy(buffer2, 0, dst, 0x11, 0x20);
+            return Convert.ToBase64String(dst);
+        }
 
         // ASPNetIdentity Default Implementation
         public static bool VerifyHashedPassword(string hashedPassword, string password)

@@ -7,7 +7,7 @@
     <ProjectGuid>{85C01EF9-3CE0-4EBE-B519-C027C92939E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Elmah.Logger.Data</RootNamespace>
+    <RootNamespace>Elmah.Net.Logger.Data</RootNamespace>
     <AssemblyName>Elmah.Logger.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -85,6 +85,7 @@
     <Compile Include="Model\LogMessageType.cs" />
     <Compile Include="Model\LogUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\SearchQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

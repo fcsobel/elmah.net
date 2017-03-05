@@ -60,9 +60,9 @@ namespace Elmah.Net.Logger.Web
         [HttpGet]
         [Route("messages/init")]
         public LogSearchResponseModel Init()
-        {
+        {			
             LogSearchResponseModel model = new LogSearchResponseModel();
-            model.Logs = db.Logs.ToList().Select(y => new LogObject(y)).ToList();
+			model.Logs = db.Logs.ToList().Select(y => new LogObject(y)).ToList();
             model.Applications = db.LogApplications.ToList().Select(y => new LogObject(y)).ToList();
             //model.Users = db.Users.Select(y => new LogObject(y)).ToList();
             model.Types = db.MessageTypes.ToList().Select(y => new LogObject(y)).ToList();
@@ -144,146 +144,152 @@ namespace Elmah.Net.Logger.Web
 		/// <returns></returns>
 		[HttpGet]
         [Route("messages/search")]
-        public LogSearchResponseModel Search(Query query, HydrationLevel level = HydrationLevel.Basic, string log = null, string application = null)
-        {
-            // convert to utc
-            if (query.Start.HasValue) query.Start.Value.ToUniversalTime();
-            if (query.End.HasValue) query.End.Value.ToUniversalTime();
+        public LogSearchResponseModel Search(Query query, HydrationLevel level = HydrationLevel.Basic) //, string log = null, string application = null
+		{
+			var search = new SearchQuery(db);
 
-            // convert to span
-            if (!query.Start.HasValue && query.Span > 0)
-            {
-                query.Start = DateTime.UtcNow.AddMinutes((int)query.Span * -1);
-            }
+			var messages = search.Search(query);
+			
+			//// convert to utc
+			//if (query.Start.HasValue) query.Start.Value.ToUniversalTime();
+   //         if (query.End.HasValue) query.End.Value.ToUniversalTime();
 
-            IQueryable<Elmah.Net.Logger.Data.LogMessage> messages = null;
-
-            if (query.Start.HasValue)
-            {
-                if (query.End.HasValue)
-                {
-					messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start && x.DateTime <= query.End);
-				}
-                else
-                {
-					messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start);
-				}
-            }
-            else
-            {
-				messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages;
-			}
-
-			//Log theLog = null;
-			if (!string.IsNullOrWhiteSpace(log))
-            {
-                //var start = DateTime.Now.Date;
-                //var allLogs = (IQueryable<Elmah.Net.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
-                var theLog = db.Logs.FirstOrDefault(x => x.Name == log);
-                if (theLog != null)
-                {
-                    messages = messages.Where(x => x.LogId == theLog.Id);
-                }
-            }
-
-            if (query.Logs != null && query.Logs.Any())
-            {
-                messages = messages.Where(x => query.Logs.Any(y => y == x.LogId));
-            }
-
-            // application
-            if (!string.IsNullOrWhiteSpace(application))
-            {
-                var obj = db.LogApplications.FirstOrDefault(x => x.Name == application);
-                if (obj != null)
-                {
-                    messages = messages.Where(x => x.ApplicationId == obj.Id);
-                    //logs = logs.Where(x => x.Applications.Any(a => a.Id == obj.Id));						
-                }
-            }
-
-            // applications
-            if (query.Applications != null && query.Applications.Any())
-            {
-                //var list = types.Select(x => x.Id);
-                messages = messages.Where(x => query.Applications.Any(y => y == x.ApplicationId));
-            }
-
-            //// types
-            //if (!string.IsNullOrWhiteSpace(type))
-            //{
-            //    var obj = db.MessageTypes.FirstOrDefault(x => x.Name == type);
-            //    if (obj != null)
-            //    {
-            //        messages = messages.Where(x => x.MessageTypeId == obj.Id);
-            //    }
-            //}
-
-            if (query.Types != null && query.Types.Any())
-            {
-                //var list = types.Select(x => x.Id);
-                messages = messages.Where(x => query.Types.Any(y => y == x.MessageTypeId));
-            }
-
-            if (query.Sources != null && query.Sources.Any())
-            {
-                //var list = sources.Select(x => x.Id);
-                messages = messages.Where(x => query.Sources.Any(y => y == x.SourceId));
-            }
-
-            if (query.Users != null && query.Users.Any())
-            {
-                //var list = users.Select(x => x.Id);
-                messages = messages.Where(x => query.Users.Any(y => y == x.UserId));
-            }
-
-            //// sources
-            //if (!string.IsNullOrWhiteSpace(source))
-            //{
-            //    var obj = db.MessageSources.FirstOrDefault(x => x.Name == source);
-            //    if (obj != null)
-            //    {
-            //        messages = messages.Where(x => x.SourceId == obj.Id);
-            //    }
-            //}
-
-
-            //// users
-            //if (!string.IsNullOrWhiteSpace(user))
-            //{
-            //    var obj = db.Users.FirstOrDefault(x => x.Name == user);
-            //    if (obj != null)
-            //    {
-            //        messages = messages.Where(x => x.UserId == obj.Id);
-            //    }
-            //}
-
-            // severities
-            if (query.Severities != null && query.Severities.Any())
-            {
-                //var list = users.Select(x => x.Id);
-                messages = messages.Where(x => query.Severities.Any(y => y == x.Severity));
-            }
-
-			// severity
-			//if (severity.HasValue) { messages = messages.Where(x => x.Severity == severity); }
-
-			//if (query.Limit > 0)
+   //         // convert to span
+   //         if (!query.Start.HasValue && query.Span > 0)
    //         {
-   //             messages = messages.Take(query.Limit);
+   //             query.Start = DateTime.UtcNow.AddMinutes((int)query.Span * -1);
    //         }
 
-            // get filters
-            var filters = db.Filters.OrderBy(x => x.Name).ToList();
+   //         IQueryable<Elmah.Net.Logger.Data.LogMessage> messages = null;
 
-			// Includes and order by
-			messages = messages
-				.Include(x => x.Log)
-				.Include(x => x.User)
-				.Include(x => x.Source)
-				.Include(x => x.MessageType)
-				.Include(x => x.Application)
-				.OrderByDescending(x => x.DateTime);
+   //         if (query.Start.HasValue)
+   //         {
+   //             if (query.End.HasValue)
+   //             {
+			//		messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start && x.DateTime <= query.End);
+			//	}
+   //             else
+   //             {
+			//		messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start);
+			//	}
+   //         }
+   //         else
+   //         {
+			//	messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages;
+			//}
+
+			////Log theLog = null;
+			//if (!string.IsNullOrWhiteSpace(log))
+   //         {
+   //             //var start = DateTime.Now.Date;
+   //             //var allLogs = (IQueryable<Elmah.Net.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
+   //             var theLog = db.Logs.FirstOrDefault(x => x.Name == log);
+   //             if (theLog != null)
+   //             {
+   //                 messages = messages.Where(x => x.LogId == theLog.Id);
+   //             }
+   //         }
+
+   //         if (query.Logs != null && query.Logs.Any())
+   //         {
+   //             messages = messages.Where(x => query.Logs.Any(y => y == x.LogId));
+   //         }
+
+   //         // application
+   //         if (!string.IsNullOrWhiteSpace(application))
+   //         {
+   //             var obj = db.LogApplications.FirstOrDefault(x => x.Name == application);
+   //             if (obj != null)
+   //             {
+   //                 messages = messages.Where(x => x.ApplicationId == obj.Id);
+   //                 //logs = logs.Where(x => x.Applications.Any(a => a.Id == obj.Id));						
+   //             }
+   //         }
+
+   //         // applications
+   //         if (query.Applications != null && query.Applications.Any())
+   //         {
+   //             //var list = types.Select(x => x.Id);
+   //             messages = messages.Where(x => query.Applications.Any(y => y == x.ApplicationId));
+   //         }
+
+   //         //// types
+   //         //if (!string.IsNullOrWhiteSpace(type))
+   //         //{
+   //         //    var obj = db.MessageTypes.FirstOrDefault(x => x.Name == type);
+   //         //    if (obj != null)
+   //         //    {
+   //         //        messages = messages.Where(x => x.MessageTypeId == obj.Id);
+   //         //    }
+   //         //}
+
+   //         if (query.Types != null && query.Types.Any())
+   //         {
+   //             //var list = types.Select(x => x.Id);
+   //             messages = messages.Where(x => query.Types.Any(y => y == x.MessageTypeId));
+   //         }
+
+   //         if (query.Sources != null && query.Sources.Any())
+   //         {
+   //             //var list = sources.Select(x => x.Id);
+   //             messages = messages.Where(x => query.Sources.Any(y => y == x.SourceId));
+   //         }
+
+   //         if (query.Users != null && query.Users.Any())
+   //         {
+   //             //var list = users.Select(x => x.Id);
+   //             messages = messages.Where(x => query.Users.Any(y => y == x.UserId));
+   //         }
+
+   //         //// sources
+   //         //if (!string.IsNullOrWhiteSpace(source))
+   //         //{
+   //         //    var obj = db.MessageSources.FirstOrDefault(x => x.Name == source);
+   //         //    if (obj != null)
+   //         //    {
+   //         //        messages = messages.Where(x => x.SourceId == obj.Id);
+   //         //    }
+   //         //}
+
+
+   //         //// users
+   //         //if (!string.IsNullOrWhiteSpace(user))
+   //         //{
+   //         //    var obj = db.Users.FirstOrDefault(x => x.Name == user);
+   //         //    if (obj != null)
+   //         //    {
+   //         //        messages = messages.Where(x => x.UserId == obj.Id);
+   //         //    }
+   //         //}
+
+   //         // severities
+   //         if (query.Severities != null && query.Severities.Any())
+   //         {
+   //             //var list = users.Select(x => x.Id);
+   //             messages = messages.Where(x => query.Severities.Any(y => y == x.Severity));
+   //         }
+
+			//// severity
+			////if (severity.HasValue) { messages = messages.Where(x => x.Severity == severity); }
+
+			////if (query.Limit > 0)
+   ////         {
+   ////             messages = messages.Take(query.Limit);
+   ////         }
+
+
+			//// Includes and order by
+			//messages = messages
+			//	.Include(x => x.Log)
+			//	.Include(x => x.User)
+			//	.Include(x => x.Source)
+			//	.Include(x => x.MessageType)
+			//	.Include(x => x.Application)
+			//	.OrderByDescending(x => x.DateTime);
+
+
+			// get filters
+			var filters = db.Filters.OrderBy(x => x.Name).ToList();
 
 			//var counts = messages.GroupBy(x => x.MessageType).Select(z => new { type = z.Key, count = z.Count() }).ToList();
 			//var counts = messages.GroupBy(x => new { Year = x.DateTime.Year, Month = x.DateTime.Month } ).Select(z => new { type = z.Key, count = z.Count() }).ToList();
@@ -312,9 +318,9 @@ namespace Elmah.Net.Logger.Web
 						
 
 			//model.TypeCount = counts.OrderBy(x=>x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100  + x.type.Hour).Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day, x.type.Hour, 0, 0).ToString(), Count = x.count }).ToList();
-			model.TypeCount = counts
-				.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100)
-				.Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
+			//model.TypeCount = counts
+			//	.OrderBy(x => x.type.Year * 1000000 + x.type.Month * 10000 + x.type.Day * 100)
+			//	.Select(x => new LogCount() { Id = 0, Name = new DateTime(x.type.Year, x.type.Month, x.type.Day).ToString(), Count = x.count }).ToList();
 
 			// count by type / id
 			model.TypeCount2 = typeCounts

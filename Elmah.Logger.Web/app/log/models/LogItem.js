@@ -9,10 +9,10 @@ Elmah.Net.Models.LogItem = function (model, countData) {
 	this.visible = false;
 	this.messages = this.messages || [];
 
+	// hold chart counts
 	this.counts = [];
 
-	if (countData)
-	{
+	if (countData) {
 		// get counts for this type
 		var list = _.filter(countData, { id: this.id });
 

@@ -58,7 +58,7 @@ namespace Elmah.Net.Logger.Web
         public List<LogObject> Spans { get; set; }
         public List<Filter> Filters { get; set; }
 
-		public List<LogCount> TypeCount { get; set; }
+		//public List<LogCount> TypeCount { get; set; }
 		public List<LogCount> TypeCount2 { get; set; }
 
 		public LogSearchResponseModel() {
