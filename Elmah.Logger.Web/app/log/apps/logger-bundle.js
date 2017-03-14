@@ -671,9 +671,9 @@ Elmah.Net.Models.Site.prototype = {
 			    },
                 
 			    // Search and Create or Update Filter
-			    searchAndUpdate: function (name, filter, limit, span, logs, applications, severities, types, sources, users, start, end) {
+			    searchAndUpdate: function (name, filter, limit, span, logs, applications, severities, types, sources, users, start, end, searchText) {
 
-			        filter.query = { limit: limit, span: span, logs: logs, applications: applications, severities: severities, types: types, sources: sources, users: users, start: start, end: end };
+			        filter.query = { search: searchText, limit: limit, span: span, logs: logs, applications: applications, severities: severities, types: types, sources: sources, users: users, start: start, end: end };
 
 			        var promise = $http.post(url + '/messages/search/' + encodeURIComponent(name), filter)
 						.then(
@@ -723,9 +723,9 @@ Elmah.Net.Models.Site.prototype = {
 			    },
                 
 			    // Search by Query
-			    search: function (limit, span, logs, applications, severities, types, sources, users, start, end) {
+			    search: function (limit, span, logs, applications, severities, types, sources, users, start, end, searchText) {
 
-			        var data = { params: { limit: limit, span: span, logs: logs, applications: applications, severities: severities, types: types, sources: sources, users: users, start: start, end: end } }; //span: 10000
+			        var data = { params: { search: searchText, limit: limit, span: span, logs: logs, applications: applications, severities: severities, types: types, sources: sources, users: users, start: start, end: end } }; //span: 10000
 
 			        var promise = $http.get(url + '/messages/search', data)
 						.then(
@@ -872,8 +872,8 @@ Elmah.Net.Models.Site.prototype = {
 			};
 
 		    // Create or update filter
-			var searchAndUpdate = function (name, filter, limit, span, logs, applications, severities, types, sources, users, start, end) {
-			    var promise = loggerApi.searchAndUpdate(name, filter, limit, span, logs, applications, severities, types, sources, users, start, end)
+			var searchAndUpdate = function (name, filter, limit, span, logs, applications, severities, types, sources, users, start, end, searchText) {
+			    var promise = loggerApi.searchAndUpdate(name, filter, limit, span, logs, applications, severities, types, sources, users, start, end, searchText)
 					.then(function (response) { // handle response
 
 					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
@@ -961,8 +961,8 @@ Elmah.Net.Models.Site.prototype = {
 			};
 
 			// Search Loge Messages
-			var search = function (limit, span, logs, applications, severities, types, sources, users, start, end) {
-			    var promise = loggerApi.search(limit, span, logs, applications, severities, types, sources, users, start, end)
+			var search = function (limit, span, logs, applications, severities, types, sources, users, start, end, searchText) {
+			    var promise = loggerApi.search(limit, span, logs, applications, severities, types, sources, users, start, end, searchText)
 					.then(function (response) { // handle response
 
 					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
@@ -1287,7 +1287,7 @@ Elmah.Net.Models.Site.prototype = {
 				}
 
 				logService.searchAndUpdate(scope.filter.name, scope.filter,
-                    scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate)
+                    scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate, scope.model.query.search)
 					.then(function (response) { // sucess
 						scope.model = response.model;
 						usSpinnerService.stop('spinner-1');
@@ -1316,7 +1316,7 @@ Elmah.Net.Models.Site.prototype = {
 					}
 				}
 
-				logService.search(scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate)
+			    logService.search(scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate, scope.model.query.search)
 					.then(function (response) { // sucess
 						scope.model = response.model;
 
@@ -1555,7 +1555,29 @@ Elmah.Net.Models.Site.prototype = {
 
 			//http://www.chartjs.org/docs/#scales-linear-scale
 			scope.chartOptions = {
-
+			    //pointHitDetectionRadius : 1,
+			    //pointDotRadius: 1,			    
+			    tooltips: {
+			        mode: 'index',
+			        intersect: true,
+			        //itemSirt: '',
+			        //filter: '',
+			        //position: 'nearest',
+			        position: 'myCustomPosition',			        
+			        callbacks: {
+			            label: function (tooltipItem, data) {
+			                var dataset = data.datasets[tooltipItem.datasetIndex]; //.label;
+			                var item = dataset.data[tooltipItem.index];
+			                if (item.y > 0) {
+			                    var label = data.labels[tooltipItem.index];
+			                    return dataset.label + ': ' + item.y;
+			                }
+			                else {
+			                    return null;
+			                }
+			            }
+			        }
+			    },
 				responsive: true,
 				spanGaps: true,
 				fullWidth: true,
@@ -1590,7 +1612,14 @@ Elmah.Net.Models.Site.prototype = {
 				}
 			};
 
-						
+			Chart.Tooltip.positioners.myCustomPosition = function (unused, position) {
+			    return { x: position.x, y: 6 };
+			}
+			
+			//Chart.Tooltip.positioners.myCustomPosition = function (unused, position) {
+			//    return { x: 10, y: 10 };
+			//}
+
 			//scope.$watch('model.model.typeCount', function (newValue, oldValue, scope) {
 			//	scope.RefreshChart();
 			//});
@@ -1682,6 +1711,7 @@ Elmah.Net.Models.Site.prototype = {
 						if (value.color == 'brown') { color = '#800000'; }
 						if (value.color == 'orange') { color = '#FF4500'; }
 						if (value.color == 'green') { color = '#008000'; }
+						if (value.color == 'red') { color = '#FF4500'; }
 						if (value.color == 'blue') { color = '#4682B4'; }
 
 						scope.colors.push(color);  // Add color

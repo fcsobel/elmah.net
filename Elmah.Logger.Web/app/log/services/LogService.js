@@ -98,8 +98,8 @@
 			};
 
 		    // Create or update filter
-			var searchAndUpdate = function (name, filter, limit, span, logs, applications, severities, types, sources, users, start, end) {
-			    var promise = loggerApi.searchAndUpdate(name, filter, limit, span, logs, applications, severities, types, sources, users, start, end)
+			var searchAndUpdate = function (name, filter, limit, span, logs, applications, severities, types, sources, users, start, end, searchText) {
+			    var promise = loggerApi.searchAndUpdate(name, filter, limit, span, logs, applications, severities, types, sources, users, start, end, searchText)
 					.then(function (response) { // handle response
 
 					    container.model = new Elmah.Net.Models.LogSearchResponse(response);
@@ -187,8 +187,8 @@
 			};
 
 			// Search Loge Messages
-			var search = function (limit, span, logs, applications, severities, types, sources, users, start, end) {
-			    var promise = loggerApi.search(limit, span, logs, applications, severities, types, sources, users, start, end)
+			var search = function (limit, span, logs, applications, severities, types, sources, users, start, end, searchText) {
+			    var promise = loggerApi.search(limit, span, logs, applications, severities, types, sources, users, start, end, searchText)
 					.then(function (response) { // handle response
 
 					    container.model = new Elmah.Net.Models.LogSearchResponse(response);

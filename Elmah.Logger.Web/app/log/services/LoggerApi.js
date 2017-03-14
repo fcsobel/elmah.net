@@ -38,9 +38,9 @@
 			    },
                 
 			    // Search and Create or Update Filter
-			    searchAndUpdate: function (name, filter, limit, span, logs, applications, severities, types, sources, users, start, end) {
+			    searchAndUpdate: function (name, filter, limit, span, logs, applications, severities, types, sources, users, start, end, searchText) {
 
-			        filter.query = { limit: limit, span: span, logs: logs, applications: applications, severities: severities, types: types, sources: sources, users: users, start: start, end: end };
+			        filter.query = { search: searchText, limit: limit, span: span, logs: logs, applications: applications, severities: severities, types: types, sources: sources, users: users, start: start, end: end };
 
 			        var promise = $http.post(url + '/messages/search/' + encodeURIComponent(name), filter)
 						.then(
@@ -90,9 +90,9 @@
 			    },
                 
 			    // Search by Query
-			    search: function (limit, span, logs, applications, severities, types, sources, users, start, end) {
+			    search: function (limit, span, logs, applications, severities, types, sources, users, start, end, searchText) {
 
-			        var data = { params: { limit: limit, span: span, logs: logs, applications: applications, severities: severities, types: types, sources: sources, users: users, start: start, end: end } }; //span: 10000
+			        var data = { params: { search: searchText, limit: limit, span: span, logs: logs, applications: applications, severities: severities, types: types, sources: sources, users: users, start: start, end: end } }; //span: 10000
 
 			        var promise = $http.get(url + '/messages/search', data)
 						.then(

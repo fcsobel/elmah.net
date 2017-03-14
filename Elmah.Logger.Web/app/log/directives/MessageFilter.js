@@ -156,7 +156,7 @@
 				}
 
 				logService.searchAndUpdate(scope.filter.name, scope.filter,
-                    scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate)
+                    scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate, scope.model.query.search)
 					.then(function (response) { // sucess
 						scope.model = response.model;
 						usSpinnerService.stop('spinner-1');
@@ -185,7 +185,7 @@
 					}
 				}
 
-				logService.search(scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate)
+			    logService.search(scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate, scope.model.query.search)
 					.then(function (response) { // sucess
 						scope.model = response.model;
 

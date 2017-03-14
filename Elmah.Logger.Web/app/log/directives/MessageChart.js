@@ -31,7 +31,29 @@
 
 			//http://www.chartjs.org/docs/#scales-linear-scale
 			scope.chartOptions = {
-
+			    //pointHitDetectionRadius : 1,
+			    //pointDotRadius: 1,			    
+			    tooltips: {
+			        mode: 'index',
+			        intersect: true,
+			        //itemSirt: '',
+			        //filter: '',
+			        //position: 'nearest',
+			        position: 'myCustomPosition',			        
+			        callbacks: {
+			            label: function (tooltipItem, data) {
+			                var dataset = data.datasets[tooltipItem.datasetIndex]; //.label;
+			                var item = dataset.data[tooltipItem.index];
+			                if (item.y > 0) {
+			                    var label = data.labels[tooltipItem.index];
+			                    return dataset.label + ': ' + item.y;
+			                }
+			                else {
+			                    return null;
+			                }
+			            }
+			        }
+			    },
 				responsive: true,
 				spanGaps: true,
 				fullWidth: true,
@@ -66,7 +88,14 @@
 				}
 			};
 
-						
+			Chart.Tooltip.positioners.myCustomPosition = function (unused, position) {
+			    return { x: position.x, y: 6 };
+			}
+			
+			//Chart.Tooltip.positioners.myCustomPosition = function (unused, position) {
+			//    return { x: 10, y: 10 };
+			//}
+
 			//scope.$watch('model.model.typeCount', function (newValue, oldValue, scope) {
 			//	scope.RefreshChart();
 			//});
@@ -158,6 +187,7 @@
 						if (value.color == 'brown') { color = '#800000'; }
 						if (value.color == 'orange') { color = '#FF4500'; }
 						if (value.color == 'green') { color = '#008000'; }
+						if (value.color == 'red') { color = '#FF4500'; }
 						if (value.color == 'blue') { color = '#4682B4'; }
 
 						scope.colors.push(color);  // Add color

@@ -11,6 +11,7 @@ namespace Elmah.Net.Logger.Data
 {
     public class Query
     {
+        public string Search { get; set; }
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
         public SearchSpan Span { get; set; }
@@ -22,7 +23,7 @@ namespace Elmah.Net.Logger.Data
         public List<long> Users { get; set; }
         public List<LogSeverity> Severities { get; set; }
 
-        public void Hydeate(Query value)
+        public void Hydrate(Query value)
         {
             this.Start = value.Start;
             this.End = value.Start;
@@ -34,6 +35,7 @@ namespace Elmah.Net.Logger.Data
             this.Logs = value.Logs;
             this.Users = value.Users;
             this.Severities = value.Severities;
+            this.Search = value.Search;
         }
 
         public Query()

@@ -52,19 +52,25 @@ namespace Elmah.Net.Logger.Data
 				messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages;
 			}
 
-			////Log theLog = null;
-			//if (!string.IsNullOrWhiteSpace(log))
-			//{
-			//	//var start = DateTime.Now.Date;
-			//	//var allLogs = (IQueryable<Elmah.Net.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
-			//	var theLog = db.Logs.FirstOrDefault(x => x.Name == log);
-			//	if (theLog != null)
-			//	{
-			//		messages = messages.Where(x => x.LogId == theLog.Id);
-			//	}
-			//}
+            // check for search text
+            if (!string.IsNullOrWhiteSpace(query.Search))
+            {
+                messages = messages.Where(x => x.Title.Contains(query.Search) || x.Detail.Content.Contains(query.Search));
+            }
 
-			if (query.Logs != null && query.Logs.Any())
+            ////Log theLog = null;
+            //if (!string.IsNullOrWhiteSpace(log))
+            //{
+            //	//var start = DateTime.Now.Date;
+            //	//var allLogs = (IQueryable<Elmah.Net.Logger.Data.Log>)db.Logs.OrderBy(x => x.Name);
+            //	var theLog = db.Logs.FirstOrDefault(x => x.Name == log);
+            //	if (theLog != null)
+            //	{
+            //		messages = messages.Where(x => x.LogId == theLog.Id);
+            //	}
+            //}
+
+            if (query.Logs != null && query.Logs.Any())
 			{
 				messages = messages.Where(x => query.Logs.Any(y => y == x.LogId));
 			}
