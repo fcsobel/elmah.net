@@ -9,7 +9,9 @@ namespace Elmah.Net.Logger.Data
 {
     public enum SearchSpan
     {
-        [Description("5 Minutes")]
+		[Description("")]
+		None = 0,
+		[Description("5 Minutes")]
         FiveMinutes = 5,
         [Description("15 Minutes")]
         FifteenMinutes = 15,
@@ -29,7 +31,9 @@ namespace Elmah.Net.Logger.Data
         ThreeDays = 60 * 24 * 3,
         [Description("One Week")]
         OneWeek = 60 * 24 * 7,
-        [Description("30 Days")]
+		[Description("Ten Days")]
+		TenDays = 60 * 24 * 10,
+		[Description("30 Days")]
         ThirtyDays = 60 * 24 * 30,
         [Description("60 Days")]
         SixtyDays = 60 * 24 * 60,
@@ -38,6 +42,6 @@ namespace Elmah.Net.Logger.Data
         [Description("One Year")]
         OneYear = 60 * 24 * 365,
         [Description("All")]
-        All = 0
-    }
+        All = 60 * 24 * 1000
+	}
 }

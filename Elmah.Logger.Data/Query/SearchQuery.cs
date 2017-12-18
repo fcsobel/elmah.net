@@ -24,33 +24,58 @@ namespace Elmah.Net.Logger.Data
 		/// <returns></returns>
 		public IQueryable<LogMessage> Search(Query query)
 		{
-			// convert to utc
-			if (query.Start.HasValue) query.Start.Value.ToUniversalTime();
-			if (query.End.HasValue) query.End.Value.ToUniversalTime();
+			//// convert to utc
+			//if (query.Start.HasValue) query.Start.Value.ToUniversalTime();
+			//if (query.End.HasValue) query.End.Value.ToUniversalTime();
 
-			// convert to span
-			if (!query.Start.HasValue && query.Span > 0)
-			{
-				query.Start = DateTime.UtcNow.AddMinutes((int)query.Span * -1);
-			}
+			//// convert to span
+			//if (!query.Start.HasValue && query.Span > 0)
+			//{
+			//	query.Start = DateTime.UtcNow.AddMinutes((int)query.Span * -1);
+			//}
 
 			IQueryable<LogMessage> messages = null;
+			DateTime? start = null;
+			DateTime? end = null;
 
-			if (query.Start.HasValue)
+			switch (query.Span)
 			{
-				if (query.End.HasValue)
-				{
-					messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start && x.DateTime <= query.End);
-				}
-				else
-				{
-					messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start);
-				}
+				case SearchSpan.None: // search by date
+					if (query.Start.HasValue) start = query.Start.Value.ToUniversalTime();
+					if (query.End.HasValue) end = query.End.Value.ToUniversalTime();
+					if (start.HasValue && end > start)
+					{
+						messages = (IQueryable<LogMessage>)db.LogMessages.Where(x => x.DateTime >= start && x.DateTime <= end);
+					}
+					else
+					{
+						messages = (IQueryable<LogMessage>)db.LogMessages.Where(x => x.DateTime >= start);
+					}
+					break;
+				case SearchSpan.All: // search all
+					messages = (IQueryable<LogMessage>)db.LogMessages;
+					break;
+				default: // convert span to start date
+					start = DateTime.UtcNow.AddMinutes((int)query.Span * -1);
+					messages = (IQueryable<LogMessage>)db.LogMessages.Where(x => x.DateTime >= start);
+					break;
 			}
-			else
-			{
-				messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages;
-			}
+
+			//if (query.Start.HasValue)
+			//{
+			//	if (query.End.HasValue)
+			//	{
+			//		messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start && x.DateTime <= query.End);
+			//	}
+			//	else
+			//	{
+			//		messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages.Where(x => x.DateTime >= query.Start);
+			//	}
+			//}
+			//else
+			//{
+			//	messages = (IQueryable<Elmah.Net.Logger.Data.LogMessage>)db.LogMessages;
+			//}
 
             // check for search text
             if (!string.IsNullOrWhiteSpace(query.Search))

@@ -80,7 +80,7 @@ namespace Elmah.Net.Logger.Web
 			this.Types =			list.Where(x=>x.MessageType != null).Select(x => x.MessageType).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Sources =			list.Where(x=>x.Source != null).Select(x => x.Source).Distinct().Select(y => new LogObject(y)).ToList();
 			this.Severities =		list.Select(x=>x.Severity).Distinct().Select(y => new LogObject { Id = 0, Name = y.ToString() }).ToList();
-            this.Spans =            EnumHelper.GetValues<Elmah.Net.Logger.Data.SearchSpan>().Select(y => new LogObject(y)).ToList();
+            this.Spans =            EnumHelper.GetValues<Elmah.Net.Logger.Data.SearchSpan>().Select(y => new LogObject(y)).OrderBy(x => x.Id).ToList();
 
             // load messages
             foreach (var item in list)

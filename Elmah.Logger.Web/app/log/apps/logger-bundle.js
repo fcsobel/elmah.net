@@ -1169,8 +1169,8 @@ Elmah.Net.Models.Site.prototype = {
 				span: scope.span,
 				type: scope.type,
 				source: scope.source,
-				startMoment: moment().subtract(7, 'days').startOf('day'), //utc().
-				endMoment: moment().endOf('day'), //utc()
+				//startMoment: moment().subtract(7, 'days').startOf('day'), //utc().
+				//endMoment: moment().endOf('day'), //utc()
 			};
 
 			scope.filter = {};
@@ -1180,8 +1180,8 @@ Elmah.Net.Models.Site.prototype = {
 				scope.model.query = {
 					limit: 100,
 					span: 60 * 24,
-					startMoment: moment().subtract(7, 'days').startOf('day'), //utc().
-					endMoment: moment().endOf('day'), //utc()
+					//startMoment: moment().subtract(7, 'days').startOf('day'), //utc()
+					//endMoment: moment().endOf('day'), //utc()
 				};
 			}
 
@@ -1199,13 +1199,19 @@ Elmah.Net.Models.Site.prototype = {
 
 				//scope.query.name = item.name;
 
-				if (scope.model.query.span == 0) {
-					scope.model.query.startMoment = moment(item.query.start);
-					scope.model.query.endMoment = moment(item.query.end);
+                if (scope.model.query.span == 0) {
+                    if (item.query.start && item.query.end) {
+                        scope.model.query.startMoment = moment(item.query.start);
+                        scope.model.query.endMoment = moment(item.query.end);
 
-					var drp = $('#demo').data('daterangepicker');
-					drp.setStartDate(scope.model.query.startMoment.format('MM/DD/YYYY'));
-					drp.setEndDate(scope.model.query.endMoment.format('MM/DD/YYYY'));
+                        var drp = $('#demo').data('daterangepicker');
+                        drp.setStartDate(scope.model.query.startMoment.format('MM/DD/YYYY'));
+                        drp.setEndDate(scope.model.query.endMoment.format('MM/DD/YYYY'));
+                    }
+                    else
+                    {
+                        $('#demo').val('');
+                    }
 				}
 
 				scope.Find(scope.filter.name);
@@ -1296,6 +1302,33 @@ Elmah.Net.Models.Site.prototype = {
 			}
 
 
+            // change span dropdown event
+            scope.ChangeSpan = function () {
+
+                scope.CheckDates();
+
+                if (scope.model.query.span > 0) {
+                    scope.Search();
+                }
+            };
+            
+            scope.CheckDates = function () {
+                // refresh moment dates from uimodel
+
+                if (scope.model.query.span > 0 && scope.model.query.span < 1440000) {
+                    var days = scope.model.query.span / (60 * 24);
+                    scope.model.query.startMoment = moment().subtract(days, 'days').startOf('day');
+                    scope.model.query.endMoment = moment().endOf('day');
+                }
+
+                if (scope.model.query.span == 0) {
+                    if (scope.model.query.start && scope.model.query.end) {
+                        scope.model.query.startMoment = moment(scope.model.query.start);
+                        scope.model.query.endMoment = moment(scope.model.query.end);
+                    }
+                }
+            }
+
 
 			// Search
 			scope.Search = function () {
@@ -1308,25 +1341,24 @@ Elmah.Net.Models.Site.prototype = {
 				// Get dates 
 				var startDate = null;
 				var endDate = null;
-				if (scope.model.query.span === 0) {
-					if (scope.model.query.startMoment && scope.model.query.endMoment) {
-						// gets the native Date object that Moment.js wraps
-						startDate = scope.model.query.startMoment.toDate();
-						endDate = scope.model.query.endMoment.toDate();
-					}
-				}
+
+                if (scope.model.query.startMoment && scope.model.query.endMoment) {
+                    // gets the native Date object that Moment.js wraps
+                    startDate = scope.model.query.startMoment.toDate();
+                    endDate = scope.model.query.endMoment.toDate();
+                }
 
 			    logService.search(scope.model.query.limit, scope.model.query.span, scope.model.query.logs, scope.model.query.applications, scope.model.query.severities, scope.model.query.types, scope.model.query.sources, scope.model.query.users, startDate, endDate, scope.model.query.search)
 					.then(function (response) { // sucess
 						scope.model = response.model;
 
-						// refresh UI date from response
-						if (scope.model.query.span === 0) {
-							if (scope.model.query.start && scope.model.query.end) {
-								scope.model.query.startMoment = moment(scope.model.query.start);
-								scope.model.query.endMoment = moment(scope.model.query.end);
-							}
-						}
+						//// refresh UI date from response
+						//if (scope.model.query.span === 0) {
+						//	if (scope.model.query.start && scope.model.query.end) {
+						//		scope.model.query.startMoment = moment(scope.model.query.start);
+						//		scope.model.query.endMoment = moment(scope.model.query.end);
+						//	}
+						//}
 
 						usSpinnerService.stop('spinner-1');
 
@@ -1355,14 +1387,14 @@ Elmah.Net.Models.Site.prototype = {
 			// Update UI based on response
 			scope.Refresh = function () {
 
-				if (scope.model.query.span == 0) {
-					if (scope.model.query.startMoment && scope.model.query.endMoment) {
-						var drp = $('#demo').data('daterangepicker');
-						//scope.model.query.start = moment(scope.model.query.start);
-						//scope.model.query.end = moment(scope.model.query.end);
-						drp.setStartDate(scope.model.query.startMoment.format('MM/DD/YYYY'));
-						drp.setEndDate(scope.model.query.endMoment.format('MM/DD/YYYY'));
-					}
+                scope.CheckDates();
+
+				if (scope.model.query.startMoment && scope.model.query.endMoment) {
+					var drp = $('#demo').data('daterangepicker');
+					//scope.model.query.start = moment(scope.model.query.start);
+					//scope.model.query.end = moment(scope.model.query.end);
+					drp.setStartDate(scope.model.query.startMoment.format('MM/DD/YYYY'));
+					drp.setEndDate(scope.model.query.endMoment.format('MM/DD/YYYY'));
 				}
 
 				scope.Select(scope.model.query.types, scope.model.types);
@@ -1410,21 +1442,38 @@ Elmah.Net.Models.Site.prototype = {
 				//var start = scope.query.start.format('MM/DD/YYYY');
 				//var end = scope.query.end.format('MM/DD/YYYY');
 
-				$('#demo').daterangepicker({
-					"autoApply": true,
-					//"timePicker": true,
-					"startDate": scope.model.query.startMoment.format('MM/DD/YYYY'),
-					"endDate": scope.model.query.endMoment.format('MM/DD/YYYY'),
-					"maxDate": moment().format('MM/DD/YYYY')
-				}, function (start, end, label) {
-					//scope.query.start = start;
-					//scope.query.end = end;
-
-					scope.model.query.startMoment = moment(start).startOf('day');
-					scope.model.query.endMoment = moment(end).endOf('day');
-
-					scope.Search();
-				});
+                if (scope.model.query.startMoment && scope.model.query.endMoment) {
+                    $('#demo').daterangepicker({
+                        "autoApply": true,
+                        //"timePicker": true,
+                        "startDate": scope.model.query.startMoment.format('MM/DD/YYYY'),
+                        "endDate": scope.model.query.endMoment.format('MM/DD/YYYY'),
+                        "maxDate": moment().format('MM/DD/YYYY')
+                    }, function (start, end, label) {
+                        //scope.query.start = start;
+                        //scope.query.end = end;
+                        scope.model.query.span = 0;
+                        scope.model.query.startMoment = moment(start).startOf('day');
+                        scope.model.query.endMoment = moment(end).endOf('day');
+                        scope.Search();
+                    });
+                }
+                else {
+                    $('#demo').daterangepicker({
+                        "autoApply": true,
+                        //"timePicker": true,
+                        //"startDate": scope.model.query.startMoment.format('MM/DD/YYYY'),
+                        //"endDate": scope.model.query.endMoment.format('MM/DD/YYYY'),
+                        "maxDate": moment().format('MM/DD/YYYY')
+                    }, function (start, end, label) {
+                        //scope.query.start = start;
+                        //scope.query.end = end;
+                        scope.model.query.span = 0;
+                        scope.model.query.startMoment = moment(start).startOf('day');
+                        scope.model.query.endMoment = moment(end).endOf('day');
+                        scope.Search();
+                    });
+                }
 
 				if (scope.log) {
 					scope.Find(scope.log);

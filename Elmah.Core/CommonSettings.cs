@@ -24,6 +24,10 @@ namespace Elmah.Net
 		public static MembershipPasswordFormat PasswordFormat { get { return ConfigurationManager.AppSettings.Get("Site:PasswordFormat").ParseEnum<MembershipPasswordFormat>(MembershipPasswordFormat.Hashed); } }
 
 		public static string LoginPath { get { return ConfigurationManager.AppSettings.Get("Site.LoginPath"); } }
-		
-	}
+
+
+        public static string UrlPrefix { get { return ConfigurationManager.AppSettings.Get("Site:UrlPrefix"); } }
+        public static string UrlPort { get { return ConfigurationManager.AppSettings.Get("Site:UrlPort"); } }
+
+    }
 }

@@ -2,15 +2,15 @@
 
     <div class="form-group">
         <div class="input-group">
-            <input type="text" class="form-control" aria-label="Filter" placeholder="Search By" ng-model="model.query.search" ng-keyup="$event.keyCode == 13 && Search()" >
+            <input type="text" class="form-control" aria-label="Filter" placeholder="Search By" ng-model="model.query.search" ng-keyup="$event.keyCode == 13 && Search()">
             <div class="input-group-btn">
                 <!--<button type="button" class="btn btn-default">Save</button>-->
 
                 <button ng-click="Search()" type="button" class="btn btn-default" title="Search for {{model.query.search}}" aria-label="Help"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-            <!--<button ng-show="filter.name" ng-click="SearchAndUpdate()" type="button" class="btn btn-default" title="Update {{filter.name}}" aria-label="Help"><i class="fa fa-database" aria-hidden="true"></i></button>-->
-  				<button ng-show="openFilter || filter.id" ng-click="openFilter=!openFilter" type="button" class="btn btn-default" title="Show {{filter.name}}" aria-label="Edit"><i class="fa fa-expand" aria-hidden="true"></i></button>
-            <!--<button ng-show="filter.name" ng-click="openFilter=!openFilter" type="button" class="btn btn-default" title="Update {{filter.name}}" aria-label="Edit"><i class="fa fa-expand" aria-hidden="true"></i></button>-->
-            <!--<button ng-show="filter.name" ng-click="Delete(filter)" type="button" class="btn btn-default" title="Delete {{filter.name}}" aria-label="Help"><span class="glyphicon glyphicon-remove"></span></button>-->
+                <!--<button ng-show="filter.name" ng-click="SearchAndUpdate()" type="button" class="btn btn-default" title="Update {{filter.name}}" aria-label="Help"><i class="fa fa-database" aria-hidden="true"></i></button>-->
+                <button ng-show="openFilter || filter.id" ng-click="openFilter=!openFilter" type="button" class="btn btn-default" title="Show {{filter.name}}" aria-label="Edit"><i class="fa fa-expand" aria-hidden="true"></i></button>
+                <!--<button ng-show="filter.name" ng-click="openFilter=!openFilter" type="button" class="btn btn-default" title="Update {{filter.name}}" aria-label="Edit"><i class="fa fa-expand" aria-hidden="true"></i></button>-->
+                <!--<button ng-show="filter.name" ng-click="Delete(filter)" type="button" class="btn btn-default" title="Delete {{filter.name}}" aria-label="Help"><span class="glyphicon glyphicon-remove"></span></button>-->
 
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span>
@@ -21,11 +21,11 @@
                     <li role="separator" class="divider"></li>
                     <li ng-show="filter.id"><a href="#" ng-click="SearchAndUpdate()"><i class="fa fa-database" aria-hidden="true"></i> Save {{filter.name}}</a></li>
                     <li ng-hide="filter.id"><a href="#" ng-click="openFilter=!openFilter;"><i class="fa fa-clear" aria-hidden="true"></i> Save As...</a></li>
-                    
-                <!--<li><a href="#" ng-click="SearchAndUpdate()">Update {{filter.name}}</a></li>-->
+
+                    <!--<li><a href="#" ng-click="SearchAndUpdate()">Update {{filter.name}}</a></li>-->
                     <li ng-show="filter.id" role="separator" class="divider"></li>
                     <li><a href="#" ng-show="filter.id" ng-click="Delete(filter)"><span class="glyphicon glyphicon-remove"></span>  Delete {{filter.name}}</a></li>
-                <!--<li><a href="#" ng-click="SearchAndUpdate()">Save As {{filter.name}}</a></li>-->
+                    <!--<li><a href="#" ng-click="SearchAndUpdate()">Save As {{filter.name}}</a></li>-->
 
                     <li role="separator" class="divider"></li>
                     <li><a href="#" ng-click="Clear()"><i class="fa fa-clear" aria-hidden="true"></i> Clear</a></li>
@@ -41,20 +41,20 @@
             <div class="panel-body">
 
                 <div class="form-group">
-					<input type="text" class="form-control" placeholder="Save As Name" ng-model="filter.name">
-				</div>
+                    <input type="text" class="form-control" placeholder="Save As Name" ng-model="filter.name">
+                </div>
 
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Title" ng-model="filter.title">
-				</div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Title" ng-model="filter.title">
+                </div>
 
-				<!--<div class="form-group">
-					<input type="text" class="form-control" placeholder="Description" ng-model="filter.description">
-				</div>-->
+                <!--<div class="form-group">
+                    <input type="text" class="form-control" placeholder="Description" ng-model="filter.description">
+                </div>-->
 
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Distribution" ng-model="filter.distribution">
-				</div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Distribution" ng-model="filter.distribution">
+                </div>
 
                 <a ng-show="filter.name" ng-click="SearchAndUpdate();openFilter=!openFilter;" class="btn btn-success" href="#">Save</a>
                 <a ng-click="openFilter=!openFilter;" class="btn btn-default" href="#">Cancel</a>
@@ -67,13 +67,13 @@
         <div class="form-group">
             <select name="span" id="span" autocomplete="" class="form-control"
                     ng-model="model.query.span"
-                    ng-change="Search()"
+                    ng-change="ChangeSpan()"
                     ng-options="item.id as item.description for item in model.spans"></select>
         </div>
     </div>
 
     <div>
-        <div class="form-group" ng-show="model.query.span==0">
+        <div class="form-group" ng-show="model.query.span!=1440000">
             <input id="demo" type="text" name="daterange" class="form-control" placeholder="Date Range" ng-model="dateRange">
         </div>
     </div>
@@ -97,38 +97,48 @@
         </div><!-- /input-group -->
     </div><!-- /input-group -->
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="overflow:hidden;">
         <div class="panel-heading">
             Logs <button ng-click="Showhide(model.logs)" style="margin: -7px -12px;" class="btn btn-default pull-right"><i class="fa fa-expand" aria-hidden="true"></i></button>
         </div>
         <div class="list-group">
             <a ng-repeat="item in model.logs | filter: { Visible : 'true' }" href="" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected">
-                {{item.name}} <span class="badge">{{item.messages.length}}</span>
+                <span ng-show="item.messages.length > 0" style="float:right; top:10px; right: 16px; position:absolute;  z-index:10;" class="badge">{{item.messages.length}}</span>
+                <div style="width:500px; overflow:hidden; float:left;">
+                    {{item.name}}   
+                </div>
+                <div style="clear:both;"></div>
             </a>
         </div>
     </div>
 
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="overflow:hidden;">
         <div class="panel-heading">
             Applications <button ng-click="Showhide(model.applications)" type="button" style="margin: -7px -12px;" class="btn btn-default pull-right" title="More" aria-label="Help"><i class="fa fa-expand" aria-hidden="true"></i></button>
         </div>
         <div class="list-group">
             <a ng-repeat="item in model.applications | filter: { Visible : 'true' }" href="" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected;Filter()">
-                {{item.name}}
-                <span class="badge">{{item.messages.length}}</span>
+                <span ng-show="item.messages.length > 0" style="float:right; top:10px; right: 16px; position:absolute;  z-index:10;" class="badge">{{item.messages.length}}</span>
+                <div style="width:500px; overflow:hidden; float:left;">
+                    {{item.name}}
+                </div>
+                <div style="clear:both;"></div>
             </a>
         </div>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="overflow:hidden;">
         <div class="panel-heading">
             Severity <button ng-click="Showhide(model.severities)" type="button" style="margin: -7px -12px;" class="btn btn-default pull-right" title="More" aria-label="Help"><i class="fa fa-expand" aria-hidden="true"></i></button>
         </div>
         <div class="list-group">
             <a ng-repeat="item in model.severities | filter: { Visible : 'true' }" href="" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected;Filter()">
-                {{item.name}}
-                <span ng-show="item.messages.length>0" class="badge">{{item.messages.length}}</span>
+                <span ng-show="item.messages.length > 0" style="float:right; top:10px; right: 16px; position:absolute;  z-index:10;" class="badge">{{item.messages.length}}</span>
+                <div style="width:500px; overflow:hidden; float:left;">
+                    {{item.name}}
+                </div>
+                <div style="clear:both;"></div>
             </a>
         </div>
     </div>
@@ -139,32 +149,38 @@
         </div>
         <div class="list-group">
             <a ng-repeat="item in model.types | filter: { Visible : 'true' }" href="" title="{{item.name}}" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected;Filter()">
-                <span style="float:right; top:10px; right: 16px; position:absolute;  z-index:10;" class="badge">{{item.messages.length}}</span>
+                <span ng-show="item.messages.length > 0" style="float:right; top:10px; right: 16px; position:absolute;  z-index:10;" class="badge">{{item.messages.length}}</span>
                 <div style="width:500px; overflow:hidden; float:left;">
                     <i class="fa fa-fw fa-lg fa-{{item.icon}}" style="color:{{item.color}}"></i>
-                    <spam>{{item.name}}</spam>
+                    <span>{{item.name}}</span>
                 </div>
                 <div style="clear:both;"></div>
             </a>
         </div>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="overflow:hidden;">
         <div class="panel-heading">Source</div>
         <div class="list-group">
             <a ng-repeat="item in model.sources" href="" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected;Filter()">
-                {{item.name}}
-                <span class="badge">{{item.messages.length}}</span>
+                <span ng-show="item.messages.length > 0" style="float:right; top:10px; right: 16px; position:absolute;  z-index:10;" class="badge">{{item.messages.length}}</span>
+                <div style="width:500px; overflow:hidden; float:left;">
+                    {{item.name}}
+                </div>
+                <div style="clear:both;"></div>
             </a>
         </div>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="overflow:hidden;">
         <div class="panel-heading">Users</div>
         <div class="list-group">
             <a ng-repeat="item in model.users" href="" class="list-group-item" ng-class="{ 'active' : item.selected }" ng-click="item.selected = !item.selected;Filter()">
-                {{item.name}}
-                <span class="badge">{{item.messages.length}}</span>
+                <span ng-show="item.messages.length > 0" style="float:right; top:10px; right: 16px; position:absolute;  z-index:10;" class="badge">{{item.messages.length}}</span>
+                <div style="width:500px; overflow:hidden; float:left;">
+                    {{item.name}}
+                </div>
+                <div style="clear:both;"></div>
             </a>
         </div>
     </div>

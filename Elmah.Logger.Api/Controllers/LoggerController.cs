@@ -68,7 +68,7 @@ namespace Elmah.Net.Logger.Web
             model.Types = db.MessageTypes.ToList().Select(y => new LogObject(y)).ToList();
             model.Sources = db.MessageSources.ToList().Select(y => new LogObject(y)).ToList();
             model.Severities = EnumHelper.GetValues<LogSeverity>().Select(y => new LogObject(y)).ToList();
-            model.Spans = EnumHelper.GetValues<SearchSpan>().Select(y => new LogObject(y)).ToList();
+            model.Spans = EnumHelper.GetValues<SearchSpan>().Select(y => new LogObject(y)).OrderBy(x => x.Id).ToList();
             return model;
         }
 

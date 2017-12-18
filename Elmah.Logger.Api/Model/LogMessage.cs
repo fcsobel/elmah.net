@@ -146,28 +146,42 @@ namespace Elmah.Net.Logger.Web
             this.LogCount = obj.LogCount;
 
             if (level == HydrationLevel.Detailed)
-			{
-				// get object detail
-				if (obj.Log != null) this.Log = new LogObject(obj.Log);
-				if (obj.Application != null) this.Application = new LogObject(obj.Application);
-				if (obj.User != null) this.User = new LogObject(obj.User);
-				if (obj.Source != null) this.Source = new LogObject(obj.Source);
-				if (obj.MessageType != null) this.MessageType = new LogObject(obj.MessageType);
+            {
+                // get object detail
+                if (obj.Log != null) this.Log = new LogObject(obj.Log);
+                if (obj.Application != null) this.Application = new LogObject(obj.Application);
+                if (obj.User != null) this.User = new LogObject(obj.User);
+                if (obj.Source != null) this.Source = new LogObject(obj.Source);
+                if (obj.MessageType != null) this.MessageType = new LogObject(obj.MessageType);
 
-				if (obj.Detail != null)
-				{
-					this.Detail = obj.Detail.Content;
-				}
+                if (obj.Detail != null)
+                {
+                    this.Detail = obj.Detail.Content;
+                }
 
-				var data = obj.Original;
-				if (data != null)
-				{
-					this.Form = data.Form;
-					this.QueryString = data.QueryString;
-					this.ServerVariables = data.ServerVariables;
-					this.Cookies = data.Cookies;
-					this.Data = data.Data;
-				}
+                var data = obj.Original;
+                if (data != null)
+                {
+                    this.Form = data.Form;
+                    this.QueryString = data.QueryString;
+                    this.ServerVariables = data.ServerVariables;
+                    this.Cookies = data.Cookies;
+                    this.Data = data.Data;
+                }
+
+                if (this.Form != null && this.Form.Any())
+                {
+                    foreach (var item in this.Form)
+                    {
+                        if (item.Key != null)
+                        {
+                            if (item.Key.ToLower().Contains("password"))
+                            {
+                                item.Value = new String('*', item.Value.Length);
+                            }
+                        }
+                    }
+                }
 			}
             else
             {
