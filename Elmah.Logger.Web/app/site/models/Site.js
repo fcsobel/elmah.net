@@ -2,9 +2,9 @@
 // Site Class
 /////////////////////////////////////////////////////////////
 Elmah.Net.Models.Site = function (model) {
-	var self = this;
-	_.extend(this, model);
-}
+    var self = this;
+    _.extend(this, model);
+};
 
 // SiteContent class methods
 Elmah.Net.Models.Site.prototype = {

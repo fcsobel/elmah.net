@@ -10,96 +10,94 @@ Elmah.Net.Models = {};
 // Site Error
 /////////////////////////////////////////////////////////////
 Elmah.Net.Models.SiteError = function (error, cause, message, key, type) {
-	var self = this;
-	if (!key) key = "";
-	if (!message && error) { message = error.message; }
-	if (!message && error && error.data) { message = error.data.message; }
-	if (!message) message = "";
-	if (!type) type = "error";
-	this.error = error;
-	this.cause = cause;
-	this.message = message;
-	this.hide = false;
-	this.key = key;
-	this.type = type;
-	this.isParent = true;
-	// see if already logged this error
-	var childError = error.siteError;
-		
-	this.children = [];
+    var self = this;
+    if (!key) key = "";
+    if (!message && error) { message = error.message; }
+    if (!message && error && error.data) { message = error.data.message; }
+    if (!message) message = "";
+    if (!type) type = "error";
+    this.error = error;
+    this.cause = cause;
+    this.message = message;
+    this.hide = false;
+    this.key = key;
+    this.type = type;
+    this.isParent = true;
+    // see if already logged this error
+    var childError = error.siteError;
 
-	// if this error has already been logged then make it a child of thiis SiteError
-	if (childError != null)
-	{
-		childError.isParent = false;
-		this.child = childError;
-		this.children.push(childError);
-		this.index = childError.index;
-	}
+    this.children = [];
 
-	// associate error with this siteError
-	error.siteError = this;
-}
+    // if this error has already been logged then make it a child of thiis SiteError
+    if (childError != null) {
+        childError.isParent = false;
+        this.child = childError;
+        this.children.push(childError);
+        this.index = childError.index;
+    }
+
+    // associate error with this siteError
+    error.siteError = this;
+};
 /////////////////////////////////////////////////////////////
 // LogQuery Class
 /////////////////////////////////////////////////////////////
 Elmah.Net.Models.LogItem = function (model, countData) {
-	var self = this;
+    var self = this;
 
-	_.extend(this, model);
+    _.extend(this, model);
 
-	this.visible = false;
-	this.messages = this.messages || [];
+    this.visible = false;
+    this.messages = this.messages || [];
 
-	// hold chart counts
-	this.counts = [];
+    // hold chart counts
+    this.counts = [];
 
-	if (countData) {
-		// get counts for this type
-		var list = _.filter(countData, { id: this.id });
+    if (countData) {
+        // get counts for this type
+        var list = _.filter(countData, { id: this.id });
 
-		// add chart date for each count
-		//var next = {};
-		var last = {};
-		_.forEach(list, function (value, key) {
+        // add chart date for each count
+        //var next = {};
+        var last = {};
+        _.forEach(list, function (value, key) {
 
-			var next = { x: moment(new Date(value.name)), y: value.count };
+            var next = { x: moment(new Date(value.name)), y: value.count };
 
-			if (!last.x) {
-				var prev = { x: moment(next.x).subtract(1, 'days'), y: 0 };
-				self.counts.push(prev);
-			}
+            if (!last.x) {
+                var prev = { x: moment(next.x).subtract(1, 'days'), y: 0 };
+                self.counts.push(prev);
+            }
 
-			if (last.x) {
-				if (next.x.diff(last.x, 'days') > 1) {
-					// add trailing date
-					var follow = { x: moment(last.x).add(1, 'days'), y: 0 };
-					self.counts.push(follow);
-				}
+            if (last.x) {
+                if (next.x.diff(last.x, 'days') > 1) {
+                    // add trailing date
+                    var follow = { x: moment(last.x).add(1, 'days'), y: 0 };
+                    self.counts.push(follow);
+                }
 
-				if (next.x.diff(last.x, 'days') > 2) {
-					// add trailing date
-					var trail = { x: moment(next.x).subtract(1, 'd'), y: 0 };
-					self.counts.push(trail);
-				}
-			}
+                if (next.x.diff(last.x, 'days') > 2) {
+                    // add trailing date
+                    var trail = { x: moment(next.x).subtract(1, 'd'), y: 0 };
+                    self.counts.push(trail);
+                }
+            }
 
-			// add date with count
-			self.counts.push(next);
+            // add date with count
+            self.counts.push(next);
 
-			last = next;
+            last = next;
 
-		});
+        });
 
-		if (self.counts.length > 0) {
-			if (last.x) {
-				var follow = { x: moment(last.x).add(1, 'days'), y: 0 };
-				self.counts.push(follow);
-			}
-		}
-	}
-
-}
+        if (self.counts.length > 0) {
+            if (last.x) {
+                var follow = { x: moment(last.x).add(1, 'days'), y: 0 };
+                self.counts.push(follow);
+            }
+        }
+    }
+};
 
 // SiteContent class methods
 Elmah.Net.Models.LogItem.prototype = {
@@ -114,7 +112,7 @@ Elmah.Net.Models.LogMessage = function (data, model) {
 
     _.extend(this, data);
 
-	//// uncommet because we need it for detail....may cause issue elsewhere...
+    //// uncommet because we need it for detail....may cause issue elsewhere...
     //model.logs = model.logs || [];
     //model.applications = model.applications || [];
     //model.users = model.users || [];
@@ -147,7 +145,7 @@ Elmah.Net.Models.LogMessage = function (data, model) {
 
     // Make sure message is in models message list
     //this.CheckMessage(model);
-}
+};
 
 // SiteContent class methods
 Elmah.Net.Models.LogMessage.prototype = {
@@ -182,15 +180,15 @@ Elmah.Net.Models.LogMessage.prototype = {
 // LogQuery Class
 /////////////////////////////////////////////////////////////
 Elmah.Net.Models.LogQuery = function (model) {
-	var self = this;
+    var self = this;
 
-	_.extend(this, model);
+    _.extend(this, model);
 
-	if (model.start && model.end) {
-		model.startMoment = moment(model.start);
-		model.endMoment = moment(model.end);
-	}
-}
+    if (model.start && model.end) {
+        model.startMoment = moment(model.start);
+        model.endMoment = moment(model.end);
+    }
+};
 
 // SiteContent class methods
 //Elmah.Net.Models.Query.prototype = {}
@@ -199,37 +197,37 @@ Elmah.Net.Models.LogQuery = function (model) {
 // LogSearchResponse Class
 /////////////////////////////////////////////////////////////
 Elmah.Net.Models.LogSearchResponse = function (model) {
-	var self = this;
+    var self = this;
 
-	_.extend(this, model);
+    _.extend(this, model);
 
     // init
-	model.logs = model.logs || [];
-	model.applications = model.applications || [];
-	model.users = model.users || [];
-	model.types = model.types || [];
-	model.sources = model.sources || [];
+    model.logs = model.logs || [];
+    model.applications = model.applications || [];
+    model.users = model.users || [];
+    model.types = model.types || [];
+    model.sources = model.sources || [];
 
-	// convert message list - Transform json data to objects
-	this.messages = $.map(model.messages, function (item, i) {
-		return new Elmah.Net.Models.LogMessage(item, model);
-	});
+    // convert message list - Transform json data to objects
+    this.messages = $.map(model.messages, function (item, i) {
+        return new Elmah.Net.Models.LogMessage(item, model);
+    });
 
     // convert items
-	this.logs = $.map(model.logs, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
-	this.applications = $.map(model.applications, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
-	this.severities = $.map(model.severities, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
-	// setup types and chart data
-	this.types = $.map(model.types, function (item, i) { return new Elmah.Net.Models.LogItem(item, model.typeCount2); });
-	this.sources = $.map(model.sources, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
-	this.users = $.map(model.users, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
+    this.logs = $.map(model.logs, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
+    this.applications = $.map(model.applications, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
+    this.severities = $.map(model.severities, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
+    // setup types and chart data
+    this.types = $.map(model.types, function (item, i) { return new Elmah.Net.Models.LogItem(item, model.typeCount2); });
+    this.sources = $.map(model.sources, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
+    this.users = $.map(model.users, function (item, i) { return new Elmah.Net.Models.LogItem(item); });
 
-	// Map Query
-	this.query = new Elmah.Net.Models.LogQuery(model.query);
+    // Map Query
+    this.query = new Elmah.Net.Models.LogQuery(model.query);
 
-	// auto select first message
-	this.message = model.messages[0];
-}
+    // auto select first message
+    this.message = model.messages[0];
+};
 
 //// SiteContent class methods
 //Elmah.Net.Models.LogSearchResponse.prototype = {
@@ -241,9 +239,9 @@ Elmah.Net.Models.LogSearchResponse = function (model) {
 // Site Class
 /////////////////////////////////////////////////////////////
 Elmah.Net.Models.Site = function (model) {
-	var self = this;
-	_.extend(this, model);
-}
+    var self = this;
+    _.extend(this, model);
+};
 
 // SiteContent class methods
 Elmah.Net.Models.Site.prototype = {
@@ -326,20 +324,20 @@ Elmah.Net.Models.Site.prototype = {
 
     angular.module('elmah.net.core')
 
-		// Package Detail
-		.directive('elmahNetErrorItem', function () {
-			return {
-				restrict: 'AE',
-				scope:
-				{
-				    error: '=elmahNetErrorItem'
-				},
-				//replace : true,
-				templateUrl: '/app/core/directives/ErrorItem.html',
-				controller: function ($scope, ErrorService) {
-				}
-			};
-		})
+        // Package Detail
+        .directive('elmahNetErrorItem', function () {
+            return {
+                restrict: 'AE',
+                scope:
+                {
+                    error: '=elmahNetErrorItem'
+                },
+                //replace : true,
+                templateUrl: '/app/core/directives/ErrorItem.html',
+                controller: function ($scope, ErrorService) {
+                }
+            };
+        });
 }());
 
 (function () {
@@ -1075,7 +1073,7 @@ Elmah.Net.Models.Site.prototype = {
 
 }());
 (function () {
-	'use strict';
+	//'use strict';
 
 	angular.module('elmah.net.logger').directive('logLogger', logLogger);
 
@@ -1125,12 +1123,12 @@ Elmah.Net.Models.Site.prototype = {
 
 		    scope.Check();
 
-		}
-	}
+        };
+    };
 
 })();
 (function () {
-	'use strict';
+	//'use strict';
 
 	angular.module('elmah.net.logger').directive('logMessageFilter', logMessageFilter);
 
@@ -1317,6 +1315,7 @@ Elmah.Net.Models.Site.prototype = {
 
                 if (scope.model.query.span > 0 && scope.model.query.span < 1440000) {
                     var days = scope.model.query.span / (60 * 24);
+                    if (days > 0) { days = days - 1; }
                     scope.model.query.startMoment = moment().subtract(days, 'days').startOf('day');
                     scope.model.query.endMoment = moment().endOf('day');
                 }
@@ -1485,91 +1484,90 @@ Elmah.Net.Models.Site.prototype = {
 
 			// initialize
 			scope.init();
-		}
-	}
+        };
+    };
 })();
 (function () {
-	'use strict';
+    //'use strict';
 
-	angular.module('elmah.net.logger').directive('logMessageList', exampleApiDetail);
+    angular.module('elmah.net.logger').directive('logMessageList', exampleApiDetail);
 
-	// dependencies
-	exampleApiDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
+    // dependencies
+    exampleApiDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
 
-	// Package Options Directive
-	function exampleApiDetail($window, $cookies, $timeout, logService, usSpinnerService) {
+    // Package Options Directive
+    function exampleApiDetail($window, $cookies, $timeout, logService, usSpinnerService) {
 
-		// Directive Settings
-		return {
-			restrict: 'AE',
-			scope: {
-				log: '@',
-				severity: '@',
-				limit: '@',
-				span: '@'
-			},
-			templateUrl: '/app/log/directives/MessageList.html',
-			link: link
-		};
+        // Directive Settings
+        return {
+            restrict: 'AE',
+            scope: {
+                log: '@',
+                severity: '@',
+                limit: '@',
+                span: '@'
+            },
+            templateUrl: '/app/log/directives/MessageList.html',
+            link: link
+        };
 
 
-		// Link Function
-		function link(scope, el, attrs) {
+        // Link Function
+        function link(scope, el, attrs) {
 
-			scope.model = {};
+            scope.model = {};
 
-			scope.messageFilter = function (value, index, array) {
-				return logService.filter(value, index, array);
-			}
+            scope.messageFilter = function (value, index, array) {
+                return logService.filter(value, index, array);
+            };
 
-			scope.Select = function (message)
-			{
-				usSpinnerService.spin('spinner-1');
+            scope.Select = function (message) {
+                usSpinnerService.spin('spinner-1');
 
-				// select message
-				logService.detail(message.id).then(function (response) {
-					usSpinnerService.stop('spinner-1');
-				});
-			}
+                // select message
+                logService.detail(message.id).then(function (response) {
+                    usSpinnerService.stop('spinner-1');
+                });
+            };
 
-		    // find by name
-			scope.Find = function (name) {
-			    usSpinnerService.spin('spinner-1');
-			    logService.find(name)
-					.then(function (response) { // sucess
-					    //scope.model = response.model;
-					    scope.model.model = response.model;
-					    usSpinnerService.stop('spinner-1');
-					});
-			}
+            // find by name
+            scope.Find = function (name) {
+                usSpinnerService.spin('spinner-1');
+                logService.find(name)
+                    .then(function (response) { // sucess
+                        //scope.model = response.model;
+                        scope.model.model = response.model;
+                        usSpinnerService.stop('spinner-1');
+                    });
+            };
 
-			scope.Delete = function (item) {
-			    usSpinnerService.spin('spinner-1');
-			    // find by name
-			    logService.deleteMessage(item)
-					.then(function (response) { // sucess
-					    usSpinnerService.stop('spinner-1');
-					});
-			}
+            scope.Delete = function (item) {
+                usSpinnerService.spin('spinner-1');
+                // find by name
+                logService.deleteMessage(item)
+                    .then(function (response) { // sucess
+                        usSpinnerService.stop('spinner-1');
+                    });
+            };
 
-			// Load Message List 
-			scope.init = function () {
+            // Load Message List 
+            scope.init = function () {
 
-			    if (scope.log) {
-			        scope.Find(scope.log);
-					//logService.search(scope.log, scope.severity, scope.limit, scope.span).then(function (response) { // sucess
-						//scope.model.model = response.model;
-					//});
-				}
-				else {
-					scope.model = logService.model();
-				}
-			}
+                if (scope.log) {
+                    scope.Find(scope.log);
+                    //logService.search(scope.log, scope.severity, scope.limit, scope.span).then(function (response) { // sucess
+                    //scope.model.model = response.model;
+                    //});
+                }
+                else {
+                    scope.model = logService.model();
+                }
+            };
 
-			// initialize
-			scope.init();
-		}
-	}
+            // initialize
+            scope.init();
+        }
+    }
 })();
 (function () {
 	
@@ -1776,62 +1774,72 @@ Elmah.Net.Models.Site.prototype = {
 				//: [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
 				
 			}
-		}
-	}
+        };
+    };
+
 })();
 (function () {
-	'use strict';
+    'use strict';
 
-	angular.module('elmah.net.logger').directive('logMessageDetail', logMessageDetail);
+    angular.module('elmah.net.logger').directive('logMessageDetail', logMessageDetail);
 
-	// dependencies
-	logMessageDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
+    // dependencies
+    logMessageDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
 
-	// Package Options Directive
-	function logMessageDetail($window, $cookies, $timeout, logService, usSpinnerService) {
+    // Package Options Directive
+    function logMessageDetail($window, $cookies, $timeout, logService, usSpinnerService) {
 
-		// Directive Settings
-		return {
-			restrict: 'AE',
-			scope: {
-				id: '@'				
-			},
-			templateUrl: '/app/log/directives/MessageDetail.html',
-			link: link
-		};
-		
-		// Link Function
-		function link(scope, el, attrs) {
+        // Directive Settings
+        return {
+            restrict: 'AE',
+            scope: {
+                id: '@'
+            },
+            templateUrl: '/app/log/directives/MessageDetail.html',
+            link: link
+        };
 
-			scope.context = {};
+        // Link Function
+        function link(scope, el, attrs) {
 
-			scope.tab = 'code';
+            scope.context = {};
 
-			scope.Delete = function () {
-			    usSpinnerService.spin('spinner-1');
-			    logService.deleteMessage(scope.context.model.message)
-					.then(function (response) { // sucess
-					    usSpinnerService.stop('spinner-1');
-					});
-			}
+            scope.tab = 'code';
 
-			// Load Message Detail 
-			scope.init = function () {
+            // convert utc to local date time
+            scope.GetLocalDateTime = function () {
+                if (scope.context.model && scope.context.model.message && scope.context.model.message.dateTime) {
+                    return moment.utc(scope.context.model.message.dateTime).local();
+                }
+                return null;
+            }
 
-				if (scope.id) {
-					logService.detail(scope.id).then(function (response) { // sucess
-						//scope.model = response.model;
-						//scope.context = response;						
-						scope.context = response;
-					});
-				}
-				else {
-					scope.context = logService.model();
-				}
-			}
+            scope.Delete = function () {
+                usSpinnerService.spin('spinner-1');
+                logService.deleteMessage(scope.context.model.message)
+                    .then(function (response) { // sucess
+                        usSpinnerService.stop('spinner-1');
+                    });
+            }
 
-			// initialize
-			scope.init();
-		}
-	}
+            // Load Message Detail 
+            scope.init = function () {
+
+                if (scope.id) {
+                    logService.detail(scope.id).then(function (response) { // sucess
+                        //scope.model = response.model;
+                        //scope.context = response;						
+                        scope.context = response;
+                    });
+                }
+                else {
+                    scope.context = logService.model();
+                }
+            }
+
+            // initialize
+            scope.init();
+        };
+    };
+
 })();

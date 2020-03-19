@@ -23,6 +23,7 @@ namespace Elmah.Net
 		// 0 = Clear / 1 = Encrypted / 2 = Hashed 
 		public static MembershipPasswordFormat PasswordFormat { get { return ConfigurationManager.AppSettings.Get("Site:PasswordFormat").ParseEnum<MembershipPasswordFormat>(MembershipPasswordFormat.Hashed); } }
 
+		public static string LoginSite { get { return ConfigurationManager.AppSettings.Get("Site.LoginSite"); } }
 		public static string LoginPath { get { return ConfigurationManager.AppSettings.Get("Site.LoginPath"); } }
 
 

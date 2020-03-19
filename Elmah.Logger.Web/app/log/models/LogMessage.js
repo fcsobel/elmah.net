@@ -6,7 +6,7 @@ Elmah.Net.Models.LogMessage = function (data, model) {
 
     _.extend(this, data);
 
-	//// uncommet because we need it for detail....may cause issue elsewhere...
+    //// uncommet because we need it for detail....may cause issue elsewhere...
     //model.logs = model.logs || [];
     //model.applications = model.applications || [];
     //model.users = model.users || [];
@@ -39,7 +39,7 @@ Elmah.Net.Models.LogMessage = function (data, model) {
 
     // Make sure message is in models message list
     //this.CheckMessage(model);
-}
+};
 
 // SiteContent class methods
 Elmah.Net.Models.LogMessage.prototype = {

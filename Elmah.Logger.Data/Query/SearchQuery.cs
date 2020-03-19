@@ -41,9 +41,11 @@ namespace Elmah.Net.Logger.Data
 			switch (query.Span)
 			{
 				case SearchSpan.None: // search by date
-					if (query.Start.HasValue) start = query.Start.Value.ToUniversalTime();
-					if (query.End.HasValue) end = query.End.Value.ToUniversalTime();
-					if (start.HasValue && end > start)
+					//if (query.Start.HasValue) start = query.Start.Value.ToUniversalTime();
+					//if (query.End.HasValue) end = query.End.Value.ToUniversalTime();
+					if (query.Start.HasValue) start = query.Start.Value;
+					if (query.End.HasValue) end = query.End.Value;
+					if (start.HasValue && end > start && end.Value.Date < DateTime.Today)
 					{
 						messages = (IQueryable<LogMessage>)db.LogMessages.Where(x => x.DateTime >= start && x.DateTime <= end);
 					}
@@ -56,7 +58,16 @@ namespace Elmah.Net.Logger.Data
 					messages = (IQueryable<LogMessage>)db.LogMessages;
 					break;
 				default: // convert span to start date
-					start = DateTime.UtcNow.AddMinutes((int)query.Span * -1);
+					if (query.Span <= SearchSpan.TwentyFourHours)
+					{
+						// use span to calculate start by minute
+						start = DateTime.UtcNow.AddMinutes((int)query.Span * -1);
+					}
+					else
+					{
+						// use span to calculate start by days
+						start = DateTime.Today.AddDays(1).AddMinutes((int)query.Span * -1);
+					}
 					messages = (IQueryable<LogMessage>)db.LogMessages.Where(x => x.DateTime >= start);
 					break;
 			}

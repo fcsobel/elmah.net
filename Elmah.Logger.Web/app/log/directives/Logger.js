@@ -1,5 +1,5 @@
 ﻿(function () {
-	'use strict';
+	//'use strict';
 
 	angular.module('elmah.net.logger').directive('logLogger', logLogger);
 
@@ -49,7 +49,7 @@
 
 		    scope.Check();
 
-		}
-	}
+        };
+    };
 
 })();

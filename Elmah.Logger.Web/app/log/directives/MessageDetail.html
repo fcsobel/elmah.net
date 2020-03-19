@@ -60,7 +60,8 @@
 
 			<table class="table table-bordered table-condensed table-striped" style="margin-bottom:0;">
 				<tbody>
-					<tr><th style="width:160px;">Time</th><td>{{context.model.message.howLongAgo}}</td></tr>
+                    <tr><th style="width:160px;">Date Time</th><td>{{GetLocalDateTime().format('LLLL')}} ({{GetLocalDateTime().fromNow()}})</td></tr>
+   			    <!--<tr><th style="width:160px;">Time</th><td>{{context.model.message.howLongAgo}}</td></tr>-->
 					<tr><th>Severity</th><td>{{context.model.message.severity}}</td></tr>
 					<tr><th>Url</th><td>{{context.model.message.url}}</td></tr>
 					<tr><th>Status Code</th><td>{{context.model.message.StatusCode}}</td></tr>

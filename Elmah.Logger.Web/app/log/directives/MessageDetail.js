@@ -1,56 +1,65 @@
 ﻿(function () {
-	'use strict';
+    'use strict';
 
-	angular.module('elmah.net.logger').directive('logMessageDetail', logMessageDetail);
+    angular.module('elmah.net.logger').directive('logMessageDetail', logMessageDetail);
 
-	// dependencies
-	logMessageDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
+    // dependencies
+    logMessageDetail.$inject = ['$window', '$cookies', '$timeout', 'LogService', 'usSpinnerService'];
 
-	// Package Options Directive
-	function logMessageDetail($window, $cookies, $timeout, logService, usSpinnerService) {
+    // Package Options Directive
+    function logMessageDetail($window, $cookies, $timeout, logService, usSpinnerService) {
 
-		// Directive Settings
-		return {
-			restrict: 'AE',
-			scope: {
-				id: '@'				
-			},
-			templateUrl: '/app/log/directives/MessageDetail.html',
-			link: link
-		};
-		
-		// Link Function
-		function link(scope, el, attrs) {
+        // Directive Settings
+        return {
+            restrict: 'AE',
+            scope: {
+                id: '@'
+            },
+            templateUrl: '/app/log/directives/MessageDetail.html',
+            link: link
+        };
 
-			scope.context = {};
+        // Link Function
+        function link(scope, el, attrs) {
 
-			scope.tab = 'code';
+            scope.context = {};
 
-			scope.Delete = function () {
-			    usSpinnerService.spin('spinner-1');
-			    logService.deleteMessage(scope.context.model.message)
-					.then(function (response) { // sucess
-					    usSpinnerService.stop('spinner-1');
-					});
-			}
+            scope.tab = 'code';
 
-			// Load Message Detail 
-			scope.init = function () {
+            // convert utc to local date time
+            scope.GetLocalDateTime = function () {
+                if (scope.context.model && scope.context.model.message && scope.context.model.message.dateTime) {
+                    return moment.utc(scope.context.model.message.dateTime).local();
+                }
+                return null;
+            }
 
-				if (scope.id) {
-					logService.detail(scope.id).then(function (response) { // sucess
-						//scope.model = response.model;
-						//scope.context = response;						
-						scope.context = response;
-					});
-				}
-				else {
-					scope.context = logService.model();
-				}
-			}
+            scope.Delete = function () {
+                usSpinnerService.spin('spinner-1');
+                logService.deleteMessage(scope.context.model.message)
+                    .then(function (response) { // sucess
+                        usSpinnerService.stop('spinner-1');
+                    });
+            }
 
-			// initialize
-			scope.init();
-		}
-	}
+            // Load Message Detail 
+            scope.init = function () {
+
+                if (scope.id) {
+                    logService.detail(scope.id).then(function (response) { // sucess
+                        //scope.model = response.model;
+                        //scope.context = response;						
+                        scope.context = response;
+                    });
+                }
+                else {
+                    scope.context = logService.model();
+                }
+            }
+
+            // initialize
+            scope.init();
+        };
+    };
+
 })();

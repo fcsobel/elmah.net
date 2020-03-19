@@ -1,5 +1,5 @@
 ﻿(function () {
-	'use strict';
+	//'use strict';
 
 	angular.module('elmah.net.logger').directive('logMessageFilter', logMessageFilter);
 
@@ -186,6 +186,7 @@
 
                 if (scope.model.query.span > 0 && scope.model.query.span < 1440000) {
                     var days = scope.model.query.span / (60 * 24);
+                    if (days > 0) { days = days - 1; }
                     scope.model.query.startMoment = moment().subtract(days, 'days').startOf('day');
                     scope.model.query.endMoment = moment().endOf('day');
                 }
@@ -354,6 +355,6 @@
 
 			// initialize
 			scope.init();
-		}
-	}
+        };
+    };
 })();

@@ -33,7 +33,7 @@ namespace Elmah.Net.Logger.Data
 		public DbSet<LogMessage> LogMessages { get; set; }
 		public DbSet<LogMessageDetail> MessageDetails { get; set; }
         public DbSet<Filter> Filters { get; set; }
-		public DbSet<Role> Roles{ get; set; }
+		//public DbSet<Role> Roles{ get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
@@ -45,7 +45,7 @@ namespace Elmah.Net.Logger.Data
 			modelBuilder.Configurations.Add(new LogMessageSourceMap());
 			modelBuilder.Configurations.Add(new LogMessageDetailMap());
             modelBuilder.Configurations.Add(new FilterMap());
-			modelBuilder.Configurations.Add(new RoleMap());
+			//modelBuilder.Configurations.Add(new RoleMap());
 		}
     }
 
